@@ -7,30 +7,45 @@ var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require("socket.io");
-var socketServer = io(http);
+var socketServer = io.listen(http);
 var path = require("path");
 
 function Server(){
     var playerList = [];
     var worldList = [];
+    var server = this;
     this.init = function(startTime) {
         Logger.info("월드를 불러오는 중...");
         worldList = World.getAllWorlds();
         Logger.info(worldList.length + "개의 월드를 불러왔습니다.");
-        var socketServer = io();
-        var server = this;
         socketServer.on("connection", function(socket){
             var player;
             socket.on("login", function(data){
-                player = new Player(data.name, socket.id);
-                server.playerList.push(player);
+                for (var i in playerList) {
+                    if (playerList[i].getName() == data.name) {
+                        socket.emit("loginResult", {
+                            succeed: false,
+                            reason: 0
+                        });
+                        return;
+                    }
+                }
+                player = new Player(data.name, socket);
+                playerList.push(player);
+                socket.emit("loginResult", {
+                    succeed: true
+                });
+                var address = socket.request.connection._peername;
+                Logger.info(player.getName() + "[" + address.address + ":" + address.port + "] 이가 로그인 했습니다.");
             });
  
-            socket.on("disconnection", function(){
+            socket.on("disconnect", function(){
                 if (player !== undefined) {
-                    for (var i in server.playerList) {
-                        if (server.playerList[i].id == player.id) {
-                            server.playerList[i].splice(i, 1);
+                    for (var i in playerList) {
+                        if (playerList[i].equals(player)) {
+                            playerList.splice(i, 1);
+                            var address = socket.request.connection._peername;
+                            Logger.info(player.getName() + "[" + address.address + ":" + address.port + "] 이가 로그아웃 했습니다.");
                             return;
                         }
                     }
@@ -52,7 +67,17 @@ function Server(){
         return null;
     }
     this.getWorlds = function(){
-        return worldList;
+        return worldList.slice();
+    }
+    this.getPlayer = function(name){
+        for (var i in playerList) {
+            if (playerList[i].getName() == name) {
+                return playerList[i];
+            }
+        }
+    }
+    this.getOnlinePlayers = function(name){
+        return playerList.slice();
     }
 }
 

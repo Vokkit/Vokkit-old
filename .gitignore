@@ -2,3 +2,4 @@ node_modules
 *.log
 *.bak
 worlds
+public/build.js
