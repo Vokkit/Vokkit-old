@@ -1,0 +1,16 @@
+{
+  "name": "Vokkit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Scripter36 (1350adwx)",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.3",
+    "socketio": "^1.0.0",
+    "voxel-engine": "^0.20.2"
+  }
+}
