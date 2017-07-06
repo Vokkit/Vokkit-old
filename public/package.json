@@ -1,15 +1,14 @@
 {
-  "name": "Vokkit",
+  "name": "vokkit",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Scripter36 (1350adwx)",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.3",
-    "socketio": "^1.0.0"
+    "three": "^0.85.2"
   }
 }

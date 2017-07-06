@@ -1,28 +1,35 @@
-function Player(name, position, acceleration, yaw, pitch, socket){
+function Player(name, position, acceleration, yaw, pitch, id, isLocalPlayer){
     this.name = name;
-    this.position = position.slice();
-    this.acceleration = acceleration.slice();
+    this.position = position.clone();
+    this.acceleration = acceleration.clone();
     this.yaw = yaw;
     this.pitch = pitch;
-    this.socket = socket;
+    this.id = id;
+    this.isLocalPlayer = isLocalPlayer;
     var player = this;
     this.getName = function(){
         return player.name;
     }
     this.getId = function(){
-        return player.socket.id;
+        return player.id;
     }
     this.getPosition = function(){
-        return player.position.slice();
+        return player.position.clone();
+    }
+    this.getEyeLocation = function(){
+        
     }
     this.setPosition = function(position){
-        player.position = position.slice();
+        player.position.copy(position);
     }
     this.getAcceleration = function(){
-        return player.acceleration.slice();
+        return player.acceleration.clone();
     }
     this.setAcceleration = function(acceleration){
-        player.acceleration = acceleration.slice();
+        player.acceleration.copy(acceleration);
+    }
+    this.addAcceleration = function(acceleration){
+        player.acceleration.add(acceleration);
     }
     this.getYaw = function(){
         return player.yaw;
@@ -36,21 +43,8 @@ function Player(name, position, acceleration, yaw, pitch, socket){
     this.setPitch = function(pitch) {
         player.pitch = pitch;
     }
-    this.getSocket = function(){
-        return player.socket;
-    }
     this.equals = function(object) {
         return object instanceof Player && object.getId() == player.getId();
-    }
-    this.toObject = function(){
-        return {
-            name: player.getName(),
-            position: [0, 0, 0],
-            acceleration: [0, 0, 0],
-            yaw: 0,
-            pitch: 0,
-            id: player.getId()
-        };
     }
 }
 

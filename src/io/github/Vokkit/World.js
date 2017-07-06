@@ -2,55 +2,70 @@ var Block = require("./block/Block.js");
 
 var fs = require("fs");
 var path = require("path");
-var THREE = require("three");
 
-function World(worldName){
+function World(worldName) {
     var world = this;
     var worldName = worldName;
     var worldData = [];
     var worldPath = path.resolve("", "worlds/" + worldName);
     this.prepared = false;
-    this.prepareWorld = function(afterdo){
-        fs.readFile(worldPath, "UTF-8", function(err, data){
-            var lines = data.split("\n");
-            for (var i in lines) {
-                var blockData = lines[i].split(",");
-                worldData.push(new Block(new THREE.Vector3(parseInt(blockData[0]), parseInt(blockData[1]), parseInt(blockData[2])), parseInt(blockData[3])));
+    this.prepareWorld = function (afterdo) {
+        var data = fs.readFileSync(worldPath, "UTF-8");
+        var lines = data.split("\n");
+        var materials = [];
+        for (var i in lines) {
+            var blockData = lines[i].split(",");
+            var blockX = parseInt(blockData[0]);
+            var blockY = parseInt(blockData[1]);
+            var blockZ = parseInt(blockData[2]);
+            var blockId = parseInt(blockData[3]);
+            if (blockId != 0 && blockId != 1 && blockId != 8 && blockId != 9 && 150 < Math.abs(blockX) && Math.abs(blockX) < 300 && 100 < Math.abs(blockZ) && Math.abs(blockZ) < 300 && blockY > -100) {
+                worldData.push(new Block([blockX, blockY, blockZ], blockId));
             }
-            world.prepared = true;
-            console.log(worldData);
-            if (afterdo !== undefined) afterdo(world);
-        });
+        }
+        console.log(worldData);
+        world.prepared = true;
     }
-    this.getBlock = function(position) {
+    this.getBlock = function (position) {
         if (!this.prepared) return null;
         for (var i in worldData) {
-            if (worldData[i].position.equals(position)) {
+            if (worldData[i].position[0] == position[0] && worldData[i].position[1] == position[1] && worldData[i].position[2] == position[2]) {
                 return worldData[i];
             }
         }
         return new Block(position, 0);
     }
-    this.getWorldName = function(){
+    this.getWorldName = function () {
         return worldName;
     }
-    this.saveWorld = function(afterdo){
+    this.toArray = function () {
+        var worldArray = [];
+        for (var i in worldData) {
+            if (worldData[i].id != 0) {
+                worldArray.push([worldData[i].position[0], worldData[i].position[1], worldData[i].position[2], worldData[i].id]);
+            }
+        }
+        return worldArray;
+    }
+    this.saveWorld = function (afterdo) {
         var lines = [];
         for (var i in worldData) {
             if (worldData[i].id != 0) {
-                lines.push(worldData[i].position.x + "," + worldData[i].position.y + "," + worldData[i].position.z + "," + worldData[i].id);
+                lines.push(worldData[i].position[0] + "," + worldData[i].position[1] + "," + worldData[i].position[2] + "," + worldData[i].id);
             }
         }
-        fs.writeFile(worldPath, lines.join("\n"), {encoding: "UTF-8"}, afterdo);
+        fs.writeFile(worldPath, lines.join("\n"), { encoding: "UTF-8" }, afterdo);
     }
 }
 
-World.getAllWorlds = function(){
+World.getAllWorlds = function () {
     var worldNames = fs.readdirSync(path.resolve("", "worlds"));
     var worlds = [];
     for (var i in worldNames) {
         if (worldNames[i].substring(worldNames[i].lastIndexOf(".") + 1, worldNames[i].length) == "txt") {
-            worlds.push(new World(worldNames[i]));
+            var world = new World(worldNames[i]);
+            world.prepareWorld();
+            worlds.push(world);
         }
     }
     return worlds;

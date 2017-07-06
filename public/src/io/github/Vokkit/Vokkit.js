@@ -7,7 +7,7 @@ function Vokkit(){
 
 Vokkit.init = function(){
     client = new Client();
-    client.init();
+    client.loginInit();
 }
 
 Vokkit.getClient = function(){

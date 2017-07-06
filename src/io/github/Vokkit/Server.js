@@ -1,14 +1,16 @@
 var Player = require("./Player.js");
 var World = require("./World.js");
 var Logger = new (require("./Logger.js"))();
+var SocketManager = require("./manager/SocketManager.js");
 
-var THREE = require("three");
 var express = require('express');
 var app = express();
 var http = require('http').Server(app);
 var io = require("socket.io");
 var socketServer = io.listen(http);
 var path = require("path");
+
+var socketManager;
 
 function Server(){
     var playerList = [];
@@ -18,40 +20,13 @@ function Server(){
         Logger.info("월드를 불러오는 중...");
         worldList = World.getAllWorlds();
         Logger.info(worldList.length + "개의 월드를 불러왔습니다.");
-        socketServer.on("connection", function(socket){
-            var player;
-            socket.on("login", function(data){
-                for (var i in playerList) {
-                    if (playerList[i].getName() == data.name) {
-                        socket.emit("loginResult", {
-                            succeed: false,
-                            reason: 0
-                        });
-                        return;
-                    }
-                }
-                player = new Player(data.name, socket);
-                playerList.push(player);
-                socket.emit("loginResult", {
-                    succeed: true
-                });
-                var address = socket.request.connection._peername;
-                Logger.info(player.getName() + "[" + address.address + ":" + address.port + "] 이가 로그인 했습니다.");
-            });
- 
-            socket.on("disconnect", function(){
-                if (player !== undefined) {
-                    for (var i in playerList) {
-                        if (playerList[i].equals(player)) {
-                            playerList.splice(i, 1);
-                            var address = socket.request.connection._peername;
-                            Logger.info(player.getName() + "[" + address.address + ":" + address.port + "] 이가 로그아웃 했습니다.");
-                            return;
-                        }
-                    }
-                }
-            });
-        });
+
+        Logger.info("통신 기능을 불러오는 중...");
+        socketManager = new SocketManager();
+        socketManager.init();
+        Logger.info("통신 기능을 불러왔습니다.");
+        
+        Logger.info("서버를 여는 중...");
         app.use(express.static(path.join(path.resolve(""), "public")));
         http.listen(3000, function(){
             var endTime = new Date().getTime();
@@ -76,8 +51,34 @@ function Server(){
             }
         }
     }
+    this.addPlayer = function(player){
+        for (var i in playerList) {
+            if (playerList[i].getId() == player.getId()) {
+                return;
+            }
+        }
+        playerList.push(player);
+    }
+    this.removePlayer = function(player){
+        for (var i in playerList) {
+            if (playerList[i].getId() == player.getId()) {
+                playerList.splice(i, 1);
+                return;
+            }
+        }
+    }
+    this.getPlayerById = function(id) {
+        for (var i in playerList) {
+            if (playerList[i].getId() == id) {
+                return playerList[i];
+            }
+        }
+    }
     this.getOnlinePlayers = function(name){
         return playerList.slice();
+    }
+    this.getSocketServer = function(){
+        return socketServer;
     }
 }
 

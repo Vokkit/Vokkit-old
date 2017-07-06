@@ -1,2 +1,2 @@
-var Vokkit = require("./src/io/github/Vokkit/Vokkit.js");
+global.Vokkit = require("./src/io/github/Vokkit/Vokkit.js");
 Vokkit.init();
