@@ -5,6 +5,7 @@ var PlayerManager = require("./manager/PlayerManager.js");
 var SceneManager = require("./manager/SceneManager.js");
 var InputManager = require("./manager/InputManager.js");
 var PlayerBodyManager = require("./manager/PlayerBodyManager.js");
+var BlockTextureManager = require("./manager/BlockTextureManager.js");
 
 /**@type {SocketIO.Server} */
 var socket = io();
@@ -15,6 +16,7 @@ var playerManager;
 var sceneManager;
 var inputManager;
 var playerBodyManager;
+var blockTextureManager;
 
 function Client(){
     var worldList = [];
@@ -23,6 +25,7 @@ function Client(){
     var logined = false;
     this.loginInit = function(){
         loginManager = new LoginManager();
+        blockTextureManager = new BlockTextureManager();
         moveManager = new MoveManager();
         worldManager = new WorldManager();
         playerManager = new PlayerManager();
@@ -33,16 +36,19 @@ function Client(){
         loginManager.onLogin = function(){
             logined = true;
             client.init();
+            document.getElementById("login").style.display = 'none';
+            document.getElementById("cross").style.display = 'block';
         }
         loginManager.init();
     }
     this.init = function(){
         moveManager.init();
+        blockTextureManager.init();
+        sceneManager.init();
         worldManager.init(function(){
             sceneManager.drawWorld(worldList[0]);
         });
         worldManager.requestWorld();
-        sceneManager.init();
         inputManager.init();
         sceneManager.start();
         playerBodyManager.init();
@@ -64,6 +70,9 @@ function Client(){
     }
     this.getInputManager = function(){
         return inputManager;
+    }
+    this.getBlockTextureManager = function(){
+        return blockTextureManager;
     }
     this.getSocket = function(){
         return socket;

@@ -15,12 +15,14 @@ function World(worldName) {
         var materials = [];
         for (var i in lines) {
             var blockData = lines[i].split(",");
+            var maximum = [];
             var blockX = parseInt(blockData[0]);
             var blockY = parseInt(blockData[1]);
             var blockZ = parseInt(blockData[2]);
-            var blockId = parseInt(blockData[3]);
-            if (blockId != 0 && blockId != 1 && blockId != 8 && blockId != 9 && 150 < Math.abs(blockX) && Math.abs(blockX) < 300 && 100 < Math.abs(blockZ) && Math.abs(blockZ) < 300 && blockY > -100) {
-                worldData.push(new Block([blockX, blockY, blockZ], blockId));
+            var blockId = parseInt(blockData[3]);//spawn 208,-89,-203
+            if (blockId != 0) {
+                if (blockId != 1 && blockId != 2 && blockId != 3) blockId = 1;
+                worldData.push(new Block([blockX, blockY + 128, blockZ], blockId));
             }
         }
         console.log(worldData);

@@ -27,21 +27,23 @@ function MoveManager(){
         var position = localPlayer.getPosition();
         var yaw = localPlayer.getYaw();
         var fps = Vokkit.getClient().getSceneManager().getFPS();
-        var multiply = 20 / fps;
+        var multiply = 10 / fps;
         if (press[0]) {
             localPlayer.addAcceleration(new THREE.Vector3(-Math.sin(yaw), 0, Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         } else if (press[1]) {
             localPlayer.addAcceleration(new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
-        } else if (press[2]) {
+        }
+        if (press[2]) {
             localPlayer.addAcceleration(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         } else if (press[3]) {
             localPlayer.addAcceleration(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         }
         if (press[4]) {
-            localPlayer.addAcceleration(new THREE.Vector3(0, 1, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            localPlayer.addAcceleration(new THREE.Vector3(0, 1.5, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         } else if (press[5]) {
             localPlayer.addAcceleration(new THREE.Vector3(0, -1, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         }
+        //localPlayer.addAcceleration(new THREE.Vector3(0, -9.8 / fps, 0));
         var players = Vokkit.getClient().getOnlinePlayers();
         for (var i in players) {
             //players[i].setPosition(players[i].getPosition().add(players[i].getAcceleration())); - No Collision
@@ -54,6 +56,7 @@ function MoveManager(){
             var plusY = acceleration.y > 0 ? 0.1 : -0.1;
             var plusZ = acceleration.z > 0 ? 0.1 : -0.1;
             var xFinish = acceleration.x == 0, yFinish = acceleration.y == 0, zFinish = acceleration.z == 0;
+            var xcollision = false, ycollision = false, zcollision = false;
             while(true) {
                 if (!xFinish) {
                     var previousX = x;
@@ -74,10 +77,11 @@ function MoveManager(){
                     }
 
                     var block = Vokkit.getClient().getWorlds()[0].getBlock(position.clone().add(add.set(x + plusX, y + plusY, z + plusZ)));
-                    if (block !== undefined) { // collision
+                    if (block.id != 0) { // collision
                         xFinish = true;
                         x = previousX;
                         acceleration.x = 0;
+                        xcollision = true;
                     }
                     add.set(0, 0, 0);
                 }
@@ -100,10 +104,11 @@ function MoveManager(){
                         }
                     }
                     var block = Vokkit.getClient().getWorlds()[0].getBlock(position.clone().add(add.set(x + plusX, y + plusY, z + plusZ)));
-                    if (block !== undefined) { // collision
+                    if (block.id != 0) { // collision
                         yFinish = true;
                         y = previousY;
                         acceleration.y = 0;
+                        ycollision = true;
                     }
                     add.set(0, 0, 0);
                 }
@@ -126,10 +131,11 @@ function MoveManager(){
                         }
                     }
                     var block = Vokkit.getClient().getWorlds()[0].getBlock(position.clone().add(add.set(x + plusX, y + plusY, z + plusZ)));
-                    if (block !== undefined) { // collision
+                    if (block.id != 0) { // collision
                         zFinish = true;
                         z = previousZ;
                         acceleration.z = 0;
+                        zcollision = true;
                     }
                     add.set(0, 0, 0);
                 }
@@ -137,7 +143,8 @@ function MoveManager(){
                 if (xFinish && yFinish && zFinish) break;
             }
             players[i].setPosition(players[i].getPosition().add(new THREE.Vector3(x, y, z)));
-            players[i].setAcceleration(acceleration.multiply(new THREE.Vector3(0.7, 0.7, 0.7)));
+            if (ycollision) players[i].setAcceleration(acceleration.multiply(new THREE.Vector3(0.5, 0.7, 0.5)));
+            else players[i].setAcceleration(acceleration.multiply(new THREE.Vector3(0.7, 0.7, 0.7)));
         }
         moveManager.requestMove(localPlayer.getPosition());
     }
