@@ -56,12 +56,20 @@ function World(worldName) {
         return new Block(position, 0);
     }
 
-    this.setBlock = function(block) {
+    this.setBlock = function (block) {
         if (!world.prepared) return;
+        var chunkExists = false;
         for (var i in chunks) {
             if (chunks[i].containsPosition(block.position)) {
                 chunks[i].setBlock(block);
+                chunkExists = true;
+                break;
             }
+        }
+        if (!chunkExists) {
+            var chunk = new Chunk(Math.floor(block.position.x / 16) * 16, Math.floor(block.position.z / 16) * 16, []);
+            chunk.setBlock(block);
+            chunks.push(chunk);
         }
     }
 
@@ -71,7 +79,7 @@ function World(worldName) {
     /*this.getAllBlocks = function () {
         return worldData;
     }*/
-    this.getChunks = function(){
+    this.getChunks = function () {
         return chunks;
     }
 }

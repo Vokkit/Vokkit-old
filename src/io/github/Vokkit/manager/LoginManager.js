@@ -1,15 +1,27 @@
 var Logger = new (require("../Logger.js"))();
 var Player = require("../Player.js");
 
+var PlayerLoginEvent = require("../event/player/PlayerLoginEvent.js");
+
 function LoginManager() {
     this.getListener = function (socket) {
         return function (data) {
+            var player = new Player(data.name, [0, 0, 0], [0, 0, 0], 0, 0, socket);
+            var playerLoginEvent = new PlayerLoginEvent(player);
+            Vokkit.getServer().getPluginManager().makeEvent(playerLoginEvent);
+            if (playerLoginEvent.isCancelled()) {
+                socket.emit("loginResult", {
+                    succeed: false,
+                    reason: playerLoginEvent.getReason()
+                });
+                return;
+            }
             var playerList = Vokkit.getServer().getOnlinePlayers();
             for (var i in playerList) {
                 if (playerList[i].getName() == data.name) {
                     socket.emit("loginResult", {
                         succeed: false,
-                        reason: 0
+                        reason: "이름이 중복됩니다."
                     });
                     return;
                 }
@@ -22,7 +34,6 @@ function LoginManager() {
                 succeed: true,
                 players: sendPlayers
             });
-            var player = new Player(data.name, [0, 0, 0], [0, 0, 0], 0, 0, socket);
             Vokkit.getServer().addPlayer(player);
             var address = socket.request.connection._peername;
             Logger.info(player.getName() + "[" + address.address + ":" + address.port + "] 이가 로그인 했습니다.");

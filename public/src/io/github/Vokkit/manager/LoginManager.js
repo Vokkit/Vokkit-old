@@ -12,9 +12,7 @@ function LoginManager(){
         idText = document.getElementById("idText");
         socket.on("loginResult", function(data){
             if (!data.succeed) {
-                if (data.reason == 0) {
-                    alert("이름이 중복됩니다.");
-                }
+               alert("로그인 실패! 이유: " + data.reason);
             } else {
                 var playerManager = Vokkit.getClient().getPlayerManager();
                 for (var i in data.players) {
