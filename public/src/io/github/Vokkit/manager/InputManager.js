@@ -30,12 +30,10 @@ function InputManager() {
         }
 
         function onMouseMove(e) {
-            var localPlayer = Vokkit.getClient().getLocalPlayer();
-            localPlayer.yaw += e.movementX / 1000;
-            localPlayer.pitch -= e.movementY / 1000;
-            if (localPlayer.pitch > Math.PI / 2) localPlayer.pitch = Math.PI / 2 - 0.0001;
-            if (localPlayer.pitch < -Math.PI / 2) localPlayer.pitch = -Math.PI / 2 + 0.0001;
-            camera.lookAt(new THREE.Vector3(camera.position.x - Math.sin(localPlayer.yaw) * Math.cos(localPlayer.pitch), camera.position.y + Math.sin(localPlayer.pitch), camera.position.z + Math.cos(localPlayer.yaw) * Math.cos(localPlayer.pitch)));
+            var location = Vokkit.getClient().getLocalPlayer().getLocation();
+            location.setYaw(location.getYaw() + e.movementX / 1000);
+            location.setPitch(location.getPitch() - e.movementY / 1000);
+            camera.lookAt(new THREE.Vector3(camera.position.x - Math.sin(location.getYaw()) * Math.cos(location.getPitch()), camera.position.y + Math.sin(location.getPitch()), camera.position.z + Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
         }
 
         function onKeyDown(e) {

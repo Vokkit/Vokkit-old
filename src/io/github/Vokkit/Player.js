@@ -11,7 +11,7 @@ function Player(name, location, velocity, socket){
         return player.socket.id;
     }
     this.getLocation = function(){
-        return player.location.clone();
+        return player.location;
     }
     this.getVelocity = function(){
         return player.velocity.slice();

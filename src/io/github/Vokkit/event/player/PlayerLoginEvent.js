@@ -2,7 +2,7 @@ function PlayerLoginEvent(player, address) {
     var cancelled = false;
     var reason = "";
     this.setCancelled = function(cancel) {
-        if (cancel == undefined) playerLoginEvent.cancelled = true;
+        if (cancel == undefined) cancelled = true;
         else {
             cancelled = !!cancel;
         }
@@ -13,8 +13,8 @@ function PlayerLoginEvent(player, address) {
     this.getPlayer = function() {
         return player;
     }
-    this.setReason = function(reason) {
-        reason = reason;
+    this.setReason = function(reason2) {
+        reason = reason2;
     }
     this.getReason = function() {
         return reason;

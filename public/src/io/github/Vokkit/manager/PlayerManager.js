@@ -1,4 +1,5 @@
 var Player = require("../Player.js");
+var Location = require("../Location.js")
 
 function PlayerManager(){
     var socket;
@@ -9,11 +10,7 @@ function PlayerManager(){
         socket.on("playerQuit", playerManager.removePlayer);
     }
     this.addPlayer = function(data) {
-        if (socket.id == data.id) {
-            Vokkit.getClient().addPlayer(new Player(data.name, new THREE.Vector3(data.position[0], data.position[1], data.position[2]), new THREE.Vector3(data.acceleration[0], data.acceleration[1], data.acceleration[2]), data.yaw, data.pitch, data.id, true));
-        } else {
-            Vokkit.getClient().addPlayer(new Player(data.name, new THREE.Vector3(data.position[0], data.position[1], data.position[2]), new THREE.Vector3(data.acceleration[0], data.acceleration[1], data.acceleration[2]), data.yaw, data.pitch, data.id, false));
-        }
+        Vokkit.getClient().addPlayer(new Player(data.name, new Location(Vokkit.getClient().getWorld(data.worldName), data.position[0], data.position[1], data.position[2], data.yaw, data.pitch), new THREE.Vector3(data.acceleration[0], data.acceleration[1], data.acceleration[2]), data.id, socket.id == data.id));
     }
     this.removePlayer = function(data) {
         Vokkit.getClient().removePlayer(data.id);

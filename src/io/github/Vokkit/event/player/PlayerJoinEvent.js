@@ -8,6 +8,9 @@ function PlayerJoinEvent(player, joinMessage) {
     this.setJoinMessage = function(message){
         joinMessage = message;
     }
+    this.getName = function() {
+        return "PlayerJoinEvent";
+    }
 }
 
 module.exports = PlayerJoinEvent;

@@ -53,6 +53,8 @@ function Location(world, x, y, z, yaw, pitch) {
     }
 
     this.setPitch = function (pitch) {
+        if (pitch > Math.PI / 2) pitch = Math.PI / 2 - 0.0001;
+        if (pitch < -Math.PI / 2) pitch = -Math.PI / 2 + 0.0001;
         location.pitch = pitch;
     }
 
@@ -96,7 +98,7 @@ function Location(world, x, y, z, yaw, pitch) {
         }
     }
 
-    this.subtract = function(x, y, z) {
+    this.subtract = function (x, y, z) {
         if (x instanceof Location) {
             location.x -= x.x;
             location.y -= x.y;
@@ -112,11 +114,15 @@ function Location(world, x, y, z, yaw, pitch) {
         }
     }
 
-    this.clone = function() {
+    this.toVector = function () {
+        return new THREE.Vector3(location.x, location.y, location.z);
+    }
+
+    this.clone = function () {
         return new Location(location.world, location.x, location.y, location.z, location.yaw, location.pitch);
     }
 
-    this.equals = function(loc) {
+    this.equals = function (loc) {
         return loc.world.equals(location.world) && loc.x == location.x && loc.y == location.y && loc.z == location.z && loc.yaw == location.yaw && loc.pitch == location.pitch;
     }
 }

@@ -108,7 +108,7 @@ function SceneManager() {
         var draw = function () {
             var localPlayer = Vokkit.getClient().getLocalPlayer();
             if (localPlayer != undefined) {
-                camera.position.copy(localPlayer.getPosition());
+                camera.position.copy(localPlayer.getLocation().toVector());
             }
             for (var i in dirtyChunks) {
                 scene.remove(dirtyChunks[i].getLastMesh());
