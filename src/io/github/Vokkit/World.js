@@ -60,6 +60,9 @@ function World(worldName) {
         }
         fs.writeFile(worldPath, lines.join("\n"), { encoding: "UTF-8" }, afterdo);
     }
+    this.equals = function(world2) {
+        return world.getWorldName() == world2.getWorldName();
+    }
 }
 
 World.getAllWorlds = function () {

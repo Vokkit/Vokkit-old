@@ -1,9 +1,7 @@
-function Player(name, position, acceleration, yaw, pitch, socket){
+function Player(name, location, velocity, socket){
     this.name = name;
-    this.position = position.slice();
-    this.acceleration = acceleration.slice();
-    this.yaw = yaw;
-    this.pitch = pitch;
+    this.location = location.clone();
+    this.velocity = velocity.slice();
     this.socket = socket;
     var player = this;
     this.getName = function(){
@@ -12,29 +10,14 @@ function Player(name, position, acceleration, yaw, pitch, socket){
     this.getId = function(){
         return player.socket.id;
     }
-    this.getPosition = function(){
-        return player.position.slice();
+    this.getLocation = function(){
+        return player.location.clone();
     }
-    this.setPosition = function(position){
-        player.position = position.slice();
+    this.getVelocity = function(){
+        return player.velocity.slice();
     }
-    this.getAcceleration = function(){
-        return player.acceleration.slice();
-    }
-    this.setAcceleration = function(acceleration){
-        player.acceleration = acceleration.slice();
-    }
-    this.getYaw = function(){
-        return player.yaw;
-    }
-    this.setYaw = function(yaw) {
-        player.yaw = yaw;
-    }
-    this.getPitch = function(){
-        return player.pitch;
-    }
-    this.setPitch = function(pitch) {
-        player.pitch = pitch;
+    this.setVelocity = function(velocity){
+        player.velocity = velocity.slice();
     }
     this.getSocket = function(){
         return player.socket;
@@ -45,10 +28,8 @@ function Player(name, position, acceleration, yaw, pitch, socket){
     this.toObject = function(){
         return {
             name: player.getName(),
-            position: [0, 0, 0],
-            acceleration: [0, 0, 0],
-            yaw: 0,
-            pitch: 0,
+            location: player.location.toObject(),
+            velocity: [0, 0, 0],
             id: player.getId()
         };
     }

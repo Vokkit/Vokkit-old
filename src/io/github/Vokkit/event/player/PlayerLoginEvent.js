@@ -1,24 +1,26 @@
-function PlayerLoginEvent(player) {
-    this.cancelled = false;
-    this.reason = "";
-    var playerLoginEvent = this;
+function PlayerLoginEvent(player, address) {
+    var cancelled = false;
+    var reason = "";
     this.setCancelled = function(cancel) {
         if (cancel == undefined) playerLoginEvent.cancelled = true;
         else {
-            playerLoginEvent.cancelled = !!cancel;
+            cancelled = !!cancel;
         }
     }
     this.isCancelled = function() {
-        return playerLoginEvent.cancelled;
+        return cancelled;
     }
     this.getPlayer = function() {
         return player;
     }
     this.setReason = function(reason) {
-        playerLoginEvent.reason = reason;
+        reason = reason;
     }
     this.getReason = function() {
-        return playerLoginEvent.reason;
+        return reason;
+    }
+    this.getAddress = function() {
+        return address;
     }
     this.getName = function() {
         return "PlayerLoginEvent";
