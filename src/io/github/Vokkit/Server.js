@@ -29,6 +29,9 @@ function Server() {
     path = require("path");
 
     this.init = function (startTime) {
+        process.on('uncaughtException', function (err) {
+            Logger.warn(err.stack);
+        });
         app = express();
         http = require('http').Server(app);
         socketServer = io.listen(http);
@@ -46,6 +49,8 @@ function Server() {
         pluginManager.init();
         pluginManager.loadPlugins();
         pluginManager.enablePlugins();
+
+
 
         Logger.info("서버를 여는 중...");
         app.use(express.static(path.join(path.resolve(""), "public")));
@@ -117,12 +122,12 @@ function Server() {
         return socketManager;
     }
     this.getWorldManager = function () {
-        return socketManager.getWorldManager;
+        return socketManager.worldManager;
     }
     this.getPluginManager = function () {
         return pluginManager;
     }
-    this.getLogger = function() {
+    this.getLogger = function () {
         return Logger;
     }
 }

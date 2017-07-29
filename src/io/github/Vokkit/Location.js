@@ -14,6 +14,7 @@ function Location(world, x, y, z, yaw, pitch) {
 
     this.setWorld = function (world) {
         location.world = world;
+        return location;
     }
 
     this.getX = function () {
@@ -22,6 +23,7 @@ function Location(world, x, y, z, yaw, pitch) {
 
     this.setX = function (x) {
         location.x = x;
+        return location;
     }
 
     this.getY = function () {
@@ -30,6 +32,7 @@ function Location(world, x, y, z, yaw, pitch) {
 
     this.setY = function (y) {
         location.y = y;
+        return location;
     }
 
     this.getZ = function () {
@@ -38,6 +41,7 @@ function Location(world, x, y, z, yaw, pitch) {
 
     this.setZ = function (z) {
         location.z = z;
+        return location;
     }
 
     this.getYaw = function () {
@@ -46,6 +50,7 @@ function Location(world, x, y, z, yaw, pitch) {
 
     this.setYaw = function (yaw) {
         location.yaw = yaw;
+        return location;
     }
 
     this.getPitch = function () {
@@ -54,6 +59,7 @@ function Location(world, x, y, z, yaw, pitch) {
 
     this.setPitch = function (pitch) {
         location.pitch = pitch;
+        return location;
     }
 
     this.distance = function (loc) {
@@ -78,6 +84,7 @@ function Location(world, x, y, z, yaw, pitch) {
             location.y = y;
             location.z = z;
         }
+        return location;
     }
 
     this.add = function (x, y, z) {
@@ -94,6 +101,7 @@ function Location(world, x, y, z, yaw, pitch) {
             location.y += y;
             location.z += z;
         }
+        return location;
     }
 
     this.subtract = function(x, y, z) {
@@ -110,10 +118,21 @@ function Location(world, x, y, z, yaw, pitch) {
             location.y -= y;
             location.z -= z;
         }
+        return location;
     }
 
     this.clone = function() {
         return new Location(location.world, location.x, location.y, location.z, location.yaw, location.pitch);
+    }
+
+    this.copy = function(loc) {
+        location.world = loc.world;
+        location.x = loc.x;
+        location.y = loc.y;
+        location.z = loc.z;
+        location.yaw = loc.yaw;
+        location.pitch = loc.pitch;
+        return location;
     }
 
     this.equals = function(loc) {

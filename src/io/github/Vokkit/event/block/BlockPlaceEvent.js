@@ -1,4 +1,4 @@
-function PlayerMoveEvent(player, from, to) {
+function BlockPlaceEvent(placedBlock, placedAgainst, itemInHand, player) {
     var cancelled = false;
 
     this.setCancelled = function(cancel) {
@@ -16,25 +16,21 @@ function PlayerMoveEvent(player, from, to) {
         return player;
     }
 
-    this.getFrom = function() {
-        return from;
+    this.getBlock = function() {
+        return placedBlock;
     }
 
-    this.setFrom = function(f) {
-        from = f;
+    this.getBlockAgainst = function() {
+        return placedAgainst;
     }
 
-    this.getTo = function() {
-        return to;
+    this.getItemInHand = function() {
+        return itemInHand;
     }
 
-    this.setTo = function(t) {
-        to = t;
-    }
-    
     this.getName = function() {
-        return "PlayerMoveEvent";
+        return "BlockBreakEvent";
     }
 }
 
-module.exports = PlayerMoveEvent;
+module.exports = BlockPlaceEvent;

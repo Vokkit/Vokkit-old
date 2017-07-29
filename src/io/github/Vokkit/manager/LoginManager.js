@@ -8,7 +8,7 @@ var PlayerJoinEvent = require("../event/player/PlayerJoinEvent.js");
 function LoginManager() {
     this.getListener = function (socket) {
         return function (data) {
-            var player = new Player(data.name, new Location(Vokkit.getServer().getWorlds()[0], 0, 0, 0, 0, 0), [0, 0, 0], socket);
+            var player = new Player(data.name, new Location(Vokkit.getServer().getWorlds()[0], 0, 0, 0, 0, 0), new THREE.Vector3(0, 0, 0), socket);
             var playerLoginEvent = new PlayerLoginEvent(player);
             Vokkit.getServer().getPluginManager().makeEvent(playerLoginEvent);
             if (playerLoginEvent.isCancelled()) {
@@ -34,7 +34,8 @@ function LoginManager() {
             }
             socket.emit("loginResult", {
                 succeed: true,
-                players: sendPlayers
+                players: sendPlayers,
+                worlds: Vokkit.getServer().getWorldManager().getWorldArray()
             });
             Vokkit.getServer().addPlayer(player);
             var address = socket.request.connection._peername;
@@ -43,11 +44,14 @@ function LoginManager() {
             Vokkit.getServer().getPluginManager().makeEvent(playerJoinEvent);
             Vokkit.getServer().getSocketServer().emit("playerJoin", {
                 name: player.getName(),
-                position: [0, 0, 0],
-                acceleration: [0, 0, 0],
+                x: 0,
+                y: 0,
+                z: 0,
+                velocity: [0, 0, 0],
                 yaw: 0,
                 pitch: 0,
-                id: player.getId()
+                id: player.getId(),
+                worldName: Vokkit.getServer().getWorlds()[0].getWorldName()
             });
         }
     }

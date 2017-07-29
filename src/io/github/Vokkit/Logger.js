@@ -17,6 +17,10 @@ function Logger(){
         console.log("\x1b[1m\x1b[36m" + getTime() + "\x1b[37m [INFO] " + message + "\x1b[0m");
     }
 
+    this.warn = function(message) {
+        console.log("\x1b[1m\x1b[36m" + getTime() + "\x1b[31m [Warn] " + message + "\x1b[0m");
+    }
+
     this.chat = function(message) {
         console.log("\x1b[1m\x1b[36m" + getTime() + "\x1b[37m " + message + "\x1b[0m");
     }

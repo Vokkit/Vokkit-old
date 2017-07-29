@@ -1,7 +1,7 @@
-function Player(name, location, acceleration, id, isLocalPlayer){
+function Player(name, location, velocity, id, isLocalPlayer){
     this.name = name;
     this.location = location.clone();
-    this.acceleration = acceleration.clone();
+    this.velocity = velocity.clone();
     this.id = id;
     this.isLocalPlayer = isLocalPlayer;
     var player = this;
@@ -12,19 +12,22 @@ function Player(name, location, acceleration, id, isLocalPlayer){
         return player.id;
     }
     this.getLocation = function(){
-        return player.location;
+        return player.location.clone();
+    }
+    this.teleport = function(loc) {
+        player.location.copy(loc);
     }
     this.getEyeLocation = function(){
         
     }
-    this.getAcceleration = function(){
-        return player.acceleration.clone();
+    this.getVelocity = function(){
+        return player.velocity.clone();
     }
-    this.setAcceleration = function(acceleration){
-        player.acceleration.copy(acceleration);
+    this.setVelocity = function(velocity){
+        player.velocity.copy(velocity);
     }
-    this.addAcceleration = function(acceleration){
-        player.acceleration.add(acceleration);
+    this.addVelocity = function(velocity){
+        player.velocity.add(velocity);
     }
     this.equals = function(object) {
         return object instanceof Player && object.getId() == player.getId();

@@ -18,11 +18,12 @@ function SocketManager(){
 
         Vokkit.getServer().getSocketServer().on("connection", function(socket){
             var player;
-            socket.on("login", socketManager.loginManager.getListener(socket));
-            socket.on("requestSkin", socketManager.playerSkinManager.getListener(socket));
-            socket.on("requestMove", socketManager.moveManager.getListener(socket));
-            socket.on("requestWorld", socketManager.worldManager.getListener(socket));
-            socket.on("disconnect", socketManager.disconnectManager.getListener(socket));
+            socket.on("login", socketManager.loginManager.getListener(socket, "login"));
+            socket.on("requestSkin", socketManager.playerSkinManager.getListener(socket, "requestSkin"));
+            socket.on("requestMove", socketManager.moveManager.getListener(socket, "requestMove"));
+            socket.on("requestWorld", socketManager.worldManager.getListener(socket, "requestWorld"));
+            socket.on("requestSetBlock", socketManager.worldManager.getListener(socket, "requestSetBlock"));
+            socket.on("disconnect", socketManager.disconnectManager.getListener(socket, "disconnect"));
         });
     }
 }

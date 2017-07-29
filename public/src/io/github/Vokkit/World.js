@@ -36,18 +36,6 @@ function World(worldName) {
     }
     this.getBlock = function (position) {
         if (!world.prepared) return;
-        /*for (var i in worldData) {
-            if (worldData[i].position.equals(position)) {
-                return worldData[i];
-            }
-        }
-        return new Block(position, 0);*/
-        /*var x = Math.floor(position.x);
-        var y = Math.floor(position.y);
-        var z = Math.floor(position.z);
-        if (worldData[x] == undefined) return;
-        if (worldData[x][y] == undefined) return;
-        return worldData[x][y][z];*/
         for (var i in chunks) {
             if (chunks[i].containsPosition(position)) {
                 return chunks[i].getBlock(position);
@@ -86,7 +74,8 @@ function World(worldName) {
 
 World.prepareWorlds = function (data) {
     for (var i in data) {
-        var world = new World(i);
+        var world = new World(data[i][0]);
+        data[i].splice(0, 1);
         world.prepareWorld(data[i]);
         Vokkit.getClient().addWorld(world);
     }

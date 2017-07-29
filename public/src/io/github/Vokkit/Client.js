@@ -45,10 +45,8 @@ function Client(){
         moveManager.init();
         blockTextureManager.init();
         sceneManager.init();
-        worldManager.init(function(){
-            sceneManager.drawWorld(worldList[0]);
-        });
-        worldManager.requestWorld();
+        worldManager.init();
+        sceneManager.drawWorld(worldList[0]);
         inputManager.init();
         sceneManager.start();
         playerBodyManager.init();

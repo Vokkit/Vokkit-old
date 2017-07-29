@@ -1,4 +1,4 @@
-//var Vokkit = require("../Vokkit.js");
+var World = require("../World.js");
 
 var loginButton;
 var idText;
@@ -14,6 +14,7 @@ function LoginManager(){
             if (!data.succeed) {
                alert("로그인 실패! 이유: " + data.reason);
             } else {
+                World.prepareWorlds(data.worlds);
                 var playerManager = Vokkit.getClient().getPlayerManager();
                 for (var i in data.players) {
                     playerManager.addPlayer(data.players[i]);

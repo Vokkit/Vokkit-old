@@ -33,6 +33,7 @@ function InputManager() {
             var location = Vokkit.getClient().getLocalPlayer().getLocation();
             location.setYaw(location.getYaw() + e.movementX / 1000);
             location.setPitch(location.getPitch() - e.movementY / 1000);
+            Vokkit.getClient().getLocalPlayer().teleport(location);
             camera.lookAt(new THREE.Vector3(camera.position.x - Math.sin(location.getYaw()) * Math.cos(location.getPitch()), camera.position.y + Math.sin(location.getPitch()), camera.position.z + Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
         }
 
@@ -131,8 +132,23 @@ function InputManager() {
 
                         if (press[6]) {
                             Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition, 0));
+                            Vokkit.getClient().getSocket().emit("requestSetBlock", {
+                                x: blockPosition.x,
+                                y: blockPosition.y,
+                                z: blockPosition.z,
+                                id: 0,
+                                worldName: Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getWorldName()
+                            });
                         } else if (press[7]) {
-                            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition.clone().add(direction), 1));
+                            var blockPlacePosition = blockPosition.clone().add(direction);
+                            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, 1));
+                            Vokkit.getClient().getSocket().emit("requestSetBlock", {
+                                x: blockPlacePosition.x,
+                                y: blockPlacePosition.y,
+                                z: blockPlacePosition.z,
+                                id: 1,
+                                worldName: Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getWorldName()
+                            });
                         }
                     }
                     coolDown = 250 / 1000 * Vokkit.getClient().getSceneManager().getFPS();

@@ -1,7 +1,7 @@
 function Player(name, location, velocity, socket){
     this.name = name;
     this.location = location.clone();
-    this.velocity = velocity.slice();
+    this.velocity = velocity.clone();
     this.socket = socket;
     var player = this;
     this.getName = function(){
@@ -11,13 +11,16 @@ function Player(name, location, velocity, socket){
         return player.socket.id;
     }
     this.getLocation = function(){
-        return player.location;
+        return player.location.clone();
+    }
+    this.teleport = function(loc) {
+        player.location.copy(loc);
     }
     this.getVelocity = function(){
-        return player.velocity.slice();
+        return player.velocity.clone();
     }
     this.setVelocity = function(velocity){
-        player.velocity = velocity.slice();
+        player.velocity.copy(velocity);
     }
     this.getSocket = function(){
         return player.socket;
@@ -28,7 +31,11 @@ function Player(name, location, velocity, socket){
     this.toObject = function(){
         return {
             name: player.getName(),
-            location: player.location.toObject(),
+            x: player.location.x,
+            y: player.location.y,
+            z: player.location.z,
+            yaw: player.location.yaw,
+            pitch: player.location.pitch,
             velocity: [0, 0, 0],
             id: player.getId()
         };

@@ -1,3 +1,5 @@
+var Chunk = require("./Chunk.js");
+
 var Block = require("./block/Block.js");
 
 var fs = require("fs");
@@ -8,59 +10,109 @@ var path = require("path");
 function World(worldName) {
     var world = this;
     var worldName = worldName;
-    var worldData = [];
     var worldPath = path.resolve("", "worlds/" + worldName);
+    var chunks = [];
     this.prepared = false;
     this.prepareWorld = function (afterdo) {
         var data = fs.readFileSync(worldPath, "UTF-8");
         var lines = data.split("\n");
         var materials = [];
+        var position = new THREE.Vector3();
         for (var i in lines) {
             var blockData = lines[i].split(",");
             var maximum = [];
-            var blockX = parseInt(blockData[0]);
-            var blockY = parseInt(blockData[1]);
-            var blockZ = parseInt(blockData[2]);
-            var blockId = parseInt(blockData[3]);//spawn 208,-89,-203
-            if (blockId != 0) {
-                if (blockId != 1 && blockId != 2 && blockId != 3) blockId = 1;
-                worldData.push(new Block([blockX, blockY + 128, blockZ], blockId));
+            blockData[0] = parseInt(blockData[0]);
+            blockData[1] = parseInt(blockData[1]);
+            blockData[2] = parseInt(blockData[2]);
+            blockData[3] = parseInt(blockData[3]);
+            if (blockData[3] != 0) {
+                if (blockData[3] != 1 && blockData[3] != 2 && blockData[3] != 3) blockData[3] = 1;
+                var chunkExists = false;
+                for (var i in chunks) {
+                    if (chunks[i].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
+                        if (chunks[i].chunkData[blockData[0]] == undefined) chunks[i].chunkData[blockData[0]] = [];
+                        if (chunks[i].chunkData[blockData[0]][blockData[1]] == undefined) chunks[i].chunkData[blockData[0]][blockData[1]] = [];
+                        chunks[i].chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3]);
+                        chunkExists = true;
+                        break;
+                    }
+                }
+                if (!chunkExists) {
+                    var chunk = new Chunk(Math.floor(blockData[0] / 16) * 16, Math.floor(blockData[2] / 16) * 16, []);
+                    if (chunk.chunkData[blockData[0]] == undefined) chunk.chunkData[blockData[0]] = [];
+                    if (chunk.chunkData[blockData[0]][blockData[1]] == undefined) chunk.chunkData[blockData[0]][blockData[1]] = [];
+                    chunk.chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3]);
+                    chunks.push(chunk);
+                }
             }
         }
-        console.log(worldData);
         world.prepared = true;
     }
+
     this.getBlock = function (position) {
-        if (!this.prepared) return null;
-        for (var i in worldData) {
-            if (worldData[i].position[0] == position[0] && worldData[i].position[1] == position[1] && worldData[i].position[2] == position[2]) {
-                return worldData[i];
+        if (!world.prepared) return;
+        for (var i in chunks) {
+            if (chunks[i].containsPosition(position)) {
+                return chunks[i].getBlock(position);
             }
         }
         return new Block(position, 0);
     }
+
+    this.setBlock = function (block) {
+        if (!world.prepared) return;
+        var chunkExists = false;
+        for (var i in chunks) {
+            if (chunks[i].containsPosition(block.position)) {
+                chunks[i].setBlock(block);
+                chunkExists = true;
+                break;
+            }
+        }
+        if (!chunkExists) {
+            var chunk = new Chunk(Math.floor(block.position.x / 16) * 16, Math.floor(block.position.z / 16) * 16, []);
+            chunk.setBlock(block);
+            chunks.push(chunk);
+        }
+    }
+
     this.getWorldName = function () {
-        return worldName;
+        return worldName.replace(".txt", "");
     }
     this.toArray = function () {
         var worldArray = [];
-        for (var i in worldData) {
-            if (worldData[i].id != 0) {
-                worldArray.push([worldData[i].position[0], worldData[i].position[1], worldData[i].position[2], worldData[i].id]);
+        worldArray.push(world.getWorldName());
+        for (var i in chunks) {
+            var chunkData = chunks[i].chunkData;
+            for (var j in chunkData) {
+                for (var k in chunkData[j]) {
+                    for (var l in chunkData[j][k]) {
+                        if (chunks[i].chunkData[j].id != 0) {
+                            worldArray.push([chunkData[j][k][l].position.x, chunkData[j][k][l].position.y, chunkData[j][k][l].position.z, chunkData[j][k][l].id]);
+                        }
+                    }
+                }
             }
+            console.log(worldArray);
         }
         return worldArray;
     }
     this.saveWorld = function (afterdo) {
         var lines = [];
-        for (var i in worldData) {
-            if (worldData[i].id != 0) {
-                lines.push(worldData[i].position[0] + "," + worldData[i].position[1] + "," + worldData[i].position[2] + "," + worldData[i].id);
+        for (var i in chunks) {
+            for (var j in chunkData) {
+                for (var k in chunkData[j]) {
+                    for (var l in chunkData[j][k]) {
+                        if (chunks[i].chunkData[j].id != 0) {
+                            lines.push([chunkData[j][k][l].position.x, chunkData[j][k][l].position.y, chunkData[j][k][l].position.z, chunkData[j][k][l].id].join(","));
+                        }
+                    }
+                }
             }
         }
         fs.writeFile(worldPath, lines.join("\n"), { encoding: "UTF-8" }, afterdo);
     }
-    this.equals = function(world2) {
+    this.equals = function (world2) {
         return world.getWorldName() == world2.getWorldName();
     }
 }
