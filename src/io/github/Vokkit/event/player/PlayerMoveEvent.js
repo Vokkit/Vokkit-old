@@ -1,40 +1,41 @@
+var PlayerEvent = require("./PlayerEvent.js");
+
 function PlayerMoveEvent(player, from, to) {
-    var cancelled = false;
+    PlayerEvent.call(this, player);
+    this.from = from;
+    this.to = to;
+    this.cancelled = false;
+    this.eventName = "PlayerMoveEvent";
+}
 
-    this.setCancelled = function(cancel) {
-        if (cancel == undefined) cancelled = true;
-        else {
-            cancelled = !!cancel;
-        }
-    }
-    
-    this.isCancelled = function() {
-        return cancelled;
-    }
+PlayerMoveEvent.prototype = new PlayerEvent();
 
-    this.getPlayer = function() {
-        return player;
-    }
 
-    this.getFrom = function() {
-        return from;
+PlayerMoveEvent.prototype.setCancelled = function (cancel) {
+    if (cancel == undefined) this.cancelled = true;
+    else {
+        this.cancelled = !!cancel;
     }
+}
 
-    this.setFrom = function(f) {
-        from = f;
-    }
+PlayerMoveEvent.prototype.isCancelled = function () {
+    return this.cancelled;
+}
 
-    this.getTo = function() {
-        return to;
-    }
+PlayerMoveEvent.prototype.getFrom = function () {
+    return this.from;
+}
 
-    this.setTo = function(t) {
-        to = t;
-    }
-    
-    this.getName = function() {
-        return "PlayerMoveEvent";
-    }
+PlayerMoveEvent.prototype.setFrom = function (from) {
+    this.from = from;
+}
+
+PlayerMoveEvent.prototype.getTo = function () {
+    return this.to;
+}
+
+PlayerMoveEvent.prototype.setTo = function (to) {
+    this.to = to;
 }
 
 module.exports = PlayerMoveEvent;

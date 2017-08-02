@@ -44,8 +44,11 @@ function Chunk(x, z, chunkData) {
         for (var k = low[2]; k < high[2]; k++) {
             for (var j = low[1]; j < high[1]; j++) {
                 for (var i = low[0]; i < high[0]; i++) {
-                    volume[count] = chunk.getBlock(pos.set(chunk.x + i, j, chunk.z + k)).id;
-                    count++;
+                    var id = chunk.getBlock(pos.set(chunk.x + i, j, chunk.z + k)).id;
+                    if (id != 0) {
+                        volume[count] = id;
+                        count++;
+                    }
                 }
             }
         }
@@ -72,13 +75,20 @@ function Chunk(x, z, chunkData) {
 
         var xmuvs = [new THREE.Vector2(0.25, 0),new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0, 0.5), new THREE.Vector2(0, 0)];
 
-        var xpuvs = [new THREE.Vector2(0.5, 0), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.5, 0.5)];
+        //var xpuvs = [new THREE.Vector2(0.5, 0), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.5, 0.5)];
+        //var xpuvs = [new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.5, 0)];
+        var xpuvs = [new THREE.Vector2(0.25, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.25, 0.5)];
 
-        var ymuvs = [new THREE.Vector2(0.5, 1), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 1)];
+        //var ymuvs = [new THREE.Vector2(0.5, 1), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 1)];
+        var ymuvs = [new THREE.Vector2(0.25, 1), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 1)];
         
-        var ypuvs = [new THREE.Vector2(0.75, 1), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 1)];
+        //var ypuvs = [new THREE.Vector2(0.75, 1), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 1)];
+        //var ypuvs = [new THREE.Vector2(0.5, 1), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 1)];
+        var ypuvs = [new THREE.Vector2(0.75, 1), new THREE.Vector2(0.5, 1), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.75, 0.5)];
 
-        var zmuvs = [new THREE.Vector2(0.75, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.75, 0.5)];
+        //var zmuvs = [new THREE.Vector2(0.75, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.75, 0.5)];
+        //var zmuvs = [new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.75, 0)];
+        var zmuvs = [new THREE.Vector2(0.5, 0), new THREE.Vector2(0.75, 0), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.5, 0.5)];
         
         var zpuvs = [new THREE.Vector2(1, 0), new THREE.Vector2(1, 0.5), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 0)];
 
@@ -115,7 +125,7 @@ function Chunk(x, z, chunkData) {
                         face.materialIndex = block.id;
                         face2.materialIndex = block.id;
                     } else {
-                        //x+ 방향에 블럭있음. 시계방향 90도
+                        //x+ 방향에 블럭있음. 이것도 거꾸로 뒤집힘.
                         geometry.faceVertexUvs[0].push([xpuvs[0], xpuvs[1], xpuvs[2]]);
                         geometry.faceVertexUvs[0].push([xpuvs[0], xpuvs[2], xpuvs[3]]);
                         face.materialIndex = block.id;
@@ -125,14 +135,14 @@ function Chunk(x, z, chunkData) {
                     //y 방향. 블럭 확인해서 어느 방향인지 재검출
                     var block = chunk.getBlock(blockPosition.set(minx, miny, minz));
                     if (block.id == 0) {
-                        //y- 방향에 블럭있음.
+                        //y- 방향에 블럭있음. 이건 거꾸로 뒤집힘 
                         geometry.faceVertexUvs[0].push([ymuvs[0], ymuvs[1], ymuvs[2]]);
                         geometry.faceVertexUvs[0].push([ymuvs[0], ymuvs[2], ymuvs[3]]);
                         block = chunk.getBlock(blockPosition.set(minx, miny - 1, minz));
                         face.materialIndex = block.id;
                         face2.materialIndex = block.id;
                     } else {
-                        //y+ 방향에 블럭있음.
+                        //y+ 방향에 블럭있음. 이건 거꾸로 뒤집힘 
                         geometry.faceVertexUvs[0].push([ypuvs[0], ypuvs[1], ypuvs[2]]);
                         geometry.faceVertexUvs[0].push([ypuvs[0], ypuvs[2], ypuvs[3]]);
                         face.materialIndex = block.id;
@@ -142,7 +152,7 @@ function Chunk(x, z, chunkData) {
                     //z 방향. 블럭 확인해서 어느 방향인지 재검출
                     var block = chunk.getBlock(blockPosition.set(minx, miny, minz));
                     if (block.id == 0) {
-                        //z- 방향에 블럭있음.
+                        //z- 방향에 블럭있음. 이건 거꾸로 뒤집힘
                         geometry.faceVertexUvs[0].push([zmuvs[0], zmuvs[1], zmuvs[2]]);
                         geometry.faceVertexUvs[0].push([zmuvs[0], zmuvs[2], zmuvs[3]]);
                         block = chunk.getBlock(blockPosition.set(minx, miny, minz - 1));

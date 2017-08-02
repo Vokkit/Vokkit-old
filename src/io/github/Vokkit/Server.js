@@ -18,7 +18,7 @@ function Server() {
     var worldList = [];
     var server = this;
 
-    Player = require("./Player.js");
+    Player = require("./entity/Player.js");
     World = require("./World.js");
     Logger = new (require("./Logger.js"))();
     SocketManager = require("./manager/SocketManager.js");
@@ -99,6 +99,15 @@ function Server() {
                 return playerList[i];
             }
         }
+    }
+    this.getPlayers = function(name) {
+        var result = [];
+        for (var i in playerList) {
+            if (playerList[i].getName() == name) {
+                result.push(playerList[i]);
+            }
+        }
+        return result;
     }
     this.getOnlinePlayers = function (name) {
         return playerList.slice();

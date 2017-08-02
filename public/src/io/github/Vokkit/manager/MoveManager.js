@@ -1,5 +1,3 @@
-var THREE = require("three");
-
 function MoveManager(){
     var socket;
     var moveManager = this;
@@ -19,13 +17,14 @@ function MoveManager(){
             }
         });
     }
-    this.requestMove = function(location){
+    this.requestMove = function(location, velocity){
         socket.emit("requestMove", {
             x: location.x,
             y: location.y,
             z: location.z,
             yaw: location.yaw,
-            pitch: location.pitch
+            pitch: location.pitch,
+            velocity: [velocity.x, velocity.y, velocity.z]
         });
     }
     this.moveLocalPlayer = function(press){
@@ -34,25 +33,28 @@ function MoveManager(){
         var yaw = location.getYaw();
         var fps = Vokkit.getClient().getSceneManager().getFPS();
         var multiply = 10 / fps;
+        var velocity = localPlayer.getVelocity();
         if (press[0]) {
-            localPlayer.addVelocity(new THREE.Vector3(-Math.sin(yaw), 0, Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(-Math.sin(yaw), 0, Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         } else if (press[1]) {
-            localPlayer.addVelocity(new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         }
         if (press[2]) {
-            localPlayer.addVelocity(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         } else if (press[3]) {
-            localPlayer.addVelocity(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         }
         if (press[4]) {
-            localPlayer.addVelocity(new THREE.Vector3(0, 1.5, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(0, 1.5, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         } else if (press[5]) {
-            localPlayer.addVelocity(new THREE.Vector3(0, -1, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(0, -1, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         }
         //localPlayer.addVelocity(new THREE.Vector3(0, -9.8 / fps, 0));
+        localPlayer.setVelocity(velocity);
         var players = Vokkit.getClient().getOnlinePlayers();
         for (var i in players) {
             var velocity = players[i].getVelocity();
+            if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) players[i].body.playAnimation("walk");
             var location = players[i].getLocation();
             var add = new THREE.Vector3();
             var x = 0, y = 0, z = 0;
@@ -150,7 +152,7 @@ function MoveManager(){
             if (ycollision) players[i].setVelocity(velocity.multiply(new THREE.Vector3(0.5, 0.7, 0.5)));
             else players[i].setVelocity(velocity.multiply(new THREE.Vector3(0.7, 0.7, 0.7)));
         }
-        moveManager.requestMove(localPlayer.getLocation());
+        moveManager.requestMove(localPlayer.getLocation(), localPlayer.getVelocity());
     }
 }
 

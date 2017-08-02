@@ -1,16 +1,19 @@
+var PlayerEvent = require("./PlayerEvent.js");
+
 function PlayerQuitEvent(player, quitMessage) {
-    this.getPlayer = function() {
-        return player;
-    }
-    this.getQuitMessage = function(){
-        return quitMessage;
-    }
-    this.setQuitMessage = function(message){
-        quitMessage = message;
-    }
-    this.getName = function() {
-        return "PlayerQuitEvent";
-    }
+    PlayerEvent.call(this, player);
+    this.quitMessage = quitMessage;
+    this.eventName = "PlayerQuitEvent";
+}
+
+PlayerQuitEvent.prototype = new PlayerEvent();
+
+
+PlayerQuitEvent.prototype.getQuitMessage = function () {
+    return this.quitMessage;
+}
+PlayerQuitEvent.prototype.setQuitMessage = function (message) {
+    this.quitMessage = message;
 }
 
 module.exports = PlayerQuitEvent;

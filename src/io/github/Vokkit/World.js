@@ -22,11 +22,12 @@ function World(worldName) {
             var blockData = lines[i].split(",");
             var maximum = [];
             blockData[0] = parseInt(blockData[0]);
-            blockData[1] = parseInt(blockData[1]);
+            blockData[1] = parseInt(blockData[1]) + 128;
             blockData[2] = parseInt(blockData[2]);
             blockData[3] = parseInt(blockData[3]);
             if (blockData[3] != 0) {
-                if (blockData[3] != 1 && blockData[3] != 2 && blockData[3] != 3) blockData[3] = 1;
+                if (blockData[3] != 1 && blockData[3] != 2 && blockData[3] != 3) continue;
+
                 var chunkExists = false;
                 for (var i in chunks) {
                     if (chunks[i].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
@@ -43,6 +44,25 @@ function World(worldName) {
                     if (chunk.chunkData[blockData[0]][blockData[1]] == undefined) chunk.chunkData[blockData[0]][blockData[1]] = [];
                     chunk.chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3]);
                     chunks.push(chunk);
+                }
+            }
+        }
+
+        for (var i in chunks) {
+            var chunk = chunks[i];
+            var chunkData = chunks[i].chunkData;
+            for (var j in chunkData) {
+                for (var k in chunkData[j]) {
+                    for (var l in chunkData[j][k]) {
+                        var blockCount = 0;
+                        for (var y = parseInt(k) ; y < 128 ; y++) {
+                            if (chunk.getBlock(new THREE.Vector3(j, y, l)).id != 0) blockCount++;
+                            if (blockCount >= 5) break;
+                        }
+                        if (blockCount >= 5) {
+                            chunk.setBlock(new Block(new THREE.Vector3(j, k, l), 0));
+                        }
+                    }
                 }
             }
         }
@@ -93,8 +113,8 @@ function World(worldName) {
                     }
                 }
             }
-            console.log(worldArray);
         }
+        console.log(worldArray);
         return worldArray;
     }
     this.saveWorld = function (afterdo) {

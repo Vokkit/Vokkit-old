@@ -9,6 +9,6 @@
   "author": "Scripter36 (1350adwx)",
   "license": "ISC",
   "dependencies": {
-    "three": "^0.85.2"
+    "three": "^0.86.0"
   }
 }

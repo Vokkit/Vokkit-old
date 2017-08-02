@@ -4,8 +4,8 @@ var WorldManager = require("./manager/WorldManager.js");
 var PlayerManager = require("./manager/PlayerManager.js");
 var SceneManager = require("./manager/SceneManager.js");
 var InputManager = require("./manager/InputManager.js");
-var PlayerBodyManager = require("./manager/PlayerBodyManager.js");
 var BlockTextureManager = require("./manager/BlockTextureManager.js");
+var WebVRManager = require("./manager/WebVRManager.js");
 
 /**@type {SocketIO.Server} */
 var socket = io();
@@ -17,6 +17,7 @@ var sceneManager;
 var inputManager;
 var playerBodyManager;
 var blockTextureManager;
+var webvrmanager;
 
 function Client(){
     var worldList = [];
@@ -31,8 +32,9 @@ function Client(){
         playerManager = new PlayerManager();
         playerManager.init();
         sceneManager = new SceneManager();
+        sceneManager.loginInit();
         inputManager = new InputManager();
-        playerBodyManager = new PlayerBodyManager();
+        webvrmanager = new WebVRManager();
         loginManager.onLogin = function(){
             logined = true;
             client.init();
@@ -44,12 +46,12 @@ function Client(){
     this.init = function(){
         moveManager.init();
         blockTextureManager.init();
+        webvrmanager.init();
         sceneManager.init();
         worldManager.init();
         sceneManager.drawWorld(worldList[0]);
         inputManager.init();
         sceneManager.start();
-        playerBodyManager.init();
     }
     this.getLoginManager = function(){
         return loginManager;
@@ -74,6 +76,9 @@ function Client(){
     }
     this.getSocket = function(){
         return socket;
+    }
+    this.getWebVRManager = function() {
+        return webvrmanager;
     }
     this.getWorld = function(worldName) {
         for (var i in worldList) {

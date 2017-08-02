@@ -3,6 +3,8 @@ var Material = require("../Material.js");
 var Block = require("../block/Block.js");
 
 var scene;
+var group;
+var rotationGroup;
 var camera;
 var renderer;
 var fps = 60;
@@ -13,10 +15,15 @@ var worldGeometry;
 var dirtyChunks = [];
 
 function SceneManager() {
-    this.init = function () {
+    this.loginInit = function () {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000);
         renderer = new THREE.WebGLRenderer();
+        group = new THREE.Group();
+        rotationGroup = new THREE.Group();
+    }
+    this.init = function () {
+        renderer.vr.enabled = true;
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
@@ -27,6 +34,9 @@ function SceneManager() {
         }
 
         materials = Vokkit.getClient().getBlockTextureManager().getTextures();
+
+        rotationGroup.add(group);
+        scene.add(rotationGroup);
     }
 
     this.getCamera = function () {
@@ -35,6 +45,16 @@ function SceneManager() {
 
     this.getScene = function () {
         return scene;
+    }
+
+    this.getGroup = function () {
+        return group;
+    }
+
+    var multiply = new THREE.Vector3(-1, -1, -1);
+    this.updateGroup = function (location) {
+        //rotationGroup.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), - Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
+        camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
     }
 
     this.getRenderer = function () {
@@ -49,49 +69,21 @@ function SceneManager() {
         fps = FPS;
     }
 
+    this.clearWorld = function () {
+        while (group.children.length > 0) {
+            group.remove(group.children[0]);
+        }
+    }
+
     this.drawWorld = function (world) {
-        while (scene.children.length > 0) {
-            scene.remove(scene.children[0]);
-        }
-        /*
-        
-        worldGeometry = new THREE.Geometry();
-        var blocks = world.getAllBlocks();
-        var geometry = blockTextureManager.uvsGeometry(new THREE.BoxGeometry(1, 1, 1));
-        var matrix = new THREE.Matrix4();
-        var position = new THREE.Vector3();
-        for (var i in blocks) {
-            for (var j in blocks[i]) {
-                for (var k in blocks[i][j]) {
-                    var faceid = 0;
-                    var blockId = blocks[i][j][k].id;
-                    if (blockId === 2) {
-                        faceid = 2;
-                    } else if (blockId === 3) {
-                        faceid = 3;
-                    } else if (blockId !== 0) {
-                        faceid = 1;
-                    }
-                    for (var l = 0; l < geometry.faces.length; l++) {
-                        geometry.faces[l].materialIndex = faceid;
-                    }
-                    matrix.setPosition(position.set(blocks[i][j][k].position.x + 0.5, blocks[i][j][k].position.y + 0.5, blocks[i][j][k].position.z + 0.5));
-                    worldGeometry.merge(geometry, matrix);
-                }
-            }
-        }
-        
-        var worldMesh = new THREE.Mesh(worldGeometry, materials);
-        scene.add(worldMesh);
-        */
         var world = Vokkit.getClient().getWorlds()[0];
         var chunks = world.getChunks();
         for (var i in chunks) {
-            scene.add(chunks[i].mesher());
+            group.add(chunks[i].mesher());
         }
         var sky = new THREE.Mesh(new THREE.BoxGeometry(600, 600, 600, 1, 1, 1), new THREE.MeshBasicMaterial({ color: "#7EC0EE" }));
         sky.scale.set(-1, 1, 1);
-        scene.add(sky);
+        group.add(sky);
     }
 
     this.reloadChunk = function (chunk) {
@@ -100,6 +92,7 @@ function SceneManager() {
 
     this.start = function () {
         var position = new THREE.Vector3();
+        var multiply = new THREE.Vector3(-1, -1, -1);
         setInterval(function () {
             var press = Vokkit.getClient().getInputManager().getPress();
             Vokkit.getClient().getMoveManager().moveLocalPlayer(press);
@@ -108,17 +101,16 @@ function SceneManager() {
         var draw = function () {
             var localPlayer = Vokkit.getClient().getLocalPlayer();
             if (localPlayer != undefined) {
-                camera.position.copy(localPlayer.getLocation().toVector());
+                group.position.copy(localPlayer.getEyeLocation().toVector().multiply(multiply));
             }
             for (var i in dirtyChunks) {
-                scene.remove(dirtyChunks[i].getLastMesh());
-                scene.add(dirtyChunks[i].mesher());
+                group.remove(dirtyChunks[i].getLastMesh());
+                group.add(dirtyChunks[i].mesher());
             }
             dirtyChunks = [];
             renderer.render(scene, camera);
-            requestAnimationFrame(draw);
         }
-        requestAnimationFrame(draw);
+        renderer.animate(draw);
     }
 }
 

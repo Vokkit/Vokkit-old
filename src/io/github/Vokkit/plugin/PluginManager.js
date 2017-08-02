@@ -49,15 +49,30 @@ function PluginManager() {
                 Vokkit: {
                     Logger: require("../Logger.js"),
                     Material: require("../Material.js"),
-                    Player: require("../Player.js"),
                     Server: require("../Server.js"),
                     Vokkit: require("../Vokkit.js"),
                     World: require("../World.js"),
+                    entity: {
+                        Entity: require("../entity/Entity.js"),
+                        Player: require("../entity/Player.js")
+                    },
                     block: {
                         Block: require("../block/Block.js")
                     },
                     event: {
-
+                        Event:  require("../event/Event.js"),
+                        EventPriority: require("../event/EventPriority.js"),
+                        block: {
+                            BlockBreakEvent: require("../event/block/BlockBreakEvent.js"),
+                            BlockPlaceEvent: require("../event/block/BlockPlaceEvent.js")
+                        },
+                        player: {
+                            PlayerEvent: require("../event/player/PlayerEvent.js"),
+                            PlayerJoinEvent: require("../event/player/PlayerJoinEvent.js"),
+                            PlayerLoginEvent: require("../event/player/PlayerLoginEvent.js"),
+                            PlayerMoveEvent: require("../event/player/PlayerMoveEvent.js"),
+                            PlayerQuitEvent: require("../event/player/PlayerQuitEvent.js")
+                        }
                     },
                     manager: {
                         DisconnectManager: require("../manager/DisconnectManager.js"),
@@ -132,37 +147,37 @@ function PluginManager() {
 
     this.makeEvent = function(event) {
         for (var i in registeredEvents) {
-            if (registeredEvents[i].name == event.getName() && registeredEvents[i].eventPriority == EventPriority.HIGHEST) {
+            if (registeredEvents[i].name == event.getEventName() && registeredEvents[i].eventPriority == EventPriority.HIGHEST) {
                 registeredEvents[i].event(event);
             }
         }
 
         for (var i in registeredEvents) {
-            if (registeredEvents[i].name == event.getName() && registeredEvents[i].eventPriority == EventPriority.HIGH) {
+            if (registeredEvents[i].name == event.getEventName() && registeredEvents[i].eventPriority == EventPriority.HIGH) {
                 registeredEvents[i].event(event);
             }
         }
 
         for (var i in registeredEvents) {
-            if (registeredEvents[i].name == event.getName() && registeredEvents[i].eventPriority == EventPriority.NORMAL) {
+            if (registeredEvents[i].name == event.getEventName() && registeredEvents[i].eventPriority == EventPriority.NORMAL) {
                 registeredEvents[i].event(event);
             }
         }
 
         for (var i in registeredEvents) {
-            if (registeredEvents[i].name == event.getName() && registeredEvents[i].eventPriority == EventPriority.LOW) {
+            if (registeredEvents[i].name == event.getEventName() && registeredEvents[i].eventPriority == EventPriority.LOW) {
                 registeredEvents[i].event(event);
             }
         }
 
         for (var i in registeredEvents) {
-            if (registeredEvents[i].name == event.getName() && registeredEvents[i].eventPriority == EventPriority.LOWEST) {
+            if (registeredEvents[i].name == event.getEventName() && registeredEvents[i].eventPriority == EventPriority.LOWEST) {
                 registeredEvents[i].event(event);
             }
         }
 
         for (var i in registeredEvents) {
-            if (registeredEvents[i].name == event.getName() && registeredEvents[i].eventPriority == EventPriority.MONITOR) {
+            if (registeredEvents[i].name == event.getEventName() && registeredEvents[i].eventPriority == EventPriority.MONITOR) {
                 registeredEvents[i].event(event);
             }
         }
