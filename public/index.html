@@ -10,6 +10,31 @@
         width: 100%;
         height: 100%;
     }
+
+    button {
+        border: 0px;
+        padding: 8px;
+        cursor: pointer;
+        background-color: rgb(0, 0, 0);
+        color: rgb(255, 255, 255);
+        font-family: sans-serif;
+        font-size: 13px;
+        font-style: normal;
+        text-align: center;
+        z-index: 999;
+    }
+
+    .MoveButton {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+    }
+
+    .VRButton {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+    }
 </style>
 
 <html>
@@ -20,7 +45,7 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="http://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="build.js"></script>
-    <div id="login">
+    <div id="login" style="position:fixed">
         <input id="idText" type="text"></input>
         <input id="loginButton" type="button" value="login"></input>
     </div>
@@ -29,33 +54,44 @@
         <img src="./assets/gui/cross.png"></img>
     </div>
 
-    <button id="WebVRButton" style="position: absolute; left: calc(50% - 50px); bottom: 20px; width: 100px; border: 0px; padding: 8px; cursor: pointer; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 13px; font-style: normal; text-align: center; z-index: 999; display:block">
+    <button id="WebVRButton" style="left: calc(50% - 50px); bottom: 20px;" class="VRButton">
         Enter VR
     </button>
 
-    <button id="LeftButton" style="position: absolute; left: 50px; bottom: 110px; width: 50px; height: 50px; border: 0px; padding: 8px; cursor: pointer; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 13px; font-style: normal; text-align: center; z-index: 999; display:block">
+    <button id="LeftButton" style="left: 50px; bottom: 110px;display: none" class="MoveButton">
         ←
     </button>
 
-    <button id="ShiftButton" style="position: absolute; left: 110px; bottom: 110px; width: 50px; height: 50px; border: 0px; padding: 8px; cursor: pointer; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 13px; font-style: normal; text-align: center; z-index: 999; display:block">
+    <button id="ShiftButton" style="left: 110px; bottom: 110px;display: none" class="MoveButton">
         Shift
     </button>
 
-    <button id="RightButton" style="position: absolute; left: 170px; bottom: 110px; width: 50px; height: 50px; border: 0px; padding: 8px; cursor: pointer; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 13px; font-style: normal; text-align: center; z-index: 999; display:block">
+    <button id="RightButton" style="left: 170px; bottom: 110px;display: none" class="MoveButton">
         →
     </button>
 
-    <button id="FrontButton" style="position: absolute; left: 110px; bottom: 170px; width: 50px; height: 50px; border: 0px; padding: 8px; cursor: pointer; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 13px; font-style: normal; text-align: center; z-index: 999; display:block">
+    <button id="FrontButton" style="left: 110px; bottom: 170px;display: none" class="MoveButton">
         ↑
     </button>
 
-    <button id="BackButton" style="position: absolute; left: 110px; bottom: 50px; width: 50px; height: 50px; border: 0px; padding: 8px; cursor: pointer; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 13px; font-style: normal; text-align: center; z-index: 999; display:block">
+    <button id="BackButton" style="left: 110px; bottom: 50px;display: none" class="MoveButton">
         ↓
     </button>
 
-    <button id="JumpButton" style="position: absolute; right: 110px; bottom: 110px; width: 50px; height: 50px; border: 0px; padding: 8px; cursor: pointer; background-color: rgb(0, 0, 0); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 13px; font-style: normal; text-align: center; z-index: 999; display:block">
+    <button id="JumpButton" style="right: 110px; bottom: 110px;display: none" class="MoveButton">
         ○
     </button>
+
+    <div id="chatWindow" style="position:fixed;width:100%;height:100%;display:none">
+        <div id="chatLog" style="width: 100%;border: 0px; padding: 8px; height: calc(100% - 46px);cursor: pointer; background-color: rgba(0, 0, 0, 0.25); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 15px; font-style: normal; z-index: 999;">
+        </div>
+        <div id="chatInput">
+            <input id="chatText" style="width: calc(100% - 30px); height:30px; border: 0px; padding: 8px; cursor: pointer; background-color: rgba(0, 0, 0, 0.5); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 15px; font-style: normal; z-index: 999;"></input>
+            <button id="chatButton" style="position:fixed;right:0px;bottom:0px;width: 30px;height:30px;">
+            →
+        </button>
+        </div>
+    </div>
 
 </body>
 

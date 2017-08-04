@@ -121,6 +121,10 @@ function Location(world, x, y, z, yaw, pitch) {
         return location;
     }
 
+    this.toVector = function () {
+        return new THREE.Vector3(location.x, location.y, location.z);
+    }
+
     this.clone = function() {
         return new Location(location.world, location.x, location.y, location.z, location.yaw, location.pitch);
     }

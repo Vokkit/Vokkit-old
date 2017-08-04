@@ -22,7 +22,7 @@ function World(worldName) {
             var blockData = lines[i].split(",");
             var maximum = [];
             blockData[0] = parseInt(blockData[0]);
-            blockData[1] = parseInt(blockData[1]) + 128;
+            blockData[1] = parseInt(blockData[1]);
             blockData[2] = parseInt(blockData[2]);
             blockData[3] = parseInt(blockData[3]);
             if (blockData[3] != 0) {
@@ -94,6 +94,13 @@ function World(worldName) {
             chunk.setBlock(block);
             chunks.push(chunk);
         }
+        Vokkit.getServer().getSocketServer().emit("setBlock", {
+            x: block.position.x,
+            y: block.position.y,
+            z: block.position.z,
+            id: block.id,
+            worldName: this.getWorldName()
+        });
     }
 
     this.getWorldName = function () {

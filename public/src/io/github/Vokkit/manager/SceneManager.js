@@ -23,7 +23,6 @@ function SceneManager() {
         rotationGroup = new THREE.Group();
     }
     this.init = function () {
-        renderer.vr.enabled = true;
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
@@ -54,7 +53,7 @@ function SceneManager() {
     var multiply = new THREE.Vector3(-1, -1, -1);
     this.updateGroup = function (location) {
         //rotationGroup.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), - Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
-        camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
+        if (!Vokkit.getClient().getWebVRManager().isMobileVRMode) camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
     }
 
     this.getRenderer = function () {
@@ -79,7 +78,9 @@ function SceneManager() {
         var world = Vokkit.getClient().getWorlds()[0];
         var chunks = world.getChunks();
         for (var i in chunks) {
-            group.add(chunks[i].mesher());
+            var mesher = chunks[i].mesher();
+            group.add(mesher);
+            console.log(mesher);
         }
         var sky = new THREE.Mesh(new THREE.BoxGeometry(600, 600, 600, 1, 1, 1), new THREE.MeshBasicMaterial({ color: "#7EC0EE" }));
         sky.scale.set(-1, 1, 1);

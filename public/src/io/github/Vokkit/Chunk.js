@@ -44,11 +44,8 @@ function Chunk(x, z, chunkData) {
         for (var k = low[2]; k < high[2]; k++) {
             for (var j = low[1]; j < high[1]; j++) {
                 for (var i = low[0]; i < high[0]; i++) {
-                    var id = chunk.getBlock(pos.set(chunk.x + i, j, chunk.z + k)).id;
-                    if (id != 0) {
-                        volume[count] = id;
-                        count++;
-                    }
+                    volume[count] = chunk.getBlock(pos.set(chunk.x + i, j, chunk.z + k)).id;
+                    count++;
                 }
             }
         }

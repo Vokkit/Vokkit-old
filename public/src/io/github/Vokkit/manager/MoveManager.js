@@ -1,9 +1,9 @@
-function MoveManager(){
+function MoveManager() {
     var socket;
     var moveManager = this;
-    this.init = function(){
+    this.init = function () {
         socket = Vokkit.getClient().getSocket();
-        socket.on("move", function(data){
+        socket.on("move", function (data) {
             var players = Vokkit.getClient().getOnlinePlayers();
             for (var i in players) {
                 if (players[i].getId() == data.id) {
@@ -17,7 +17,7 @@ function MoveManager(){
             }
         });
     }
-    this.requestMove = function(location, velocity){
+    this.requestMove = function (location, velocity) {
         socket.emit("requestMove", {
             x: location.x,
             y: location.y,
@@ -27,22 +27,35 @@ function MoveManager(){
             velocity: [velocity.x, velocity.y, velocity.z]
         });
     }
-    this.moveLocalPlayer = function(press){
+    this.moveLocalPlayer = function (press) {
         var localPlayer = Vokkit.getClient().getLocalPlayer();
+        var webvrmanager = Vokkit.getClient().getWebVRManager();
+        if (webvrmanager.display != undefined && webvrmanager.display.isPresenting) {
+            Vokkit.getClient().getSocket().emit("VRRotation", {
+                yaw: webvrmanager.yaw + Math.PI / 180 * 15,
+                pitch: webvrmanager.pitch
+            });
+            return;
+        }
         var location = localPlayer.getLocation();
         var yaw = location.getYaw();
+        var vr = 1;
+        if (webvrmanager.isMobileVRMode) {
+            vr = -1;
+            yaw = webvrmanager.mobileYaw;
+        }
         var fps = Vokkit.getClient().getSceneManager().getFPS();
         var multiply = 10 / fps;
         var velocity = localPlayer.getVelocity();
         if (press[0]) {
-            velocity.add(new THREE.Vector3(-Math.sin(yaw), 0, Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(-Math.sin(yaw), 0, vr * Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         } else if (press[1]) {
-            velocity.add(new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(Math.sin(yaw), 0, -vr * Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
         }
         if (press[2]) {
-            velocity.add(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, vr * Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(vr * multiply, vr * multiply, vr * multiply)));
         } else if (press[3]) {
-            velocity.add(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)));
+            velocity.add(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, vr * Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(vr * multiply, vr * multiply, vr * multiply)));
         }
         if (press[4]) {
             velocity.add(new THREE.Vector3(0, 1.5, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)));
@@ -63,7 +76,7 @@ function MoveManager(){
             var plusZ = velocity.z > 0 ? 0.1 : -0.1;
             var xFinish = velocity.x == 0, yFinish = velocity.y == 0, zFinish = velocity.z == 0;
             var xcollision = false, ycollision = false, zcollision = false;
-            while(true) {
+            while (true) {
                 if (!xFinish) {
                     var previousX = x;
                     if (velocity.x > 0) {
@@ -73,7 +86,7 @@ function MoveManager(){
                             xFinish = true;
                         }
                     }
-                    
+
                     if (velocity.x < 0) {
                         if (x > velocity.x + 0.1) x -= 0.1;
                         else if (x > velocity.x) {
@@ -101,7 +114,7 @@ function MoveManager(){
                             yFinish = true;
                         }
                     }
-                    
+
                     if (velocity.y < 0) {
                         if (y > velocity.y + 0.1) y -= 0.1;
                         else if (y > velocity.y) {
@@ -128,7 +141,7 @@ function MoveManager(){
                             zFinish = true;
                         }
                     }
-                    
+
                     if (velocity.z < 0) {
                         if (z > velocity.z + 0.1) z -= 0.1;
                         else if (z > velocity.z) {

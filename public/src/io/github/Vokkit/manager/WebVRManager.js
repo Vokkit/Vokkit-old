@@ -198,6 +198,54 @@ function WebVRManager() {
 
 WebVRManager.prototype.init = function () {
     this.checkAvailability();
+    var webvrmanager = this;
+    var camera = Vokkit.getClient().getSceneManager().getCamera();
+    var quaternion = new THREE.Quaternion();
+    var zee = new THREE.Vector3(0, 0, 1);
+    var euler = new THREE.Euler();
+    var q0 = new THREE.Quaternion();
+    var q1 = new THREE.Quaternion(- Math.sqrt(0.5), 0, 0, Math.sqrt(0.5));
+    var orient = 0;
+    var object = new THREE.Object3D();
+    window.addEventListener("orientationchange", function () {
+        orient = window.orientation || 0;
+    });
+    window.addEventListener("deviceorientation", function (event) {
+        euler.set(event.beta / 180 * Math.PI, event.alpha / 180 * Math.PI, - event.gamma / 180 * Math.PI, 'YXZ'); // 'ZXY' for the device, but 'YXZ' for us
+        quaternion.setFromEuler(euler); // orient the device
+        quaternion.multiply(q1); // camera looks out the back of the device, not the top
+        quaternion.multiply(q0.setFromAxisAngle(zee, - orient)); // adjust for screen orientation
+        object.quaternion.copy(quaternion);
+        var direction = object.getWorldDirection();
+        webvrmanager.pitch = Math.asin(-direction.y);
+        webvrmanager.yaw = Math.atan2(direction.x, direction.z);
+
+        if (webvrmanager.display != undefined && webvrmanager.display.isPresenting && webvrmanager.basicYaw != undefined) {
+            webvrmanager.yaw -= webvrmanager.basicYaw;
+        }
+    }, true);
+
+    Vokkit.getClient().getSocket().on("VRStart", function() {
+        webvrmanager.isMobileVRMode = true;
+    });
+
+    Vokkit.getClient().getSocket().on("VREnd", function() {
+        webvrmanager.isMobileVRMode = false;
+    });
+
+    Vokkit.getClient().getSocket().on("VRRotation", function(data) {
+        webvrmanager.mobileYaw = data.yaw;
+        webvrmanager.mobilePitch = data.pitch;
+        camera.lookAt(new THREE.Vector3(-Math.sin(data.yaw) * Math.cos(data.pitch), Math.sin(data.pitch), -Math.cos(data.yaw) * Math.cos(data.pitch)));
+    });
+
+    window.addEventListener("vrdisplaypresentchange", function() {
+        if (webvrmanager.display != undefined && webvrmanager.display.isPresenting) {
+            Vokkit.getClient().getSocket().emit("VRStart");
+        } else {
+            Vokkit.getClient().getSocket().emit("VREnd");
+        }
+    })
 }
 
 WebVRManager.prototype.checkAvailability = function () {
@@ -235,15 +283,17 @@ WebVRManager.prototype.toggleVR = function () {
         this.display.isPresenting ? this.display.exitPresent() : this.display.requestPresent([{ source: Vokkit.getClient().getSceneManager().getRenderer().domElement }]);
         if (this.display.isPresenting) {
             this.display.exitPresent();
-            renderer.vr.enabled = false;
-            renderer.vr.setDevice(null);
         } else {
             var display = this.display;
             var renderer = Vokkit.getClient().getSceneManager().getRenderer();
+            var camera = Vokkit.getClient().getSceneManager().getCamera();
+            var webvrmanager = this;
             renderer.vr.enabled = true;
             Vokkit.getClient().getWebVRManager().getVRDisplay(function (display) {
                 renderer.vr.setDevice(display);
                 display.requestPresent([{ source: renderer.domElement }]);
+                webvrmanager.basicYaw = webvrmanager.yaw;
+                webvrmanager.basicPitch = webvrmanager.pitch;
             });
         }
     }

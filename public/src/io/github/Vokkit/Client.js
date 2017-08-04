@@ -6,6 +6,8 @@ var SceneManager = require("./manager/SceneManager.js");
 var InputManager = require("./manager/InputManager.js");
 var BlockTextureManager = require("./manager/BlockTextureManager.js");
 var WebVRManager = require("./manager/WebVRManager.js");
+var UIManager = require("./manager/UIManager.js");
+var ChatManager = require("./manager/ChatManager.js");
 
 /**@type {SocketIO.Server} */
 var socket = io();
@@ -17,7 +19,9 @@ var sceneManager;
 var inputManager;
 var playerBodyManager;
 var blockTextureManager;
-var webvrmanager;
+var webVRManager;
+var uiManager;
+var chatMananger;
 
 function Client(){
     var worldList = [];
@@ -34,24 +38,26 @@ function Client(){
         sceneManager = new SceneManager();
         sceneManager.loginInit();
         inputManager = new InputManager();
-        webvrmanager = new WebVRManager();
+        webVRManager = new WebVRManager();
+        uiManager = new UIManager();
+        chatManager = new ChatManager();
         loginManager.onLogin = function(){
             logined = true;
             client.init();
-            document.getElementById("login").style.display = 'none';
-            document.getElementById("cross").style.display = 'block';
         }
         loginManager.init();
     }
     this.init = function(){
         moveManager.init();
         blockTextureManager.init();
-        webvrmanager.init();
+        webVRManager.init();
         sceneManager.init();
         worldManager.init();
         sceneManager.drawWorld(worldList[0]);
         inputManager.init();
         sceneManager.start();
+        uiManager.init();
+        chatManager.init();
     }
     this.getLoginManager = function(){
         return loginManager;
@@ -78,7 +84,13 @@ function Client(){
         return socket;
     }
     this.getWebVRManager = function() {
-        return webvrmanager;
+        return webVRManager;
+    }
+    this.getUIManager = function() {
+        return uiManager;
+    }
+    this.getChatManager = function() {
+        return chatManager;
     }
     this.getWorld = function(worldName) {
         for (var i in worldList) {
@@ -94,9 +106,18 @@ function Client(){
     this.addWorld = function(world) {
         worldList.push(world);
     }
-    this.getPlayer = function(name){
+    this.getPlayers = function(name) {
+        var players = [];
         for (var i in playerList) {
             if (playerList[i].getName() == name) {
+                players.push(playerList[i]);
+            }
+        }
+        return players;
+    }
+    this.getPlayerById = function(id) {
+        for (var i in playerList) {
+            if (playerList[i].getId() == id) {
                 return playerList[i];
             }
         }

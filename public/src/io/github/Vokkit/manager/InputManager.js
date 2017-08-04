@@ -148,18 +148,31 @@ function InputManager() {
         }
 
         function onKeyDown(e) {
-            if (e.keyCode == 87) {//w
-                press[0] = true;
-            } else if (e.keyCode == 83) {//s
-                press[1] = true;
-            } else if (e.keyCode == 65) {//a
-                press[2] = true;
-            } else if (e.keyCode == 68) {//d
-                press[3] = true;
-            } else if (e.keyCode == 32) {//space
-                press[4] = true;
-            } else if (e.keyCode == 16) {//shift
-                press[5] = true;
+            if (!Vokkit.getClient().getUIManager().isChatting()) {
+                if (e.keyCode == 87) {//w
+                    press[0] = true;
+                } else if (e.keyCode == 83) {//s
+                    press[1] = true;
+                } else if (e.keyCode == 65) {//a
+                    press[2] = true;
+                } else if (e.keyCode == 68) {//d
+                    press[3] = true;
+                } else if (e.keyCode == 32) {//space
+                    press[4] = true;
+                } else if (e.keyCode == 16) {//shift
+                    press[5] = true;
+                }
+            } else {
+                if (e.keyCode == 13) { // Enter
+                    Vokkit.getClient().getChatManager().sendChat(Vokkit.getClient().getLocalPlayer().getName(), document.getElementById("chatText").value);
+                } else if (e.keyCode == 38) { // 위
+
+                } else if (e.keyCode == 40) { // 아래
+                    
+                }
+            }
+            if (e.keyCode == 84) {//t
+                Vokkit.getClient().getUIManager().toggleChat();
             }
         }
 

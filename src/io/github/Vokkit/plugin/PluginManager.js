@@ -92,10 +92,10 @@ function PluginManager() {
     var pluginManager = this;
 
     this.loadPlugin = function (name) {
-        var add = "module.exports._onLoad_ = function(io) {global.io = io;}\n";
+        var add = "module.exports._onLoad_ = function(io) {global.io = io;\n";
         var manifest = JSON.parse(fs.readFileSync(pluginPath + "/" + name + "/manifest.json", "utf-8"));
         Logger.info(manifest.name + " " + manifest.version + " 로드 중");
-        var plugin = requireFromString(add + fs.readFileSync(pluginPath + "/" + name + "/" + manifest.script, "utf-8"));
+        var plugin = requireFromString(add + fs.readFileSync(pluginPath + "/" + name + "/" + manifest.script, "utf-8") + "}");
         plugin._onLoad_(io);
         pluginManager.plugins.push({
             plugin: plugin,

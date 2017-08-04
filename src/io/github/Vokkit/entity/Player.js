@@ -17,12 +17,31 @@ Player.prototype.getSocket = function () {
     return this.socket;
 }
 
-Player.prototype.getType = function() {
+Player.prototype.getType = function () {
     return this.type;
 }
 
-Player.prototype.setType = function(type) {
+Player.prototype.setType = function (type) {
     this.type = type;
+}
+
+Player.prototype.setVRMode = function (vrmode) {
+    this.VRMode = !!vrmode;
+}
+
+Player.prototype.isVRMode = function () {
+    return this.VRMode;
+}
+
+Player.prototype.sendMessage = function (id, sender, message, format) {
+    format = format || "<%s> %s\n";
+    console.log(message);
+    this.getSocket().emit("chat", {
+        id: id,
+        sender: sender,
+        message: message.toString(),
+        format: format
+    });
 }
 
 Player.prototype.toObject = function () {
