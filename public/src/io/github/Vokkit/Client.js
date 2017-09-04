@@ -8,6 +8,7 @@ var BlockTextureManager = require("./manager/BlockTextureManager.js");
 var WebVRManager = require("./manager/WebVRManager.js");
 var UIManager = require("./manager/UIManager.js");
 var ChatManager = require("./manager/ChatManager.js");
+var PluginManager = require("./plugin/PluginManager.js");
 
 /**@type {SocketIO.Server} */
 var socket = io();
@@ -22,6 +23,7 @@ var blockTextureManager;
 var webVRManager;
 var uiManager;
 var chatMananger;
+var pluginManager;
 
 function Client(){
     var worldList = [];
@@ -29,6 +31,9 @@ function Client(){
     var client = this;
     var logined = false;
     this.loginInit = function(){
+        pluginManager = new PluginManager();
+        pluginManager.init();
+        pluginManager.load();
         loginManager = new LoginManager();
         blockTextureManager = new BlockTextureManager();
         moveManager = new MoveManager();
@@ -58,6 +63,7 @@ function Client(){
         sceneManager.start();
         uiManager.init();
         chatManager.init();
+        pluginManager.enable();
     }
     this.getLoginManager = function(){
         return loginManager;

@@ -5,8 +5,8 @@ function Vokkit(){
 
 }
 
-Vokkit.init = function(){
-    client = new Client();
+Vokkit.init = function(plugins){
+    client = new Client(plugins);
     client.loginInit();
 }
 

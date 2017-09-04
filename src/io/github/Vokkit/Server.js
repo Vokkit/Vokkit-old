@@ -50,7 +50,7 @@ function Server() {
         pluginManager.loadPlugins();
         pluginManager.enablePlugins();
 
-
+        
 
         Logger.info("서버를 여는 중...");
         app.use(express.static(path.join(path.resolve(""), "public")));

@@ -9,6 +9,9 @@
   "author": "Scripter36 (1350adwx)",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.5.0",
+    "browserify": "^14.4.0",
+    "caller-id": "^0.1.0",
     "express": "^4.15.3",
     "socketio": "^1.0.0",
     "three": "^0.86.0"
