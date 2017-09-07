@@ -1,35 +1,24 @@
-function BlockPlaceEvent(placedBlock, placedAgainst, itemInHand, player) {
-    var cancelled = false;
+var CancellableBlockEvent = require("./CancellableBlockEvent.js");
 
-    this.setCancelled = function(cancel) {
-        if (cancel == undefined) cancelled = true;
-        else {
-            cancelled = !!cancel;
-        }
-    }
-    
-    this.isCancelled = function() {
-        return cancelled;
+class BlockPlaceEvent extends CancellableBlockEvent{
+    constructor(placedBlock, placedAgainst, itemInHand, player) {
+        super(placedBlock);
+        this.placedAgainst = placedAgainst;
+        this.itemInHand = itemInHand;
+        this.player = player;
+        this.eventName = "BlockPlaceEvent";
     }
 
-    this.getPlayer = function() {
-        return player;
+    getPlayer() {
+        return this.player;
     }
 
-    this.getBlock = function() {
-        return placedBlock;
+    getBlockAgainst() {
+        return this.placedAgainst;
     }
 
-    this.getBlockAgainst = function() {
-        return placedAgainst;
-    }
-
-    this.getItemInHand = function() {
-        return itemInHand;
-    }
-
-    this.getName = function() {
-        return "BlockBreakEvent";
+    getItemInHand() {
+        return this.itemInHand;
     }
 }
 

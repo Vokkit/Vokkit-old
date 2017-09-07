@@ -1,33 +1,24 @@
-var PlayerEvent = require("./PlayerEvent.js");
+var CancellablePlayerEvent = require("./CancellablePlayerEvent.js");
 
-function PlayerLoginEvent(player, address) {
-    PlayerEvent.call(this, player);
-    this.cancelled = false;
-    this.reason = "";
-    this.eventName = "PlayerLoginEvent";
-}
+class PlayerLoginEvent extends CancellablePlayerEvent {
+    constructor(player, address) {
+        super(player);
+        this.address = address;
+        this.reason = "";
+        this.eventName = "PlayerLoginEvent";
+    }
 
-PlayerLoginEvent.prototype = new PlayerEvent();
+    getAddress() {
+        return this.address;
+    }
 
+    getReason() {
+        return this.reason;
+    }
 
-PlayerLoginEvent.prototype.setCancelled = function (cancel) {
-    if (cancel == undefined) this.cancelled = true;
-    else {
-        this.cancelled = !!cancel;
+    setReason(reason) {
+        this.reason = reason;
     }
 }
-PlayerLoginEvent.prototype.isCancelled = function () {
-    return this.cancelled;
-}
-PlayerLoginEvent.prototype.setReason = function (reason) {
-    this.reason = reason;
-}
-PlayerLoginEvent.prototype.getReason = function () {
-    return this.reason;
-}
-PlayerLoginEvent.prototype.getAddress = function () {
-    return this.address;
-}
-
 
 module.exports = PlayerLoginEvent;

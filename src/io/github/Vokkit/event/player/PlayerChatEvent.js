@@ -1,45 +1,37 @@
-var PlayerEvent = require("./PlayerEvent.js");
+var CancellablePlayerEvent = require("./CancellablePlayerEvent.js");
 
-function PlayerChatEvent(player, sender, message, format) {
-    PlayerEvent.call(this, player);
-    this.sender = sender;
-    this.message = message;
-    this.format = format;
-    this.cancelled = false;
-    this.eventName = "PlayerChatEvent";
-}
+class PlayerChatEvent extends CancellablePlayerEvent {
+    constructor(player, sender, message, format) {
+        super(player);
+        this.sender = sender;
+        this.message = message;
+        this.format = format;
+        this.eventName = "PlayerChatEvent";
+    }
 
-PlayerChatEvent.prototype = new PlayerEvent();
+    getSender() {
+        return this.sender;
+    }
 
+    getMessage() {
+        return this.message;
+    }
 
-PlayerChatEvent.prototype.setCancelled = function (cancel) {
-    if (cancel == undefined) this.cancelled = true;
-    else {
-        this.cancelled = !!cancel;
+    getFormat() {
+        return this.format;
+    }
+
+    setSender(sender) {
+        this.sender = sender;
+    }
+
+    setMessage(message) {
+        this.message = message;
+    }
+
+    setFormat(format) {
+        this.format = format;
     }
 }
-PlayerChatEvent.prototype.isCancelled = function () {
-    return this.cancelled;
-}
-PlayerChatEvent.prototype.getSender = function() {
-    return this.sender;
-}
-PlayerChatEvent.prototype.setSender = function(sender) {
-    this.sender = sender;
-}
-PlayerChatEvent.prototype.getMessage = function() {
-    return this.message;
-}
-PlayerChatEvent.prototype.setMessage = function(message) {
-    this.message = message;
-}
-PlayerChatEvent.prototype.getFormat = function() {
-    return this.format;
-}
-PlayerChatEvent.prototype.setFormat = function(format) {
-    this.format = format;
-}
-
-PlayerChatEvent.prototype.constructor = PlayerChatEvent;
 
 module.exports = PlayerChatEvent;

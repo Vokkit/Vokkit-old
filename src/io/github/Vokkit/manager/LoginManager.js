@@ -1,13 +1,14 @@
-var Logger = new (require("../Logger.js"))();
 var Player = require("../entity/Player.js");
 var Location = require("../Location.js");
 
 var PlayerLoginEvent = require("../event/player/PlayerLoginEvent.js");
 var PlayerJoinEvent = require("../event/player/PlayerJoinEvent.js");
 
-function LoginManager() {
-    this.getListener = function (socket) {
-        return function (data) {
+var SocketManager = require("./SocketManager.js");
+
+class LoginManager extends SocketManager{
+    addListener(socket) {
+        socket.on("login", function (data) {
             var player = new Player(socket.id, new Location(Vokkit.getServer().getWorlds()[0], 0, 0, 0, 0, 0), new THREE.Vector3(0, 0, 0), data.name, socket, data.type);
             var playerLoginEvent = new PlayerLoginEvent(player);
             Vokkit.getServer().getPluginManager().makeEvent(playerLoginEvent);
@@ -40,11 +41,11 @@ function LoginManager() {
             });
             Vokkit.getServer().addPlayer(player);
             var address = socket.request.connection._peername;
-            Logger.info(player.getName() + "[" + address.address + ":" + address.port + ", type: " + data.type + "] 이가 로그인 했습니다.");
+            Vokkit.getServer().getLogger().info(player.getName() + "[" + address.address + ":" + address.port + ", type: " + data.type + "] 이가 로그인 했습니다.");
             var playerJoinEvent = new PlayerJoinEvent(player);
             Vokkit.getServer().getPluginManager().makeEvent(playerJoinEvent);
             Vokkit.getServer().getSocketServer().emit("playerJoin", player.toObject());
-        }
+        });
     }
 }
 

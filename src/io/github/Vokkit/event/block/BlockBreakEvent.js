@@ -1,39 +1,27 @@
-function BlockBreakEvent(block, player) {
-    var cancelled = false;
-    var dropItems = false;
+var CancellableBlockEvent = require("./CancellableBlockEvent.js");
 
-    this.setCancelled = function(cancel) {
-        if (cancel == undefined) cancelled = true;
-        else {
-            cancelled = !!cancel;
-        }
-    }
-    
-    this.isCancelled = function() {
-        return cancelled;
+class BlockBreakEvent extends CancellableBlockEvent{
+    constructor(block, player) {
+        super(block);
+        this.player = player;
+        this.dropItems = false;
+        this.eventName = "BlockBreakEvent";
     }
 
-    this.getPlayer = function() {
-        return player;
+    getPlayer = function() {
+        return this.player;
     }
 
-    this.getBlock = function() {
-        return block;
+    getBlock = function() {
+        return this.block;
     }
 
-    this.setDropItems = function(d) {
-        if (d == undefined) dropItems = true;
-        else {
-            dropItems = !!d;
-        }
+    setDropItems = function(dropItems = true) {
+        this.dropItems = !!dropItems;
     }
 
-    this.isDropItems = function() {
-        return dropItems;
-    }
-
-    this.getName = function() {
-        return "BlockBreakEvent";
+    isDropItems = function() {
+        return this.dropItems;
     }
 }
 

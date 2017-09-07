@@ -3,6 +3,7 @@ var World;
 var Logger;
 var SocketManager;
 var PluginManager;
+var ConsoleManager;
 
 var express;
 var app;
@@ -12,6 +13,7 @@ var socketServer;
 var path;
 
 var socketManager;
+var consoleManager;
 
 function Server() {
     var playerList = [];
@@ -23,6 +25,7 @@ function Server() {
     Logger = new (require("./Logger.js"))();
     SocketManager = require("./manager/SocketManager.js");
     PluginManager = require("./plugin/PluginManager.js");
+    ConsoleManager = require("./command/ConsoleManager.js");
 
     express = require('express');
     io = require("socket.io");
@@ -50,7 +53,8 @@ function Server() {
         pluginManager.loadPlugins();
         pluginManager.enablePlugins();
 
-        
+        consoleManager = new ConsoleManager();
+        consoleManager.init();
 
         Logger.info("서버를 여는 중...");
         app.use(express.static(path.join(path.resolve(""), "public")));

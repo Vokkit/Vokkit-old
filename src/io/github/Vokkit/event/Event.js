@@ -1,11 +1,7 @@
-function Event() {
-    
+class Event {
+    getEventName(){
+        return this.eventName;
+    }
 }
-
-Event.prototype.getEventName = function() {
-    return this.eventName;
-}
-
-Event.prototype.constructor = Event;
 
 module.exports = Event;

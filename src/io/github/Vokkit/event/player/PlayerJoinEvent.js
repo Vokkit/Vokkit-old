@@ -1,20 +1,18 @@
 var PlayerEvent = require("./PlayerEvent.js");
 
-function PlayerJoinEvent(player, joinMessage) {
-    PlayerEvent.call(this, player);
-    this.joinMessage = joinMessage;
-    this.eventName = "PlayerJoinEvent";
+class PlayerJoinEvent extends PlayerEvent{
+    constructor(player, joinMessage) {
+        super(player);
+        this.eventName = "PlayerJoinEvent";
+    }
+
+    getJoinMessage() {
+        return this.joinMessage;
+    }
+
+    setJoinMessage(joinMessage) {
+        this.joinMessage = joinMessage;
+    }
 }
-
-PlayerJoinEvent.prototype = new PlayerEvent();
-
-
-PlayerJoinEvent.prototype.getJoinMessage = function () {
-    return this.joinMessage;
-}
-PlayerJoinEvent.prototype.setJoinMessage = function (message) {
-    this.joinMessage = message;
-}
-
 
 module.exports = PlayerJoinEvent;

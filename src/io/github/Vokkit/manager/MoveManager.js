@@ -1,8 +1,10 @@
 var PlayerMoveEvent = require("../event/player/PlayerMoveEvent.js");
 
-function MoveManager() {
-    this.getListener = function (socket) {
-        return function (data) {
+var SocketManager = require("./SocketManager.js");
+
+class MoveManager extends SocketManager{
+    addListener(socket) {
+        socket.on("requestMove", function (data) {
             var player = Vokkit.getServer().getPlayerById(socket.id);
             var location = player.getLocation();
             location.set(data.x, data.y, data.z);
@@ -43,7 +45,7 @@ function MoveManager() {
                     velocity: [velocity.x, velocity.y, velocity.z]
                 });
             }
-        }
+        });
     }
 }
 

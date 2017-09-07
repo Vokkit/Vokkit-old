@@ -1,11 +1,13 @@
 class PluginBase{
-    onLoad() {
+    onLoad(){
+
     }
 
-    onEnable() {
+    onEnable(){
+
     }
 
-    onDisable() {
+    onDisable(){
 
     }
 }

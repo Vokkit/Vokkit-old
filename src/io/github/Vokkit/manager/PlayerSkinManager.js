@@ -1,23 +1,25 @@
 var fs = require("fs");
 var path = require("path");
 
-var skinList;
+var SocketManager = require("./SocketManager.js");
 
-function PlayerSkinManager(){
-    this.init = function(){
-        skinList = fs.readdirSync(path.join(path.resolve(""), "public/assets/skins"));
+class PlayerSkinManager extends SocketManager{
+    constructor(){
+        super();
+        this.skinList = fs.readdirSync(path.join(path.resolve(""), "public/assets/skins"));
     }
-    this.getListener = function(socket){
-        return function(){
+    addListener(socket){
+        var playerSkinManager = this;
+        socket.on("requestSkin", function(){
             var result = [];
-            for (var i in skinList) {
-                if (skinList[i].indexOf("#") != -1) {
-                    if (skinList[i].split("#")[1] != socket.id) continue;
+            for (var i in playerSkinManager.skinList) {
+                if (playerSkinManager.skinList[i].indexOf("#") != -1) {
+                    if (playerSkinManager.skinList[i].split("#")[1] != socket.id) continue;
                 }
-                result.push(skinList[i]);
+                result.push(playerSkinManager.skinList[i]);
             }
             socket.emit("skin", result);
-        }
+        });
     }
 }
 
