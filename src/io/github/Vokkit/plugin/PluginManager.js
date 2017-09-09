@@ -102,15 +102,15 @@ function PluginManager() {
         Vokkit.getServer().getLogger().info(manifest.name + " " + manifest.version + " 로드 중");
         var serverPlugin = new (require(pluginPath + "/" + name + "/" + manifest["server-plugin"] + "/" + manifest["server-main"]))();
         var clientPlugin = pluginPath + "/" + name + "/" + manifest["client-plugin"];
-        if (fs.existsSync(clientPath + "/src/" + manifest.name)) rmdir(clientPath + "/src/" + manifest.name);
-        fs.mkdirSync(clientPath + "/src/" + manifest.name);
-        copy(pluginPath + "/" + name + "/" + manifest["client-plugin"], clientPath + "/src/" + manifest.name);
+        //if (fs.existsSync(clientPath + "/src/" + manifest.name)) rmdir(clientPath + "/src/" + manifest.name);
+        //fs.mkdirSync(clientPath + "/src/" + manifest.name);
+        //copy(pluginPath + "/" + name + "/" + manifest["client-plugin"], clientPath + "/src/" + manifest.name);
         pluginManager.plugins.push({
             plugin: serverPlugin,
             manifest: manifest
         });
         pluginManager.clientPlugins.push({
-            path: "../../../../" + manifest.name + "/" + manifest["client-main"],
+            path: "../../../../../../plugins/" + manifest.name + "/" + manifest["client-plugin"] + "/" + manifest["client-main"],
             name: manifest.name
         });
         Vokkit.getServer().getLogger().info(manifest.name + " " + manifest.version + " 로드 완료");
