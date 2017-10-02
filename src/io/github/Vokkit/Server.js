@@ -1,6 +1,6 @@
 var Player = require('./entity/Player.js')
 var World = require('./World.js')
-var Logger = (require('./Logger.js'))();
+var Logger = new (require('./Logger.js'))()
 var SocketManager = require('./manager/SocketManager.js')
 var PluginManager = require('./plugin/PluginManager.js')
 var ConsoleManager = require('./command/ConsoleManager.js')
