@@ -80,6 +80,8 @@ function Server() {
                 return playerList[i];
             }
         }
+
+        return null
     }
     this.addPlayer = function (player) {
         for (var i in playerList) {
@@ -104,14 +106,8 @@ function Server() {
             }
         }
     }
-    this.getPlayers = function(name) {
-        var result = [];
-        for (var i in playerList) {
-            if (playerList[i].getName() == name) {
-                result.push(playerList[i]);
-            }
-        }
-        return result;
+    this.getPlayers = function() {
+        return playerList;
     }
     this.getOnlinePlayers = function (name) {
         return playerList.slice();

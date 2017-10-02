@@ -2,7 +2,7 @@ var readline = require('readline');
 
 var ConsoleCommandSender = require("./ConsoleCommandSender.js");
 
-var ServerCommandEvent = require("../event/server/ServerCommandEvent.js");
+var CommandManager = require("../manager/CommandManager.js");
 
 class ConsoleManager {
     init() {
@@ -11,9 +11,8 @@ class ConsoleManager {
         rl.setPrompt('> ');
         rl.prompt(true);
         rl.on('line', function (line) {
-            var event = new ServerCommandEvent(sender, line);
-            Vokkit.getServer().getPluginManager().makeEvent(event);
-            rl.prompt();
+          CommandManager.call(line)
+          rl.prompt();
         }).on('close', function () {
             process.exit(0);
         });

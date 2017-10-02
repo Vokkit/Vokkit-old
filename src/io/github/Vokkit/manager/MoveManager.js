@@ -2,7 +2,7 @@ var PlayerMoveEvent = require("../event/player/PlayerMoveEvent.js");
 
 var SocketManager = require("./SocketManager.js");
 
-class MoveManager extends SocketManager{
+class MoveManager extends SocketManager {
     addListener(socket) {
         socket.on("requestMove", function (data) {
             var player = Vokkit.getServer().getPlayerById(socket.id);

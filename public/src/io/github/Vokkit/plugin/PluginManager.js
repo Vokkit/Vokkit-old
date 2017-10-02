@@ -5,7 +5,7 @@ class PluginManager {
 
     load() {
         this.loadedPlugins = {
-JavaMAL: require('../../../../../../plugins/JavaMAL/client/index.js')
+
         };
         for (var i in this.loadedPlugins) {
             var plugin = new (this.loadedPlugins[i])();

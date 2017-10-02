@@ -98,6 +98,10 @@ function SceneManager() {
             var press = Vokkit.getClient().getInputManager().getPress();
             Vokkit.getClient().getMoveManager().moveLocalPlayer(press);
             Vokkit.getClient().getInputManager().mouseControl();
+
+            if(Vokkit.getClient().isDebug()) {
+              console.log(Vokkit.getClient().getLocalPlayer().getLocation().getX() + ' : ' + Vokkit.getClient().getLocalPlayer().getLocation().getY() + ' : ' + Vokkit.getClient().getLocalPlayer().getLocation().getZ())
+            }
         }, 1000 / fps);
         var draw = function () {
             var localPlayer = Vokkit.getClient().getLocalPlayer();

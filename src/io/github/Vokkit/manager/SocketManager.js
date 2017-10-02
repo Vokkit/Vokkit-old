@@ -8,6 +8,7 @@ class SocketManager{
         var DisconnectManager = require("./DisconnectManager.js");
         //var WebVRManager = require("./WebVRManager.js");
         var ChatManager = require("./ChatManager.js");
+        var CommandManager = require('./CommandManager.js')
 
         this.loginManager = new LoginManager();
         this.moveManager = new MoveManager();
@@ -16,6 +17,7 @@ class SocketManager{
         this.disconnectManager = new DisconnectManager();
         //this.webVRManager = new WebVRManager();
         this.chatManager = new ChatManager();
+        this.commandManager = new CommandManager()
 
         var socketManager = this;
 
@@ -27,6 +29,7 @@ class SocketManager{
             socketManager.disconnectManager.addListener(socket);
             //socketManager.webVRManager.addListener(socket);
             socketManager.chatManager.addListener(socket);
+            socketManager.commandManager.addListener(socket)
         });
     }
 

@@ -25,6 +25,8 @@ var uiManager;
 var chatMananger;
 var pluginManager;
 
+const isDebug = true
+
 function Client(){
     var worldList = [];
     var playerList = [];
@@ -153,6 +155,9 @@ function Client(){
                 return playerList[i];
             }
         }
+    }
+    this.isDebug = function() {
+      return isDebug
     }
 }
 
