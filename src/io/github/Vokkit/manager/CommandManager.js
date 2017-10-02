@@ -9,6 +9,7 @@ let CommandExecutor = require('../command/CommandExecutor.js')
 
 let HelpCommand = require('../command/commands/HelpCommand.js')
 let TeleportCommand = require('../command/commands/TeleportCommand.js')
+let ExitCommand = require('../command/commands/ExitCommand.js')
 
 function callCommand (commandManager, socket, data) {
   let player = Vokkit.getServer().getPlayerById(socket.id)
@@ -43,6 +44,7 @@ class CommandManager extends SocketManager {
   init () {
     this.commandProvider.register(new HelpCommand())
     this.commandProvider.register(new TeleportCommand())
+    this.commandProvider.register(new ExitCommand())
   }
 
   addListener (socket) {

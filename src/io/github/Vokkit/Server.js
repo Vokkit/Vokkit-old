@@ -141,10 +141,13 @@ function Server() {
     this.getLogger = function () {
         return Logger;
     }
+
+    this.getName = function () {
+      return 'server'
+    }
 }
 
 Server.protocolVersion = 1;
 Server.version = "0.0.1";
-Server.name = 'server'
 
 module.exports = Server;

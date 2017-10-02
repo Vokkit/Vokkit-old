@@ -4,7 +4,7 @@ class CommandSender {
   }
 
   sendMessage (message) {
-    this.player.sendMessage(Vokkit.getServer().name, message)
+    this.player.sendMessage(Vokkit.getServer().getName(), message)
   }
 
   getName () {

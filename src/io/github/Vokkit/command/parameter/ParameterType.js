@@ -3,12 +3,8 @@ class ParameterType {
     return 'string'
   }
 
-  static get INTEGER() {
-    return 'integer'
-  }
-
-  static get FLOAT() {
-    return 'integer' | 'float'
+  static get NUMBER() {
+    return 'number'
   }
 
   static get PLAYER() {
@@ -24,11 +20,7 @@ class ParameterType {
 
     for(let v of parameter) {
       if(Number(v) == v) {
-        v = Number(v)
-        if(v === Math.floor(v))
-          result.push(ParameterType.INTEGER)
-        else
-          result.push(ParameterType.FLOAT)
+        result.push(ParameterType.NUMBER)
       } else if(Vokkit.getServer().getPlayer(v) != null) {
         result.push(ParameterType.PLAYER)
       } else {

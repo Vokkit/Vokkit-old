@@ -6,7 +6,7 @@ class TeleportCommand extends Command {
     super('tp', '플레이어를 특정한 위치로 이동시킵니다.', '/tp [player]\n/tp [player] [player]\n/tp [player] [x] [y] [z]', [
       [ParameterType.PLAYER],
       [ParameterType.PLAYER, ParameterType.PLAYER],
-      [ParameterType.PLAYER, ParameterType.FLOAT, ParameterType.FLOAT, ParameterType.FLOAT]
+      [ParameterType.PLAYER, ParameterType.NUMBER, ParameterType.NUMBER, ParameterType.NUMBER]
     ])
   }
 
