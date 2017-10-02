@@ -1,13 +1,13 @@
 class SocketManager {
-  init () {
-    var LoginManager = require("./LoginManager.js")
-    var MoveManager = require("./MoveManager.js")
-    var WorldManager = require("./WorldManager.js")
-    var PlayerSkinManager = require("./PlayerSkinManager.js")
-    var DisconnectManager = require("./DisconnectManager.js")
-    //var WebVRManager = require("./WebVRManager.js")
-    var ChatManager = require("./ChatManager.js")
-    var CommandManager = require('./CommandManager.js')
+  init() {
+    let LoginManager = require('./LoginManager.js')
+    let MoveManager = require('./MoveManager.js')
+    let WorldManager = require('./WorldManager.js')
+    let PlayerSkinManager = require('./PlayerSkinManager.js')
+    let DisconnectManager = require('./DisconnectManager.js')
+    //let WebVRManager = require("./WebVRManager.js")
+    let ChatManager = require('./ChatManager.js')
+    let CommandManager = require('./CommandManager.js')
 
     this.loginManager = new LoginManager()
     this.moveManager = new MoveManager()
@@ -18,10 +18,10 @@ class SocketManager {
     this.chatManager = new ChatManager()
     this.commandManager = new CommandManager()
     this.commandManager.init()
-    
-    var socketManager = this
 
-    Vokkit.getServer().getSocketServer().on("connection", function(socket){
+    let socketManager = this
+
+    Vokkit.getServer().getSocketServer().on('connection', function (socket) {
       socketManager.loginManager.addListener(socket)
       socketManager.moveManager.addListener(socket)
       socketManager.worldManager.addListener(socket)
@@ -33,33 +33,31 @@ class SocketManager {
     })
   }
 
-  addListener (socket) {}
-
-  getLoginManager () {
+  getLoginManager() {
     return this.loginManager
   }
 
-  getMoveManager () {
+  getMoveManager() {
     return this.moveManager
   }
 
-  getWorldManager () {
+  getWorldManager() {
     return this.worldManager
   }
 
-  getPlayerSkinManager () {
+  getPlayerSkinManager() {
     return this.playerSkinManager
   }
 
-  getDisconnectManager () {
+  getDisconnectManager() {
     return this.disconnectManager
   }
 
-  getChatManager () {
+  getChatManager() {
     return this.chatManager
   }
 
-  getCommandManager () {
+  getCommandManager() {
     return this.commandManager
   }
 }

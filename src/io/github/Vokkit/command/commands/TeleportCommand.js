@@ -1,5 +1,6 @@
-let Command = require('./Command.js')
-let ParameterType = require('../parameter/ParameterType.js')
+const Command = require('./Command.js')
+const ParameterType = require('../parameter/ParameterType.js')
+const Player = require('../../entity/Player.js')
 
 class TeleportCommand extends Command {
   constructor() {
@@ -15,14 +16,16 @@ class TeleportCommand extends Command {
     let mover
     let text
     let location
-    switch(parameterNumber) {
+    switch (parameterNumber) {
     case 0:
-      target = parameter[0].getValue()
-      player.teleport(target.getLocation())
+      if (sender instanceof Player) {
+        target = parameter[0].getValue()
+        sender.teleport(target.getLocation())
 
-      text = player.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
+        text = sender.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
 
-      sender.sendMesesage(text)
+        sender.sendMesesage(text)
+      }
       break
     case 1:
       mover = parameter[0].getValue()

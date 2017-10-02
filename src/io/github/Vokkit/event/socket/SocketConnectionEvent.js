@@ -1,7 +1,9 @@
-var SocketEvent = require("./SocketEvent.js");
+const SocketEvent = require('./SocketEvent.js')
 
 class SocketConnectionEvent extends SocketEvent{
-    constructor(socket){
-        super(socket);
-    }
+  constructor(socket){
+    super(socket)
+  }
 }
+
+module.exports = SocketConnectionEvent

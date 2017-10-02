@@ -1,21 +1,20 @@
-var Server = require('./Server.js')
-var Logger
+const Server = require('./Server.js')
+const Logger = new (require('./Logger.js'))()
 
-var server
-function Vokkit() {
+let server
 
-}
-
-Vokkit.init = function () {
-    Logger = new (require('./Logger.js'))()
+class Vokkit{
+  static init() {
+    Logger
     var now = new Date().getTime()
     Logger.info('Vokkit v' + Server.version + '이(가) 프로토콜 버전 ' + Server.protocolVersion + ' 에서 열립니다.')
     server = new Server()
     server.init(now)
-}
+  }
 
-Vokkit.getServer = function () {
+  static getServer() {
     return server
+  }
 }
 
 module.exports = Vokkit

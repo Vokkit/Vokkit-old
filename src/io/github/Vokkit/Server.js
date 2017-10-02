@@ -1,36 +1,34 @@
-var Player = require('./entity/Player.js')
-var World = require('./World.js')
-var Logger = new (require('./Logger.js'))()
-var SocketManager = require('./manager/SocketManager.js')
-var PluginManager = require('./plugin/PluginManager.js')
-var ConsoleManager = require('./command/ConsoleManager.js')
+const World = require('./World.js')
+const Logger = new (require('./Logger.js'))()
+const SocketManager = require('./manager/SocketManager.js')
+const PluginManager = require('./plugin/PluginManager.js')
+const ConsoleManager = require('./command/ConsoleManager.js')
 
-var express = require('express')
-var app
-var http
-var io = require('socket.io')
-var socketServer
-var path = require('path')
+const express = require('express')
+const app = express()
+const http = require('http').Server(app)
+const io = require('socket.io')
+const socketServer = io.listen(http)
+const path = require('path')
 
-var socketManager
-var consoleManager
-var pluginManager
+let socketManager
+let consoleManager
+let pluginManager
 
-function Server() {
-  var playerList = []
-  var worldList = []
+class Server{
+  constructor() {
+    this.playerList = []
+    this.worldList = []
+  }
 
-  this.init = function (startTime) {
+  init(startTime) {
     process.on('uncaughtException', function (err) {
       Logger.warn(err.stack)
     })
-    app = express()
-    http = require('http').Server(app)
-    socketServer = io.listen(http)
 
     Logger.info('월드를 불러오는 중...')
-    worldList = World.getAllWorlds()
-    Logger.info(worldList.length + '개의 월드를 불러왔습니다.')
+    this.worldList = World.loadAllWorlds()
+    Logger.info(this.worldList.length + '개의 월드를 불러왔습니다.')
 
     Logger.info('통신 기능을 불러오는 중...')
     socketManager = new SocketManager()
@@ -48,89 +46,106 @@ function Server() {
     Logger.info('서버를 여는 중...')
     app.use(express.static(path.join(path.resolve(''), 'public')))
     http.listen(3000, function () {
-      var endTime = new Date().getTime()
+      let endTime = new Date().getTime()
       Logger.info('완료 (' + ((endTime - startTime) / 1000) + '초)! 도움말을 보시려면 "help" 또는 "?" 를 입력해 주세요')
     })
   }
-  this.getWorld = function (worldName) {
-    for (var i in worldList) {
-      if (worldList[i].getWorldName() == worldName) {
-        return worldList[i]
+
+  getWorld(worldName) {
+    for (let i in this.worldList) {
+      if (this.worldList[i].getWorldName() == worldName) {
+        return this.worldList[i]
       }
     }
     return null
   }
-  this.getWorlds = function () {
-    return worldList.slice()
+
+  getWorlds() {
+    return this.worldList.slice()
   }
-  this.getPlayer = function (name) {
-    for (var i in playerList) {
-      if (playerList[i].getName() == name) {
-        return playerList[i]
+
+  getPlayer(name) {
+    for (let i in this.playerList) {
+      if (this.playerList[i].getName() == name) {
+        return this.playerList[i]
       }
     }
 
     return null
   }
-  this.addPlayer = function (player) {
-    for (var i in playerList) {
-      if (playerList[i].getId() == player.getId()) {
+
+  addPlayer(player) {
+    for (let i in this.playerList) {
+      if (this.playerList[i].getId() == player.getId()) {
         return
       }
     }
-    playerList.push(player)
+    this.playerList.push(player)
   }
-  this.removePlayer = function (player) {
-    for (var i in playerList) {
-      if (playerList[i].getId() == player.getId()) {
-        playerList.splice(i, 1)
+
+  removePlayer(player) {
+    for (let i in this.playerList) {
+      if (this.playerList[i].getId() == player.getId()) {
+        this.playerList.splice(i, 1)
         return
       }
     }
   }
-  this.getPlayerById = function (id) {
-    for (var i in playerList) {
-      if (playerList[i].getId() == id) {
-        return playerList[i]
+
+  getPlayerById(id) {
+    for (let i in this.playerList) {
+      if (this.playerList[i].getId() == id) {
+        return this.playerList[i]
       }
     }
 
     return null
   }
-  this.getPlayers = function () {
-    return playerList.slice()
+
+  getPlayers() {
+    return this.playerList.slice()
   }
-  this.getSocketServer = function () {
+
+  getSocketServer() {
     return socketServer
   }
-  this.getDisconnectManager = function () {
+
+  getDisconnectManager() {
     return socketManager.disconnectManager
   }
-  this.getLoginManager = function () {
+
+  getLoginManager() {
     return socketManager.loginManager
   }
-  this.getMoveManager = function () {
+
+  getMoveManager() {
     return socketManager.moveManager
   }
-  this.getPlayerSkinManager = function () {
+
+  getPlayerSkinManager() {
     return socketManager.playerSkinManager
   }
-  this.getSocketManager = function () {
+
+  getSocketManager() {
     return socketManager
   }
-  this.getWorldManager = function () {
+
+  getWorldManager() {
     return socketManager.worldManager
   }
-  this.getPluginManager = function () {
+
+  getPluginManager() {
     return pluginManager
   }
-  this.getLogger = function () {
+
+  getLogger() {
     return Logger
   }
 
-  this.getName = function () {
+  getName() {
     return 'server'
   }
+
 }
 
 Server.protocolVersion = 1

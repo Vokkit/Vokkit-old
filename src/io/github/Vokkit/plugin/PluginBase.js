@@ -1,15 +1,15 @@
-class PluginBase{
-    onLoad(){
+class PluginBase {
+  onLoad() {
 
-    }
+  }
 
-    onEnable(){
+  onEnable() {
 
-    }
+  }
 
-    onDisable(){
+  onDisable() {
 
-    }
+  }
 }
 
-module.exports = PluginBase;
+module.exports = PluginBase

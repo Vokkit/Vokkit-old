@@ -1,33 +1,33 @@
-var Block = require("./block/Block.js");
+const Block = require('./block/Block.js')
 
-function Chunk(x, z, chunkData) {
-    this.x = x;
-    this.z = z;
-    this.chunkData = chunkData;
+class Chunk {
+  constructor(x, z, chunkData) {
+    this.x = x
+    this.z = z
+    this.chunkData = chunkData
+  }
 
-    var chunk = this;
+  getBlock(position) {
+    let x = Math.floor(position.x)
+    let y = Math.floor(position.y)
+    let z = Math.floor(position.z)
+    if (this.chunkData[x] == undefined) return new Block(position, 0)
+    if (this.chunkData[x][y] == undefined) return new Block(position, 0)
+    return this.chunkData[x][y][z] || new Block(position, 0)
+  }
 
-    this.getBlock = function (position) {
-        var x = Math.floor(position.x);
-        var y = Math.floor(position.y);
-        var z = Math.floor(position.z);
-        if (chunk.chunkData[x] == undefined) return new Block(position, 0);
-        if (chunk.chunkData[x][y] == undefined) return new Block(position, 0);
-        return chunk.chunkData[x][y][z] || new Block(position, 0);
-    }
+  setBlock(block) {
+    let x = Math.floor(block.position.x)
+    let y = Math.floor(block.position.y)
+    let z = Math.floor(block.position.z)
+    if (this.chunkData[x] == undefined) this.chunkData[x] = []
+    if (this.chunkData[x][y] == undefined) this.chunkData[x][y] = []
+    this.chunkData[x][y][z] = block
+  }
 
-    this.setBlock = function (block) {
-        var x = Math.floor(block.position.x);
-        var y = Math.floor(block.position.y);
-        var z = Math.floor(block.position.z);
-        if (chunk.chunkData[x] == undefined) chunk.chunkData[x] = [];
-        if (chunk.chunkData[x][y] == undefined) chunk.chunkData[x][y] = [];
-        chunk.chunkData[x][y][z] = block;
-    }
-
-    this.containsPosition = function (position) {
-        return position.x >= chunk.x && position.x < chunk.x + 16 && position.z >= chunk.z && position.z < chunk.z + 16;
-    }
+  containsPosition(position) {
+    return position.x >= this.x && position.x < this.x + 16 && position.z >= this.z && position.z < this.z + 16
+  }
 }
 
-module.exports = Chunk;
+module.exports = Chunk

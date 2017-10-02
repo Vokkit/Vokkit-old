@@ -1,7 +1,7 @@
-var CancellableEvent = require("../CancellableEvent.js");
+const CancellableEvent = require('../CancellableEvent.js')
 
 class CancellableServerEvent extends CancellableEvent{
     
 }
 
-module.exports = CancellableServerEvent;
+module.exports = CancellableServerEvent

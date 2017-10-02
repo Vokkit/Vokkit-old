@@ -1,7 +1,7 @@
-var Event = require("../Event.js");
+const Event = require('../Event.js')
 
-class ServerEvent extends Event{
+class ServerEvent extends Event {
 
 }
 
-module.exports = ServerEvent;
+module.exports = ServerEvent

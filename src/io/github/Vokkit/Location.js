@@ -1,152 +1,154 @@
-function Location(world, x, y, z, yaw, pitch) {
-    this.world = world;
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.yaw = yaw || 0;
-    this.pitch = pitch || 0;
+class Location {
+  constructor(world = Vokkit.getServer().getWorlds()[0], x = 0, y = 0, z = 0, yaw = 0, pitch = 0) {
+    this.world = world
+    this.x = x
+    this.y = y
+    this.z = z
+    this.yaw = yaw
+    this.pitch = pitch
+  }
 
-    var location = this;
+  getWorld() {
+    return this.world
+  }
 
-    this.getWorld = function () {
-        return location.world;
+  setWorld(world) {
+    this.world = world
+    return this
+  }
+
+  getX() {
+    return this.x
+  }
+
+  setX(x) {
+    this.x = x
+    return this
+  }
+
+  getY() {
+    return this.y
+  }
+
+  setY(y) {
+    this.y = y
+    return this
+  }
+
+  getZ() {
+    return this.z
+  }
+
+  setZ(z) {
+    this.z = z
+    return this
+  }
+
+  getYaw() {
+    return this.yaw
+  }
+
+  setYaw(yaw) {
+    this.yaw = yaw
+    return this
+  }
+
+  getPitch() {
+    return this.pitch
+  }
+
+  setPitch(pitch) {
+    this.pitch = pitch
+    return this
+  }
+
+  distance(loc) {
+    return Math.sqrt(this.distanceSquared(loc))
+  }
+
+  distanceSquared(loc) {
+    return Math.pow(loc.x - this.x, 2) + Math.pow(loc.y - this.y, 2) + Math.pow(loc.z - this.z, 2)
+  }
+
+  set(x, y, z) {
+    if (x instanceof Location) {
+      this.x = x.x
+      this.y = x.y
+      this.z = x.z
+    } else if (Array.isArray(x)) {
+      this.x = x[0]
+      this.y = x[1]
+      this.z = x[2]
+    } else {
+      this.x = x
+      this.y = y
+      this.z = z
     }
+    return this
+  }
 
-    this.setWorld = function (world) {
-        location.world = world;
-        return location;
+  add(x, y, z) {
+    if (x instanceof Location) {
+      this.x += x.x
+      this.y += x.y
+      this.z += x.z
+    } else if (Array.isArray(x)) {
+      this.x += x[0]
+      this.y += x[1]
+      this.z += x[2]
+    } else {
+      this.x += x
+      this.y += y
+      this.z += z
     }
+    return this
+  }
 
-    this.getX = function () {
-        return location.x;
+  subtract(x, y, z) {
+    if (x instanceof Location) {
+      this.x -= x.x
+      this.y -= x.y
+      this.z -= x.z
+    } else if (Array.isArray(x)) {
+      this.x -= x[0]
+      this.y -= x[1]
+      this.z -= x[2]
+    } else {
+      this.x -= x
+      this.y -= y
+      this.z -= z
     }
+    return this
+  }
 
-    this.setX = function (x) {
-        location.x = x;
-        return location;
-    }
+  toVector() {
+    return new THREE.Vector3(this.x, this.y, this.z)
+  }
 
-    this.getY = function () {
-        return location.y;
-    }
+  clone() {
+    return new Location(this.world, this.x, this.y, this.z, this.yaw, this.pitch)
+  }
 
-    this.setY = function (y) {
-        location.y = y;
-        return location;
-    }
+  copy(loc) {
+    this.world = loc.world
+    this.x = loc.x
+    this.y = loc.y
+    this.z = loc.z
+    this.yaw = loc.yaw
+    this.pitch = loc.pitch
+    return this
+  }
 
-    this.getZ = function () {
-        return location.z;
-    }
+  equals(loc) {
+    return loc.world.equals(this.world) && loc.x == this.x && loc.y == this.y && loc.z == this.z && loc.yaw == this.yaw && loc.pitch == this.pitch
+  }
 
-    this.setZ = function (z) {
-        location.z = z;
-        return location;
-    }
-
-    this.getYaw = function () {
-        return location.yaw;
-    }
-
-    this.setYaw = function (yaw) {
-        location.yaw = yaw;
-        return location;
-    }
-
-    this.getPitch = function () {
-        return location.pitch;
-    }
-
-    this.setPitch = function (pitch) {
-        location.pitch = pitch;
-        return location;
-    }
-
-    this.distance = function (loc) {
-        return Math.sqrt(location.distanceSquared(loc));
-    }
-
-    this.distanceSquared = function (loc) {
-        return Math.pow(loc.x - location.x, 2) + Math.pow(loc.y - location.y, 2) + Math.pow(loc.z - location.z, 2);
-    }
-
-    this.set = function (x, y, z) {
-        if (x instanceof Location) {
-            location.x = x.x;
-            location.y = x.y;
-            location.z = x.z;
-        } else if (Array.isArray(x)) {
-            location.x = x[0];
-            location.y = x[1];
-            location.z = x[2];
-        } else {
-            location.x = x;
-            location.y = y;
-            location.z = z;
-        }
-        return location;
-    }
-
-    this.add = function (x, y, z) {
-        if (x instanceof Location) {
-            location.x += x.x;
-            location.y += x.y;
-            location.z += x.z;
-        } else if (Array.isArray(x)) {
-            location.x += x[0];
-            location.y += x[1];
-            location.z += x[2];
-        } else {
-            location.x += x;
-            location.y += y;
-            location.z += z;
-        }
-        return location;
-    }
-
-    this.subtract = function(x, y, z) {
-        if (x instanceof Location) {
-            location.x -= x.x;
-            location.y -= x.y;
-            location.z -= x.z;
-        } else if (Array.isArray(x)) {
-            location.x -= x[0];
-            location.y -= x[1];
-            location.z -= x[2];
-        } else {
-            location.x -= x;
-            location.y -= y;
-            location.z -= z;
-        }
-        return location;
-    }
-
-    this.toVector = function () {
-        return new THREE.Vector3(location.x, location.y, location.z);
-    }
-
-    this.clone = function() {
-        return new Location(location.world, location.x, location.y, location.z, location.yaw, location.pitch);
-    }
-
-    this.copy = function(loc) {
-        location.world = loc.world;
-        location.x = loc.x;
-        location.y = loc.y;
-        location.z = loc.z;
-        location.yaw = loc.yaw;
-        location.pitch = loc.pitch;
-        return location;
-    }
-
-    this.equals = function(loc) {
-        return loc.world.equals(location.world) && loc.x == location.x && loc.y == location.y && loc.z == location.z && loc.yaw == location.yaw && loc.pitch == location.pitch;
-    }
+  static locToBlock(loc) {
+    loc.set(Math.floor(loc.x), Math.floor(loc.y), Math.floor(loc.z))
+    return loc
+  }
 }
 
-Location.locToBlock = function (loc) {
-    loc.set(Math.floor(loc.x), Math.floor(loc.y), Math.floor(loc.z));
-    return loc;
-}
 
-module.exports = Location;
+
+module.exports = Location

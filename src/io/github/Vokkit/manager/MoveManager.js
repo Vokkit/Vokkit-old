@@ -1,19 +1,19 @@
-var PlayerMoveEvent = require('../event/player/PlayerMoveEvent.js')
+const PlayerMoveEvent = require('../event/player/PlayerMoveEvent.js')
 
-var SocketManager = require('./SocketManager.js')
+const SocketManager = require('./SocketManager.js')
 
 class MoveManager extends SocketManager {
   addListener(socket) {
     socket.on('requestMove', function (data) {
-      var player = Vokkit.getServer().getPlayerById(socket.id)
-      var location = player.getLocation()
+      let player = Vokkit.getServer().getPlayerById(socket.id)
+      let location = player.getLocation()
       location.set(data.x, data.y, data.z)
       location.setYaw(data.yaw)
       location.setPitch(data.pitch)
-      var lastVelocity = player.getVelocity()
-      var velocity = new THREE.Vector3(data.velocity[0], data.velocity[1], data.velocity[2])
+      let lastVelocity = player.getVelocity()
+      let velocity = new THREE.Vector3(data.velocity[0], data.velocity[1], data.velocity[2])
       player.setVelocity(velocity)
-      var playerMoveEvent = new PlayerMoveEvent(player, player.getLocation(), location)
+      let playerMoveEvent = new PlayerMoveEvent(player, player.getLocation(), location)
       Vokkit.getServer().getPluginManager().makeEvent(playerMoveEvent)
       if (playerMoveEvent.isCancelled()) {
         location = player.getLocation()

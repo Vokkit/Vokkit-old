@@ -1,12 +1,12 @@
-var CancellableServerEvent = require("./CancellableServerEvent.js")
+const CancellableServerEvent = require('./CancellableServerEvent.js')
 
 class ServerCommandEvent extends CancellableServerEvent {
   constructor(sender, command, parameter) {
-    super();
+    super()
     this.sender = sender
     this.command = command
     this.parameter = parameter
-    this.eventName = "ServerCommandEvent"
+    this.eventName = 'ServerCommandEvent'
   }
 
   getCommand() {

@@ -1,7 +1,7 @@
 class Event {
-    getEventName(){
-        return this.eventName;
-    }
+  getEventName() {
+    return this.eventName
+  }
 }
 
-module.exports = Event;
+module.exports = Event
