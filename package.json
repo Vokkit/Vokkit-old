@@ -1,19 +1,50 @@
 {
-  "name": "Vokkit",
+  "name": "vokkit",
   "version": "1.0.0",
-  "description": "",
+  "description": "Voxel server launcher accessed via a web browser",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "browserify index.js | uglifyjs -o build.js",
+    "lint": "standard",
+    "lint-fix": "standard --fix"
   },
-  "author": "Scripter36 (1350adwx)",
-  "license": "ISC",
+  "contributors": [
+    {
+      "name": "Scripter36",
+      "email": "1350adwx@naver.com"
+    },
+    {
+      "name": "Astro36",
+      "email": "astr36@naver.com",
+      "url": "http://astro36.me"
+    },
+    {
+      "name": "Su-Yong",
+      "email": "simssy2205@gmail.com",
+      "url": "http://syblog.kro.kr"
+    }
+  ],
+  "license": "Apache-2.0",
   "dependencies": {
     "async": "^2.5.0",
     "browserify": "^14.4.0",
     "caller-id": "^0.1.0",
-    "express": "^4.15.3",
+    "express": "^4.16.1",
     "socketio": "^1.0.0",
-    "three": "^0.86.0"
+    "three": "^0.87.1"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
+  },
+  "standard": {
+    "globals": [
+      "Vokkit",
+      "Util",
+      "THREE"
+    ],
+    "ignore": [
+      "/public/",
+      "/images/"
+    ]
   }
 }

@@ -1,1 +1,0 @@
-browserify index.js | uglifyjs -o build.js
