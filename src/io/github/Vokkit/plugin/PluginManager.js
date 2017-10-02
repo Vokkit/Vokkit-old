@@ -3,7 +3,7 @@ var EventPriority = require("../event/EventPriority.js");
 var fs = require("fs");
 var Module = require('module');
 var path = require('path');
-var browserify = require('browserify');
+var Browserify = require('browserify');
 var child_process = require('child_process');
 var caller = require("caller-id");
 
@@ -125,7 +125,7 @@ function PluginManager() {
     }
 
     this.enablePlugins = function () {
-        Vokkit.getServer().getLogger().info("클라이언트 빌드 중...");
+        Vokkit.getServer().getLogger().info("클라이언트 빌드 중... 빌드는 비동기로 처리됩니다.");
 
         var pluginManagerPath = clientPath + "/src/io/github/Vokkit/plugin/PluginManager.js";
         var source = ["class PluginManager {",
@@ -159,12 +159,19 @@ function PluginManager() {
         source.splice(7, 0, inject.join(",\n"));
         fs.writeFileSync(pluginManagerPath, source.join("\n"));
 
-        var result = child_process.execSync("browserify " + clientPath + "/index.js -o " + clientPath + "/build.js");
-        if (result instanceof Error) {
-            Vokkit.getServer().getLogger().warn(result);
-            return;
-        }
-        Vokkit.getServer().getLogger().info("클라이언트를 빌드했습니다.");
+        var browserify = new Browserify();
+        browserify.add("./public/index.js");
+        var stream = browserify.bundle();
+        var contents = "";
+
+        stream.on("data", function(data) {
+            contents += data.toString();
+        })
+
+        stream.on("end", function() {
+            fs.writeFileSync("./public/build.js", contents);
+            Vokkit.getServer().getLogger().info("클라이언트를 빌드했습니다.");
+        });
 
         for (var i in pluginManager.plugins) {
             Vokkit.getServer().getLogger().info(pluginManager.plugins[i].manifest.name + " " + pluginManager.plugins[i].manifest.version + " 활성화 중");
