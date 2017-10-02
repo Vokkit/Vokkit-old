@@ -28,7 +28,7 @@ class MoveManager extends SocketManager {
         })
         return
       }
-      player.teleport(location)
+      player.teleport(location, false)
     })
   }
 }

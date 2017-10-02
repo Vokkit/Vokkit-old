@@ -13,9 +13,9 @@ class Entity {
     return this.location.clone()
   }
 
-  teleport(loc) {
+  teleport(loc, update = true) {
     this.location.copy(loc)
-
+    
     Vokkit.getServer().getSocketServer().emit('move', {
       id: this.id,
       x: loc.getX(),
@@ -23,7 +23,8 @@ class Entity {
       z: loc.getZ(),
       yaw: loc.getYaw(),
       pitch: loc.getPitch(),
-      velocity: this.velocity
+      velocity: this.velocity,
+      update: update
     })
   }
 

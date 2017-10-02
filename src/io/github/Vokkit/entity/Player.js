@@ -52,19 +52,6 @@ class Player extends Entity {
     Vokkit.getServer().getLogger().info(sender + ' tell ' + message + ' to ' + this.name)
   }
 
-  teleport(location) {
-    super.teleport(location)
-    Vokkit.getServer().getSocketServer().emit('move', {
-      id: this.getId(),
-      x: location.getX(),
-      y: location.getY(),
-      z: location.getZ(),
-      yaw: location.getYaw(),
-      pitch: location.getPitch(),
-      velocity: [this.getVelocity().x, this.getVelocity().y, this.getVelocity().z]
-    })
-  }
-
   toObject() {
     return {
       name: this.name,
