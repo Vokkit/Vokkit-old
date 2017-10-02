@@ -11,4 +11,4 @@ class CancellablePlayerEvent extends CancellableEvent{
     }
 }
 
-module.exports = CancellableEvent;
+module.exports = CancellablePlayerEvent;

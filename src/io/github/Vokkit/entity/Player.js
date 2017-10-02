@@ -15,6 +15,14 @@ class Player extends Entity {
     getSocket() {
         return this.socket;
     }
+
+    getAddress() {
+        return this.socket.request.connection._peername.address;
+    }
+
+    getPort() {
+        return this.socket.request.connection._peername.port;
+    }
     
     getType() {
         return this.type;

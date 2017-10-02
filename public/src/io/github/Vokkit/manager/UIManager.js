@@ -26,6 +26,11 @@ function UIManager() {
         var chatLog = document.getElementById("chatLog");
         chatLog.innerText += format.replace("%s", sender).replace("%s", message);
     }
+
+    this.clearChat = function() {
+        var chatLog = document.getElementById("chatLog");
+        chatLog.innerText = "";
+    }
 }
 
 module.exports = UIManager;

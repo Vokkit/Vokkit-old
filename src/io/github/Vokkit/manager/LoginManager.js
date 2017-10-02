@@ -10,7 +10,8 @@ class LoginManager extends SocketManager{
     addListener(socket) {
         socket.on("login", function (data) {
             var player = new Player(socket.id, new Location(Vokkit.getServer().getWorlds()[0], 0, 0, 0, 0, 0), new THREE.Vector3(0, 0, 0), data.name, socket, data.type);
-            var playerLoginEvent = new PlayerLoginEvent(player);
+            var address = socket.request.connection._peername;
+            var playerLoginEvent = new PlayerLoginEvent(player, address.address);
             Vokkit.getServer().getPluginManager().makeEvent(playerLoginEvent);
             if (playerLoginEvent.isCancelled()) {
                 socket.emit("loginResult", {
@@ -40,7 +41,6 @@ class LoginManager extends SocketManager{
                 worlds: Vokkit.getServer().getWorldManager().getWorldArray()
             });
             Vokkit.getServer().addPlayer(player);
-            var address = socket.request.connection._peername;
             Vokkit.getServer().getLogger().info(player.getName() + "[" + address.address + ":" + address.port + ", type: " + data.type + "] 이가 로그인 했습니다.");
             var playerJoinEvent = new PlayerJoinEvent(player);
             Vokkit.getServer().getPluginManager().makeEvent(playerJoinEvent);

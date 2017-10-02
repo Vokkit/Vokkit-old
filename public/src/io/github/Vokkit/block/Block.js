@@ -1,7 +1,18 @@
-function Block(position, id){
-    this.position = position;
-    this.id = id;
-    this.setId = function(id){
+class Block{
+    constructor(position, id) {
+        this.position = position;
+        this.id = id;
+    }
+
+    getPosition() {
+        return this.position.clone();
+    }
+
+    getId() {
+        return this.id;
+    }
+
+    setId(id) {
         this.id = id;
     }
 }

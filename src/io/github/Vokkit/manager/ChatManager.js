@@ -12,7 +12,7 @@ class ChatManager extends SocketManager{
             var playerChatEvent = new PlayerChatEvent(player, sender, message, format);
             Vokkit.getServer().getPluginManager().makeEvent(playerChatEvent);
             if (!playerChatEvent.isCancelled()) {
-                chatManager.sendMessage(socket.id, playerChatEvent.getSender(), playerChatEvent.getMessage(), playerChatEvent.getFormat());
+                player.sendMessage(playerChatEvent.getSender(), playerChatEvent.getMessage(), playerChatEvent.getFormat());
             }
         });
     }
