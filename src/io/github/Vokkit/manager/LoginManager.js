@@ -20,7 +20,7 @@ class LoginManager extends SocketManager{
         })
         return
       }
-      var playerList = Vokkit.getServer().getOnlinePlayers()
+      var playerList = Vokkit.getServer().getPlayers()
       for (var i in playerList) {
         if (playerList[i].getName() == data.name) {
           socket.emit('loginResult', {

@@ -6,7 +6,7 @@ class DisconnectManager extends SocketManager{
     addListener(socket) {
         socket.on("disconnect", function (data) {
             var player = Vokkit.getServer().getPlayerById(socket.id);
-            var playerList = Vokkit.getServer().getOnlinePlayers();
+            var playerList = Vokkit.getServer().getPlayers();
             if (player !== undefined) {
                 for (var i in playerList) {
                     if (playerList[i].equals(player)) {
