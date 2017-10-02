@@ -164,11 +164,16 @@ function InputManager() {
                 }
             } else {
                 if (e.keyCode == 13) { // Enter
-                    Vokkit.getClient().getChatManager().sendChat(Vokkit.getClient().getLocalPlayer().getName(), document.getElementById("chatText").value);
+                    let name = Vokkit.getClient().getLocalPlayer().getName()
+                    let text = document.getElementById("chatText").value
+                    if(text[0] == '/')
+                      Vokkit.getClient().getChatManager().sendCommand(name, text.replace('/', ''));
+                    else
+                      Vokkit.getClient().getChatManager().sendChat(name, text);
                 } else if (e.keyCode == 38) { // 위
 
                 } else if (e.keyCode == 40) { // 아래
-                    
+
                 }
             }
             if (e.keyCode == 84) {//t

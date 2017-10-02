@@ -16,6 +16,15 @@ class ChatManager extends SocketManager{
             }
         });
     }
+
+    sendSystemMessage(message) {
+      Vokkit.getServer().getSocketServer().emit("chat", {
+        id: null,
+        sender: 'server',
+        message: message.toString(),
+        format: '<%s> %s\n'
+      });
+    }
 }
 
 module.exports = ChatManager;

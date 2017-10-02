@@ -105,6 +105,8 @@ function Server() {
                 return playerList[i];
             }
         }
+
+        return null
     }
     this.getPlayers = function() {
         return playerList;
@@ -143,5 +145,6 @@ function Server() {
 
 Server.protocolVersion = 1;
 Server.version = "0.0.1";
+Server.name = 'server'
 
 module.exports = Server;

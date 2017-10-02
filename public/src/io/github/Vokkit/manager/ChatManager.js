@@ -19,6 +19,14 @@ function ChatManager() {
         });
         chat.push(message);
     }
+    this.sendCommand = function(sender, message) {
+        var socket = Vokkit.getClient().getSocket();
+        socket.emit("command", {
+            sender: sender,
+            message: message
+        });
+        chat.push(message);
+    }
 }
 
 module.exports = ChatManager;

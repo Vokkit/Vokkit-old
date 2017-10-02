@@ -11,7 +11,7 @@ class ConsoleManager {
         rl.setPrompt('> ');
         rl.prompt(true);
         rl.on('line', function (line) {
-          CommandManager.call(line)
+          Vokkit.getServer().getSocketManager().getCommandManager().call(line)
           rl.prompt();
         }).on('close', function () {
             process.exit(0);

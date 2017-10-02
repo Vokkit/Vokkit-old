@@ -6,40 +6,31 @@ class TeleportCommand extends Command {
     super('tp', '플레이어를 특정한 위치로 이동시킵니다.', '/tp [player]\n/tp [player] [player]\n/tp [player] [x] [y] [z]', [
       [ParameterType.PLAYER],
       [ParameterType.PLAYER, ParameterType.PLAYER],
-      [ParameterType.PLAYER, ParameterType.INTEGER, ParameterType.INTEGER, ParameterType.INTEGER]
+      [ParameterType.PLAYER, ParameterType.FLOAT, ParameterType.FLOAT, ParameterType.FLOAT]
     ])
   }
 
-  execute(parameterNumber, parameter, player) {
+  execute(parameterNumber, sender, parameter) {
     let target
     let mover
+    let text
     switch(parameterNumber) {
       case 0:
         target = parameter[0].getValue()
         player.teleport(target.getLocation())
-        Vokkit.getServer().getSocketServer().emit("move", {
-            id: player.getId(),
-            x: location.getX(),
-            y: location.getY(),
-            z: location.getZ(),
-            yaw: location.getYaw(),
-            pitch: location.getPitch(),
-            velocity: [player.getVelocity().x, player.getVelocity().y, player.getVelocity().z]
-        });
+
+        text = player.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
+
+        sender.sendMesesage(text)
         break
       case 1:
         mover = parameter[0].getValue()
         target = parameter[1].getValue()
         mover.teleport(target.getLocation())
-        Vokkit.getServer().getSocketServer().emit("move", {
-            id: mover.getId(),
-            x: location.getX(),
-            y: location.getY(),
-            z: location.getZ(),
-            yaw: location.getYaw(),
-            pitch: location.getPitch(),
-            velocity: [mover.getVelocity().x, mover.getVelocity().y, mover.getVelocity().z]
-        });
+
+        text = mover.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
+
+        sender.sendMesesage(text)
         break
       case 2:
         mover = parameter[0].getValue()
@@ -47,18 +38,13 @@ class TeleportCommand extends Command {
         location.set(parameter[1].getValue(), parameter[2].getValue(), parameter[3].getValue())
 
         mover.teleport(location)
-        Vokkit.getServer().getSocketServer().emit("move", {
-            id: mover.getId(),
-            x: location.getX(),
-            y: location.getY(),
-            z: location.getZ(),
-            yaw: location.getYaw(),
-            pitch: location.getPitch(),
-            velocity: [mover.getVelocity().x, mover.getVelocity().y, mover.getVelocity().z]
-        });
+
+        text = mover.getName() + '이(가) x: ' + location.getX() + ' y: ' + location.getY() + ' z: ' + location.getZ() + ' 좌표로 이동하였습니다.'
+
+        sender.sendMesesage(text)
         break
       default:
-        Vokkit.getServer().getLogger().info(this.usage)
+        sender.sendMesesage(this.getUsage())
         break
     }
   }

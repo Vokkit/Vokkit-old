@@ -8,7 +8,7 @@ class ParameterType {
   }
 
   static get FLOAT() {
-    return 'float'
+    return 'integer' | 'float'
   }
 
   static get PLAYER() {

@@ -1,33 +1,43 @@
 class Entity {
-    constructor(id, location, velocity) {
-        this.id = id;
-        this.location = location == undefined ? undefined : location.clone();
-        this.velocity = location == undefined ? undefined : velocity.clone();
-    }
+  constructor(id, location, velocity) {
+    this.id = id
+    this.location = location == undefined ? undefined : location.clone()
+    this.velocity = location == undefined ? undefined : velocity.clone()
+  }
 
-    getId() {
-        return this.id;
-    }
+  getId() {
+    return this.id
+  }
 
-    getLocation() {
-        return this.location.clone();
-    }
+  getLocation() {
+    return this.location.clone()
+  }
 
-    teleport(loc) {
-        this.location.copy(loc);
-    }
+  teleport(loc) {
+    this.location.copy(loc)
 
-    getVelocity() {
-        return this.velocity.clone();
-    }
+    Vokkit.getServer().getSocketServer().emit('move', {
+      id: this.id,
+      x: loc.getX(),
+      y: loc.getY(),
+      z: loc.getZ(),
+      yaw: loc.getYaw(),
+      pitch: loc.getPitch(),
+      velocity: this.velocity
+    })
+  }
 
-    setVelocity(velocity) {
-        this.velocity.copy(velocity);
-    }
+  getVelocity() {
+    return this.velocity.clone()
+  }
 
-    equals(object) {
-        return object instanceof this.constructor && object.getId() == this.getId();
-    }
+  setVelocity(velocity) {
+    this.velocity.copy(velocity)
+  }
+
+  equals(object) {
+    return object instanceof this.constructor && object.getId() == this.getId()
+  }
 }
 
-module.exports = Entity;
+module.exports = Entity

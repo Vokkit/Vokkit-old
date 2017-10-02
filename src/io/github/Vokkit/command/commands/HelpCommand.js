@@ -2,33 +2,38 @@ let Command = require('./Command.js')
 let ParameterType = require('../parameter/ParameterType.js')
 
 class HelpCommand extends Command {
-  constructor() {
+  constructor () {
     super('help', '도움말을 출력합니다.', '/help (command name)', [
       [],
       [ParameterType.STRING]
     ])
   }
 
-  execute(parameterNumber, parameter, player, allCommands) {
-    switch(parameterNumber) {
+  execute (parameterNumber, sender, parameter) {
+    let allCommands = Vokkit.getServer().getSocketManager().getCommandManager().getCommandProvider().getAllCommands()
+    let text = ''
+
+    switch (parameterNumber) {
       case 0:
         for(let v of allCommands) {
-          Vokkit.getServer().getLogger().info(v.getName() + ': ' + v.getDescription())
+          text += v.getName() + ' - ' + v.getDescription() + '\n'
         }
+
+        sender.sendMessage(text)
         break
       case 1:
         for(let v of allCommands) {
           if(v.getName() === parameter[0].getValue()) {
-            Vokkit.getServer().getLogger().info(v.getName() + ': ' + v.getDescription())
+            text = v.getName() + ' - ' + v.getDescription()
 
-            return
+            break
           }
         }
 
-        Vokkit.getServer().getLogger().warn('커맨드를 찾을 수 없습니다.')
+        sender.sendMessage(text)
         break
       default:
-        Vokkit.getServer().getLogger().info(this.usage)
+        sender.sendMessage(this.getUsage())
         break
     }
   }

@@ -1,31 +1,22 @@
 class CommandSender {
-  constructor(player) {
-    if(typeof player === 'string') {
-      this.isPlayer = false
-    } else {
-      this.isPlayer = true
-    }
-
+  constructor (player) {
     this.player = player
   }
 
-  getName() {
-    if(this.isPlayer)
-      return this.player.getName()
-    else
-      return this.player
+  sendMessage (message) {
+    this.player.sendMessage(Vokkit.getServer().name, message)
   }
 
-  getPlayer() {
+  getName () {
+    return this.player.getName()
+  }
+
+  getPlayer () {
     return this.player
   }
 
-  getServer() {
+  getServer () {
     return Vokkit.getServer()
-  }
-
-  isPlayer() {
-    return this.isPlayer
   }
 }
 

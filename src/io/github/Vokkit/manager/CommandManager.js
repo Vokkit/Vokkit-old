@@ -3,42 +3,64 @@ let SocketManager = require('./SocketManager.js')
 let Parameter = require('../command/parameter/Parameter.js')
 let ParameterType = require('../command/parameter/ParameterType.js')
 let CommandSender = require('../command/CommandSender.js')
+let ConsoleCommandSender = require('../command/ConsoleCommandSender.js')
+let CommandProvider = require('../command/CommandProvider.js')
 let CommandExecutor = require('../command/CommandExecutor.js')
 
-function run(socket, data) {
+let HelpCommand = require('../command/commands/HelpCommand.js')
+let TeleportCommand = require('../command/commands/TeleportCommand.js')
+
+function callCommand (commandManager, socket, data) {
   let player = Vokkit.getServer().getPlayerById(socket.id)
 
-  let message = data.message.split(' ')
+  let messageBlocks = data.message.split(' ')
 
-  let command = message.shift()
-  let primitiveParameter = message
+  let command = messageBlocks.shift()
+  let primitiveParameter = messageBlocks
+
   let parameterType = ParameterType.toType(primitiveParameter)
-  let parameter = []
+  let parameter = parameterType.map((object, i) => {
+    return new Parameter(object, primitiveParameter[i])
+  })
 
-  let i = 0
-  for(let v of parameterType) {
-    parameter.push(new Parameter(v, primitiveParameter[i]))
-    i++
-  }
+  let sender = (player == null) ? new ConsoleCommandSender() : new CommandSender(player)
 
-  let sender = new CommandSender(player)
   let serverCommandEvent = new ServerCommandEvent(sender, command, parameter)
 
   Vokkit.getServer().getPluginManager().makeEvent(serverCommandEvent)
   if (!serverCommandEvent.isCancelled()) {
-    CommandExecutor.execute(sender, command, parameter)
+    commandManager.commandExecutor.execute(sender, command, parameter) // CommandSender string Parameter
   }
 }
 
 class CommandManager extends SocketManager {
-  addListener(socket) {
+  constructor () {
+    super()
+    this.commandProvider = new CommandProvider()
+    this.commandExecutor = new CommandExecutor(this.commandProvider)
+  }
+
+  init () {
+    this.commandProvider.register(new HelpCommand())
+    this.commandProvider.register(new TeleportCommand())
+  }
+
+  addListener (socket) {
     socket.on('command', data => {
-      run(socket, data)
+      callCommand(this, socket, data)
     })
   }
 
-  static call(message) {
-    run({id: null}, {message: message})
+  call (message) {
+    callCommand(this, { id: null }, { message: message })
+  }
+
+  getCommandProvider () {
+    return this.commandProvider
+  }
+
+  getCommandExecutor () {
+    return this.commandExecutor
   }
 }
 
