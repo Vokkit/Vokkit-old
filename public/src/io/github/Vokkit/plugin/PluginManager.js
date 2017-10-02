@@ -5,7 +5,6 @@ class PluginManager {
 
     load() {
         this.loadedPlugins = {
-
         };
         for (var i in this.loadedPlugins) {
             var plugin = new (this.loadedPlugins[i])();

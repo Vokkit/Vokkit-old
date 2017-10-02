@@ -14,38 +14,39 @@ class TeleportCommand extends Command {
     let target
     let mover
     let text
+    let location
     switch(parameterNumber) {
-      case 0:
-        target = parameter[0].getValue()
-        player.teleport(target.getLocation())
+    case 0:
+      target = parameter[0].getValue()
+      player.teleport(target.getLocation())
 
-        text = player.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
+      text = player.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
 
-        sender.sendMesesage(text)
-        break
-      case 1:
-        mover = parameter[0].getValue()
-        target = parameter[1].getValue()
-        mover.teleport(target.getLocation())
+      sender.sendMesesage(text)
+      break
+    case 1:
+      mover = parameter[0].getValue()
+      target = parameter[1].getValue()
+      mover.teleport(target.getLocation())
 
-        text = mover.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
+      text = mover.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
 
-        sender.sendMesesage(text)
-        break
-      case 2:
-        mover = parameter[0].getValue()
-        let location = mover.getLocation()
-        location.set(parameter[1].getValue(), parameter[2].getValue(), parameter[3].getValue())
+      sender.sendMesesage(text)
+      break
+    case 2:
+      mover = parameter[0].getValue()
+      location = mover.getLocation()
+      location.set(parameter[1].getValue(), parameter[2].getValue(), parameter[3].getValue())
 
-        mover.teleport(location)
+      mover.teleport(location)
 
-        text = mover.getName() + '이(가) x: ' + location.getX() + ' y: ' + location.getY() + ' z: ' + location.getZ() + ' 좌표로 이동하였습니다.'
+      text = mover.getName() + '이(가) x: ' + location.getX() + ' y: ' + location.getY() + ' z: ' + location.getZ() + ' 좌표로 이동하였습니다.'
 
-        sender.sendMesesage(text)
-        break
-      default:
-        sender.sendMesesage(this.getUsage())
-        break
+      sender.sendMesesage(text)
+      break
+    default:
+      sender.sendMesesage(this.getUsage())
+      break
     }
   }
 }
