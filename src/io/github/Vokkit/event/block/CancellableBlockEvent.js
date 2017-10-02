@@ -1,12 +1,12 @@
 const CancellableEvent = require('./CancellableEvent.js')
 
 class CancellableBlockEvent extends CancellableEvent {
-  constructor(block) {
+  constructor (block) {
     super()
     this.block = block
   }
 
-  getBlock() {
+  getBlock () {
     return this.block
   }
 }

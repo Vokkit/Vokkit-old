@@ -1,11 +1,11 @@
 class SocketManager {
-  init() {
+  init () {
     let LoginManager = require('./LoginManager.js')
     let MoveManager = require('./MoveManager.js')
     let WorldManager = require('./WorldManager.js')
     let PlayerSkinManager = require('./PlayerSkinManager.js')
     let DisconnectManager = require('./DisconnectManager.js')
-    //let WebVRManager = require("./WebVRManager.js")
+    // let WebVRManager = require("./WebVRManager.js")
     let ChatManager = require('./ChatManager.js')
     let CommandManager = require('./CommandManager.js')
 
@@ -14,7 +14,7 @@ class SocketManager {
     this.worldManager = new WorldManager()
     this.playerSkinManager = new PlayerSkinManager()
     this.disconnectManager = new DisconnectManager()
-    //this.webVRManager = new WebVRManager()
+    // this.webVRManager = new WebVRManager()
     this.chatManager = new ChatManager()
     this.commandManager = new CommandManager()
     this.commandManager.init()
@@ -27,37 +27,37 @@ class SocketManager {
       socketManager.worldManager.addListener(socket)
       socketManager.playerSkinManager.addListener(socket)
       socketManager.disconnectManager.addListener(socket)
-      //socketManager.webVRManager.addListener(socket)
+      // socketManager.webVRManager.addListener(socket)
       socketManager.chatManager.addListener(socket)
       socketManager.commandManager.addListener(socket)
     })
   }
 
-  getLoginManager() {
+  getLoginManager () {
     return this.loginManager
   }
 
-  getMoveManager() {
+  getMoveManager () {
     return this.moveManager
   }
 
-  getWorldManager() {
+  getWorldManager () {
     return this.worldManager
   }
 
-  getPlayerSkinManager() {
+  getPlayerSkinManager () {
     return this.playerSkinManager
   }
 
-  getDisconnectManager() {
+  getDisconnectManager () {
     return this.disconnectManager
   }
 
-  getChatManager() {
+  getChatManager () {
     return this.chatManager
   }
 
-  getCommandManager() {
+  getCommandManager () {
     return this.commandManager
   }
 }

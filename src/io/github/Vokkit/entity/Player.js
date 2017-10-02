@@ -1,7 +1,7 @@
 var Entity = require('./Entity.js')
 
 class Player extends Entity {
-  constructor(id, location, velocity, name, socket, type) {
+  constructor (id, location, velocity, name, socket, type) {
     super(id, location, velocity)
 
     this.name = name
@@ -9,39 +9,39 @@ class Player extends Entity {
     this.type = type
   }
 
-  getName() {
+  getName () {
     return this.name
   }
 
-  getSocket() {
+  getSocket () {
     return this.socket
   }
 
-  getAddress() {
+  getAddress () {
     return this.socket.request.connection._peername.address
   }
 
-  getPort() {
+  getPort () {
     return this.socket.request.connection._peername.port
   }
 
-  getType() {
+  getType () {
     return this.type
   }
 
-  setType(type) {
+  setType (type) {
     this.type = type
   }
 
-  setVRMode(vrmode) {
+  setVRMode (vrmode) {
     this.VRMode = !!vrmode
   }
 
-  isVRMode() {
+  isVRMode () {
     return this.VRMode
   }
 
-  sendMessage(sender, message, format = '<%s> %s\n') {
+  sendMessage (sender, message, format = '<%s> %s\n') {
     this.getSocket().emit('chat', {
       id: this.getId(),
       sender: sender,
@@ -52,7 +52,7 @@ class Player extends Entity {
     Vokkit.getServer().getLogger().info(sender + ' tell ' + message + ' to ' + this.name)
   }
 
-  toObject() {
+  toObject () {
     return {
       name: this.name,
 

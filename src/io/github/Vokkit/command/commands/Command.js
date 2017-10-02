@@ -1,5 +1,5 @@
 class Command {
-  constructor(name, description, usage, parameterTypes, provider = 'vokkit') {
+  constructor (name, description, usage, parameterTypes, provider = 'vokkit') {
     this.name = name
     this.description = description
     this.usage = usage
@@ -7,23 +7,23 @@ class Command {
     this.provider = provider
   }
 
-  getName() {
+  getName () {
     return this.name
   }
 
-  getDescription() {
+  getDescription () {
     return this.description
   }
 
-  getUsage() {
+  getUsage () {
     return this.usage
   }
 
-  getParameterTypes() {
+  getParameterTypes () {
     return this.parameterTypes
   }
 
-  getProvider() {
+  getProvider () {
     return this.provider
   }
 }

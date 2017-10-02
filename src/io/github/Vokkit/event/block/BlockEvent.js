@@ -1,12 +1,12 @@
 const Event = require('./Event.js')
 
 class BlockEvent extends Event {
-  constructor(block) {
+  constructor (block) {
     super()
     this.block = block
   }
 
-  getBlock() {
+  getBlock () {
     return this.block
   }
 }

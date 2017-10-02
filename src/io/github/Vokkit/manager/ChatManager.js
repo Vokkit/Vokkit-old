@@ -3,7 +3,7 @@ const PlayerChatEvent = require('../event/player/PlayerChatEvent')
 const SocketManager = require('./SocketManager.js')
 
 class ChatManager extends SocketManager {
-  addListener(socket) {
+  addListener (socket) {
     socket.on('chat', function (data) {
       let player = Vokkit.getServer().getPlayerById(socket.id)
       let sender = data.sender
@@ -17,7 +17,7 @@ class ChatManager extends SocketManager {
     })
   }
 
-  sendSystemMessage(message) {
+  sendSystemMessage (message) {
     Vokkit.getServer().getSocketServer().emit('chat', {
       id: null,
       sender: 'server',

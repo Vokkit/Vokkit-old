@@ -1,21 +1,21 @@
 class CommandSender {
-  constructor(player) {
+  constructor (player) {
     this.player = player
   }
 
-  sendMessage(message) {
+  sendMessage (message) {
     this.player.sendMessage(Vokkit.getServer().getName(), message)
   }
 
-  getName() {
+  getName () {
     return this.player.getName()
   }
 
-  getPlayer() {
+  getPlayer () {
     return this.player
   }
 
-  getServer() {
+  getServer () {
     return Vokkit.getServer()
   }
 }

@@ -1,13 +1,13 @@
 class Material {
-  constructor(id) {
+  constructor (id) {
     this.id = id
   }
 
-  equals(material) {
+  equals (material) {
     return this.id === material.id
   }
 
-  getName() {
+  getName () {
     for (let i in Materials) {
       if (this.equals(Materials[i])) {
         return i.toLowerCase()
@@ -23,7 +23,7 @@ let MaterialModule = {}
 MaterialAPI.get = function (name) {
   if (!isNaN(name)) {
     for (let i in Materials) {
-      if (Materials[i].id == name) {
+      if (Materials[i].id === name) {
         return Materials[i]
       }
     }

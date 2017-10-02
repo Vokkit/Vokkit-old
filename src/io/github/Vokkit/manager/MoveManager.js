@@ -3,7 +3,7 @@ const PlayerMoveEvent = require('../event/player/PlayerMoveEvent.js')
 const SocketManager = require('./SocketManager.js')
 
 class MoveManager extends SocketManager {
-  addListener(socket) {
+  addListener (socket) {
     socket.on('requestMove', function (data) {
       let player = Vokkit.getServer().getPlayerById(socket.id)
       let location = player.getLocation()

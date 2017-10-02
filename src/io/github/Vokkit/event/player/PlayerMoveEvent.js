@@ -1,26 +1,26 @@
 const CancellablePlayerEvent = require('./CancellablePlayerEvent.js')
 
 class PlayerMoveEvent extends CancellablePlayerEvent {
-  constructor(player, from, to) {
+  constructor (player, from, to) {
     super(player)
     this.from = from
     this.to = to
     this.eventName = 'PlayerMoveEvent'
   }
 
-  getFrom() {
+  getFrom () {
     return this.from
   }
 
-  setFrom(from) {
+  setFrom (from) {
     this.from = from
   }
 
-  getTo() {
+  getTo () {
     return this.to
   }
 
-  setTo(to) {
+  setTo (to) {
     this.to = to
   }
 }

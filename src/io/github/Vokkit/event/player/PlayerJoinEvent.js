@@ -1,17 +1,17 @@
 const PlayerEvent = require('./PlayerEvent.js')
 
 class PlayerJoinEvent extends PlayerEvent {
-  constructor(player, joinMessage) {
+  constructor (player, joinMessage) {
     super(player)
     this.eventName = 'PlayerJoinEvent'
     this.joinMessage = joinMessage
   }
 
-  getJoinMessage() {
+  getJoinMessage () {
     return this.joinMessage
   }
 
-  setJoinMessage(joinMessage) {
+  setJoinMessage (joinMessage) {
     this.joinMessage = joinMessage
   }
 }

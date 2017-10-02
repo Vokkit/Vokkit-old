@@ -1,17 +1,17 @@
 const PlayerEvent = require('./PlayerEvent.js')
 
 class PlayerQuitEvent extends PlayerEvent {
-  constructor(player, quitMessage) {
+  constructor (player, quitMessage) {
     super(player)
     this.quitMessage = quitMessage
     this.eventName = 'PlayerQuitEvent'
   }
 
-  getQuitMessage() {
+  getQuitMessage () {
     return this.quitMessage
   }
 
-  setQuitMessage(message) {
+  setQuitMessage (message) {
     this.quitMessage = message
   }
 }

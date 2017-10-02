@@ -1,7 +1,7 @@
 const CancellableBlockEvent = require('./CancellableBlockEvent.js')
 
 class BlockPlaceEvent extends CancellableBlockEvent {
-  constructor(placedBlock, placedAgainst, itemInHand, player) {
+  constructor (placedBlock, placedAgainst, itemInHand, player) {
     super(placedBlock)
     this.placedAgainst = placedAgainst
     this.itemInHand = itemInHand
@@ -9,15 +9,15 @@ class BlockPlaceEvent extends CancellableBlockEvent {
     this.eventName = 'BlockPlaceEvent'
   }
 
-  getPlayer() {
+  getPlayer () {
     return this.player
   }
 
-  getBlockAgainst() {
+  getBlockAgainst () {
     return this.placedAgainst
   }
 
-  getItemInHand() {
+  getItemInHand () {
     return this.itemInHand
   }
 }

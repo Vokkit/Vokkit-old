@@ -6,14 +6,14 @@ const fs = require('fs')
 const path = require('path')
 
 class World {
-  constructor(worldName) {
+  constructor (worldName) {
     this.worldName = worldName
     this.worldPath = path.resolve('', 'worlds/' + worldName)
     this.chunks = []
     this.prepared = false
   }
 
-  prepareWorld() {
+  prepareWorld () {
     let data = fs.readFileSync(this.worldPath, 'UTF-8')
     let lines = data.split('\n')
     let position = new THREE.Vector3()
@@ -23,14 +23,14 @@ class World {
       blockData[1] = parseInt(blockData[1])
       blockData[2] = parseInt(blockData[2])
       blockData[3] = parseInt(blockData[3])
-      if (blockData[3] != 0) {
-        if (blockData[3] != 1 && blockData[3] != 2 && blockData[3] != 3) continue
+      if (blockData[3] !== 0) {
+        if (blockData[3] !== 1 && blockData[3] !== 2 && blockData[3] !== 3) continue
 
         let chunkExists = false
         for (let i in this.chunks) {
           if (this.chunks[i].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
-            if (this.chunks[i].chunkData[blockData[0]] == undefined) this.chunks[i].chunkData[blockData[0]] = []
-            if (this.chunks[i].chunkData[blockData[0]][blockData[1]] == undefined) this.chunks[i].chunkData[blockData[0]][blockData[1]] = []
+            if (typeof this.chunks[i].chunkData[blockData[0]] === 'undefined') this.chunks[i].chunkData[blockData[0]] = []
+            if (typeof this.chunks[i].chunkData[blockData[0]][blockData[1]] === 'undefined') this.chunks[i].chunkData[blockData[0]][blockData[1]] = []
             this.chunks[i].chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3])
             chunkExists = true
             break
@@ -38,8 +38,8 @@ class World {
         }
         if (!chunkExists) {
           let chunk = new Chunk(Math.floor(blockData[0] / 16) * 16, Math.floor(blockData[2] / 16) * 16, [])
-          if (chunk.chunkData[blockData[0]] == undefined) chunk.chunkData[blockData[0]] = []
-          if (chunk.chunkData[blockData[0]][blockData[1]] == undefined) chunk.chunkData[blockData[0]][blockData[1]] = []
+          if (typeof chunk.chunkData[blockData[0]] === 'undefined') chunk.chunkData[blockData[0]] = []
+          if (typeof chunk.chunkData[blockData[0]][blockData[1]] === 'undefined') chunk.chunkData[blockData[0]][blockData[1]] = []
           chunk.chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3])
           this.chunks.push(chunk)
         }
@@ -54,7 +54,7 @@ class World {
           for (let l in chunkData[j][k]) {
             let blockCount = 0
             for (let y = parseInt(k); y < 128; y++) {
-              if (chunk.getBlock(new THREE.Vector3(j, y, l)).id != 0) blockCount++
+              if (chunk.getBlock(new THREE.Vector3(j, y, l)).id !== 0) blockCount++
               if (blockCount >= 5) break
             }
             if (blockCount >= 5) {
@@ -67,7 +67,7 @@ class World {
     this.prepared = true
   }
 
-  getBlock(position) {
+  getBlock (position) {
     if (!this.prepared) return
     for (let i in this.chunks) {
       if (this.chunks[i].containsPosition(position)) {
@@ -77,7 +77,7 @@ class World {
     return new Block(position, 0)
   }
 
-  setBlock(block) {
+  setBlock (block) {
     if (!this.prepared) return
     let chunkExists = false
     for (let i in this.chunks) {
@@ -101,11 +101,11 @@ class World {
     })
   }
 
-  getWorldName() {
+  getWorldName () {
     return this.worldName.replace('.txt', '')
   }
 
-  toArray() {
+  toArray () {
     let worldArray = []
     worldArray.push(this.getWorldName())
     for (let i in this.chunks) {
@@ -113,7 +113,7 @@ class World {
       for (let j in chunkData) {
         for (let k in chunkData[j]) {
           for (let l in chunkData[j][k]) {
-            if (this.chunks[i].chunkData[j].id != 0) {
+            if (this.chunks[i].chunkData[j].id !== 0) {
               worldArray.push([chunkData[j][k][l].position.x, chunkData[j][k][l].position.y, chunkData[j][k][l].position.z, chunkData[j][k][l].id])
             }
           }
@@ -122,15 +122,15 @@ class World {
     }
     return worldArray
   }
-  
-  saveWorld(afterdo) {
+
+  saveWorld (afterdo) {
     let lines = []
     for (let i in this.chunks) {
       let chunkData = this.chunks[i].chunkData
       for (let j in chunkData) {
         for (let k in chunkData[j]) {
           for (let l in chunkData[j][k]) {
-            if (this.chunks[i].chunkData[j].id != 0) {
+            if (this.chunks[i].chunkData[j].id !== 0) {
               lines.push([chunkData[j][k][l].position.x, chunkData[j][k][l].position.y, chunkData[j][k][l].position.z, chunkData[j][k][l].id].join(','))
             }
           }
@@ -139,16 +139,16 @@ class World {
     }
     fs.writeFile(this.worldPath, lines.join('\n'), { encoding: 'UTF-8' }, afterdo)
   }
-  
-  equals(world) {
-    return this.getWorldName() == world.getWorldName()
+
+  equals (world) {
+    return this.getWorldName() === world.getWorldName()
   }
 
-  static loadAllWorlds() {
+  static loadAllWorlds () {
     let worldNames = fs.readdirSync(path.resolve('', 'worlds'))
     let worlds = []
     for (let i in worldNames) {
-      if (worldNames[i].substring(worldNames[i].lastIndexOf('.') + 1, worldNames[i].length) == 'txt') {
+      if (worldNames[i].substring(worldNames[i].lastIndexOf('.') + 1, worldNames[i].length) === 'txt') {
         let world = new World(worldNames[i])
         world.prepareWorld()
         worlds.push(world)

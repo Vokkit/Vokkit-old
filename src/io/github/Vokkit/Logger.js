@@ -18,12 +18,12 @@ let getTime = function () {
 class Logger {
 }
 
-//메서드가 아닌 함수로 작성한 이유는 caller-id를 사용하기 위해서입니다. (메서드에 caller이 없기 때문에)
+// 메서드가 아닌 함수로 작성한 이유는 caller-id를 사용하기 위해서입니다. (메서드에 caller이 없기 때문에)
 Logger.prototype.info = function (message) {
   process.stdout.clearLine()  // clear current text
   process.stdout.cursorTo(0)
   let path = caller.getData().filePath
-  if (path.indexOf('Vokkit\\plugins\\') != -1) {
+  if (path.indexOf('Vokkit\\plugins\\') !== -1) {
     let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]
     process.stdout.write('\x1b[1m\x1b[36m' + getTime() + '\x1b[37m [INFO] [' + pluginName + '] ' + message + '\x1b[0m\n> ')
     return
@@ -35,7 +35,7 @@ Logger.prototype.warn = function (message) {
   process.stdout.clearLine()  // clear current text
   process.stdout.cursorTo(0)
   let path = caller.getData().filePath
-  if (path.indexOf('Vokkit\\plugins\\') != -1) {
+  if (path.indexOf('Vokkit\\plugins\\') !== -1) {
     let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]
     process.stdout.write('\x1b[1m\x1b[36m' + getTime() + '\x1b[31m [Warn] [' + pluginName + '] ' + message + '\x1b[0m\n> ')
     return
@@ -47,7 +47,7 @@ Logger.prototype.chat = function (message) {
   process.stdout.clearLine()  // clear current text
   process.stdout.cursorTo(0)
   let path = caller.getData().filePath
-  if (path.indexOf('Vokkit\\plugins\\') != -1) {
+  if (path.indexOf('Vokkit\\plugins\\') !== -1) {
     let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]
     process.stdout.write('\x1b[1m\x1b[36m' + getTime() + '\x1b[37m [' + pluginName + '] ' + message + '\x1b[0m\n> ')
     return

@@ -1,22 +1,22 @@
 const CancellablePlayerEvent = require('./CancellablePlayerEvent.js')
 
 class PlayerLoginEvent extends CancellablePlayerEvent {
-  constructor(player, address) {
+  constructor (player, address) {
     super(player)
     this.address = address
     this.reason = ''
     this.eventName = 'PlayerLoginEvent'
   }
 
-  getAddress() {
+  getAddress () {
     return this.address
   }
 
-  getReason() {
+  getReason () {
     return this.reason
   }
 
-  setReason(reason) {
+  setReason (reason) {
     this.reason = reason
   }
 }

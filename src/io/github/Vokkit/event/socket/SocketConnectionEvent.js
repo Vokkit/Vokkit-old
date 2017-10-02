@@ -1,8 +1,9 @@
 const SocketEvent = require('./SocketEvent.js')
 
-class SocketConnectionEvent extends SocketEvent{
-  constructor(socket){
+class SocketConnectionEvent extends SocketEvent {
+  constructor (socket) {
     super(socket)
+    // Useless constructor
   }
 }
 

@@ -3,7 +3,7 @@ const PlayerQuitEvent = require('../event/player/PlayerQuitEvent.js')
 const SocketManager = require('./SocketManager.js')
 
 class DisconnectManager extends SocketManager {
-  addListener(socket) {
+  addListener (socket) {
     socket.on('disconnect', function (data) {
       let player = Vokkit.getServer().getPlayerById(socket.id)
       let playerList = Vokkit.getServer().getPlayers()
@@ -18,7 +18,7 @@ class DisconnectManager extends SocketManager {
             Vokkit.getServer().getSocketServer().emit('playerQuit', {
               id: player.getId()
             })
-            return;
+            return
           }
         }
       }

@@ -1,12 +1,12 @@
 const Event = require('../Event.js')
 
 class SocketEvent extends Event {
-  constructor(socket) {
+  constructor (socket) {
     super()
     this.socket = socket
   }
 
-  getSocket() {
+  getSocket () {
     return this.socket
   }
 }

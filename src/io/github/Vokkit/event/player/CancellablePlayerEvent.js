@@ -1,12 +1,12 @@
 const CancellableEvent = require('../CancellableEvent.js')
 
 class CancellablePlayerEvent extends CancellableEvent {
-  constructor(player) {
+  constructor (player) {
     super()
     this.player = player
   }
 
-  getPlayer() {
+  getPlayer () {
     return this.player
   }
 }

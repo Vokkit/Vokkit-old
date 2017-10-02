@@ -1,11 +1,11 @@
 const Util = require('../Util.js')
 
 class CommandExecutor {
-  constructor(provider) {
+  constructor (provider) {
     this.commandProvider = provider
   }
 
-  execute(sender, command, parameter, provider = 'vokkit') {
+  execute (sender, command, parameter, provider = 'vokkit') {
     let commands = this.commandProvider.getAllCommands()
 
     for (let v of commands) {

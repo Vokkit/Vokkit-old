@@ -1,5 +1,5 @@
 class Block {
-  constructor(position, id) {
+  constructor (position, id) {
     if (Array.isArray(position)) {
       this.position = new THREE.Vector3(position[0], position[1], position[2])
     } else {
@@ -8,15 +8,15 @@ class Block {
     this.id = id
   }
 
-  setId(id) {
+  setId (id) {
     this.id = id
   }
 
-  getId() {
+  getId () {
     return this.id
   }
 
-  getPosition() {
+  getPosition () {
     return this.position.clone()
   }
 }

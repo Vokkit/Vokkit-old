@@ -7,7 +7,7 @@ const PlayerJoinEvent = require('../event/player/PlayerJoinEvent.js')
 const SocketManager = require('./SocketManager.js')
 
 class LoginManager extends SocketManager {
-  addListener(socket) {
+  addListener (socket) {
     socket.on('login', function (data) {
       let player = new Player(socket.id, new Location(Vokkit.getServer().getWorlds()[0], 0, 0, 0, 0, 0), new THREE.Vector3(0, 0, 0), data.name, socket, data.type)
       let address = socket.request.connection._peername
@@ -22,7 +22,7 @@ class LoginManager extends SocketManager {
       }
       let playerList = Vokkit.getServer().getPlayers()
       for (let i in playerList) {
-        if (playerList[i].getName() == data.name) {
+        if (playerList[i].getName() === data.name) {
           socket.emit('loginResult', {
             succeed: false,
             reason: '이름이 중복됩니다.'

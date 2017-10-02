@@ -1,21 +1,21 @@
 class Entity {
-  constructor(id, location, velocity) {
+  constructor (id, location, velocity) {
     this.id = id
-    this.location = location == undefined ? undefined : location.clone()
-    this.velocity = location == undefined ? undefined : velocity.clone()
+    this.location = typeof location === 'undefined' ? undefined : location.clone()
+    this.velocity = typeof location === 'undefined' ? undefined : velocity.clone()
   }
 
-  getId() {
+  getId () {
     return this.id
   }
 
-  getLocation() {
+  getLocation () {
     return this.location.clone()
   }
 
-  teleport(loc, update = true) {
+  teleport (loc, update = true) {
     this.location.copy(loc)
-    
+
     Vokkit.getServer().getSocketServer().emit('move', {
       id: this.id,
       x: loc.getX(),
@@ -28,16 +28,16 @@ class Entity {
     })
   }
 
-  getVelocity() {
+  getVelocity () {
     return this.velocity.clone()
   }
 
-  setVelocity(velocity) {
+  setVelocity (velocity) {
     this.velocity.copy(velocity)
   }
 
-  equals(object) {
-    return object instanceof this.constructor && object.getId() == this.getId()
+  equals (object) {
+    return object instanceof this.constructor && object.getId() === this.getId()
   }
 }
 

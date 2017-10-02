@@ -1,7 +1,7 @@
 const CancellablePlayerEvent = require('./CancellablePlayerEvent.js')
 
 class PlayerChatEvent extends CancellablePlayerEvent {
-  constructor(player, sender, message, format) {
+  constructor (player, sender, message, format) {
     super(player)
     this.sender = sender
     this.message = message
@@ -9,27 +9,27 @@ class PlayerChatEvent extends CancellablePlayerEvent {
     this.eventName = 'PlayerChatEvent'
   }
 
-  getSender() {
+  getSender () {
     return this.sender
   }
 
-  getMessage() {
+  getMessage () {
     return this.message
   }
 
-  getFormat() {
+  getFormat () {
     return this.format
   }
 
-  setSender(sender) {
+  setSender (sender) {
     this.sender = sender
   }
 
-  setMessage(message) {
+  setMessage (message) {
     this.message = message
   }
 
-  setFormat(format) {
+  setFormat (format) {
     this.format = format
   }
 }

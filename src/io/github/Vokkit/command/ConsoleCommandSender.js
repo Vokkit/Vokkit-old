@@ -1,12 +1,12 @@
 const CommandSender = require('./CommandSender.js')
 
 class ConsoleCommandSender extends CommandSender {
-  constructor() {
+  constructor () {
     super()
     this.name = 'Console'
   }
 
-  sendMessage(message) {
+  sendMessage (message) {
     Vokkit.getServer().getLogger().chat(message)
   }
 }

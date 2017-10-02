@@ -15,13 +15,13 @@ let socketManager
 let consoleManager
 let pluginManager
 
-class Server{
-  constructor() {
+class Server {
+  constructor () {
     this.playerList = []
     this.worldList = []
   }
 
-  init(startTime) {
+  init (startTime) {
     process.on('uncaughtException', function (err) {
       Logger.warn(err.stack)
     })
@@ -51,22 +51,22 @@ class Server{
     })
   }
 
-  getWorld(worldName) {
+  getWorld (worldName) {
     for (let i in this.worldList) {
-      if (this.worldList[i].getWorldName() == worldName) {
+      if (this.worldList[i].getWorldName() === worldName) {
         return this.worldList[i]
       }
     }
     return null
   }
 
-  getWorlds() {
+  getWorlds () {
     return this.worldList.slice()
   }
 
-  getPlayer(name) {
+  getPlayer (name) {
     for (let i in this.playerList) {
-      if (this.playerList[i].getName() == name) {
+      if (this.playerList[i].getName() === name) {
         return this.playerList[i]
       }
     }
@@ -74,27 +74,27 @@ class Server{
     return null
   }
 
-  addPlayer(player) {
+  addPlayer (player) {
     for (let i in this.playerList) {
-      if (this.playerList[i].getId() == player.getId()) {
+      if (this.playerList[i].getId() === player.getId()) {
         return
       }
     }
     this.playerList.push(player)
   }
 
-  removePlayer(player) {
+  removePlayer (player) {
     for (let i in this.playerList) {
-      if (this.playerList[i].getId() == player.getId()) {
+      if (this.playerList[i].getId() === player.getId()) {
         this.playerList.splice(i, 1)
         return
       }
     }
   }
 
-  getPlayerById(id) {
+  getPlayerById (id) {
     for (let i in this.playerList) {
-      if (this.playerList[i].getId() == id) {
+      if (this.playerList[i].getId() === id) {
         return this.playerList[i]
       }
     }
@@ -102,50 +102,49 @@ class Server{
     return null
   }
 
-  getPlayers() {
+  getPlayers () {
     return this.playerList.slice()
   }
 
-  getSocketServer() {
+  getSocketServer () {
     return socketServer
   }
 
-  getDisconnectManager() {
+  getDisconnectManager () {
     return socketManager.disconnectManager
   }
 
-  getLoginManager() {
+  getLoginManager () {
     return socketManager.loginManager
   }
 
-  getMoveManager() {
+  getMoveManager () {
     return socketManager.moveManager
   }
 
-  getPlayerSkinManager() {
+  getPlayerSkinManager () {
     return socketManager.playerSkinManager
   }
 
-  getSocketManager() {
+  getSocketManager () {
     return socketManager
   }
 
-  getWorldManager() {
+  getWorldManager () {
     return socketManager.worldManager
   }
 
-  getPluginManager() {
+  getPluginManager () {
     return pluginManager
   }
 
-  getLogger() {
+  getLogger () {
     return Logger
   }
 
-  getName() {
+  getName () {
     return 'server'
   }
-
 }
 
 Server.protocolVersion = 1

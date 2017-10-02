@@ -1,26 +1,26 @@
 const CancellableBlockEvent = require('./CancellableBlockEvent.js')
 
 class BlockBreakEvent extends CancellableBlockEvent {
-  constructor(block, player) {
+  constructor (block, player) {
     super(block)
     this.player = player
     this.dropItems = false
     this.eventName = 'BlockBreakEvent'
   }
 
-  getPlayer() {
+  getPlayer () {
     return this.player
   }
 
-  getBlock() {
+  getBlock () {
     return this.block
   }
 
-  setDropItems(dropItems = true) {
+  setDropItems (dropItems = true) {
     this.dropItems = !!dropItems
   }
 
-  isDropItems() {
+  isDropItems () {
     return this.dropItems
   }
 }

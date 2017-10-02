@@ -1,16 +1,16 @@
 const Event = require('./Event.js')
 
 class CancellableEvent extends Event {
-  constructor() {
+  constructor () {
     super()
     this.cancelled = false
   }
 
-  setCancelled(cancelled = true) {
+  setCancelled (cancelled = true) {
     this.cancelled = !!cancelled
   }
 
-  isCancelled() {
+  isCancelled () {
     return this.cancelled
   }
 }

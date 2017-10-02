@@ -1,12 +1,12 @@
 const Event = require('../Event.js')
 
 class PlayerEvent extends Event {
-  constructor(player) {
+  constructor (player) {
     super()
     this.player = player
   }
 
-  getPlayer() {
+  getPlayer () {
     return this.player
   }
 }

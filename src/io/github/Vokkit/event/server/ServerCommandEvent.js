@@ -1,7 +1,7 @@
 const CancellableServerEvent = require('./CancellableServerEvent.js')
 
 class ServerCommandEvent extends CancellableServerEvent {
-  constructor(sender, command, parameter) {
+  constructor (sender, command, parameter) {
     super()
     this.sender = sender
     this.command = command
@@ -9,23 +9,23 @@ class ServerCommandEvent extends CancellableServerEvent {
     this.eventName = 'ServerCommandEvent'
   }
 
-  getCommand() {
+  getCommand () {
     return this.command
   }
 
-  getParameter() {
+  getParameter () {
     return this.parameter
   }
 
-  getSender() {
+  getSender () {
     return this.sender
   }
 
-  setCommand(command) {
+  setCommand (command) {
     this.command = command
   }
 
-  setParameter(parameter) {
+  setParameter (parameter) {
     this.parameter = parameter
   }
 }

@@ -6,11 +6,7 @@ const Browserify = require('browserify')
 const caller = require('caller-id')
 
 class PluginManager {
-  constructor() {
-    
-  }
-
-  init(){
+  init () {
     this.registeredEvents = []
     this.pluginPath = path.resolve('', 'plugins')
     this.clientPath = path.resolve('', 'public')
@@ -18,7 +14,7 @@ class PluginManager {
     this.clientPlugins = []
   }
 
-  loadPlugin(name) {
+  loadPlugin (name) {
     let manifest = JSON.parse(fs.readFileSync(this.pluginPath + '/' + name + '/manifest.json', 'utf-8'))
     Vokkit.getServer().getLogger().info(manifest.name + ' ' + manifest.version + ' 로드 중')
     let serverPlugin = new (require(this.pluginPath + '/' + name + '/' + manifest['server-plugin'] + '/' + manifest['server-main']))()
@@ -34,17 +30,17 @@ class PluginManager {
     serverPlugin.onLoad()
   }
 
-  loadPlugins() {
+  loadPlugins () {
     let files = fs.readdirSync(this.pluginPath)
     for (let i in files) {
       this.loadPlugin(files[i])
     }
   }
 
-  enablePlugins() {
+  enablePlugins () {
     Vokkit.getServer().getLogger().info('클라이언트 빌드 중... 빌드는 비동기로 처리됩니다.')
 
-    let pluginManagerPath = this.clientPath + '/src/io/github/Vokkit/plugin/PluginManager.js';
+    let pluginManagerPath = this.clientPath + '/src/io/github/Vokkit/plugin/PluginManager.js'
     let source = ['class PluginManager {',
       '    init() {',
       '        this.plugins = [];',
@@ -79,7 +75,7 @@ class PluginManager {
     let browserify = new Browserify()
     browserify.add('./public/index.js')
     let stream = browserify.bundle()
-    let contents = '';
+    let contents = ''
 
     stream.on('data', function (data) {
       contents += data.toString()
@@ -97,9 +93,9 @@ class PluginManager {
     }
   }
 
-  registerEvent(name, event, eventPriority = EventPriority.NORMAL) {
+  registerEvent (name, event, eventPriority = EventPriority.NORMAL) {
     let path = caller.getData().filePath
-    if (path.indexOf('Vokkit\\plugins\\') != -1) {
+    if (path.indexOf('Vokkit\\plugins\\') !== -1) {
       let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]
       this.registeredEvents.push({
         pluginName: pluginName,
@@ -110,39 +106,39 @@ class PluginManager {
     }
   }
 
-  makeEvent(event) {
+  makeEvent (event) {
     for (let i in this.registeredEvents) {
-      if (this.registeredEvents[i].name == event.getEventName() && this.registeredEvents[i].eventPriority == EventPriority.HIGHEST) {
+      if (this.registeredEvents[i].name === event.getEventName() && this.registeredEvents[i].eventPriority === EventPriority.HIGHEST) {
         this.registeredEvents[i].event(event)
       }
     }
 
     for (let i in this.registeredEvents) {
-      if (this.registeredEvents[i].name == event.getEventName() && this.registeredEvents[i].eventPriority == EventPriority.HIGH) {
+      if (this.registeredEvents[i].name === event.getEventName() && this.registeredEvents[i].eventPriority === EventPriority.HIGH) {
         this.registeredEvents[i].event(event)
       }
     }
 
     for (let i in this.registeredEvents) {
-      if (this.registeredEvents[i].name == event.getEventName() && this.registeredEvents[i].eventPriority == EventPriority.NORMAL) {
+      if (this.registeredEvents[i].name === event.getEventName() && this.registeredEvents[i].eventPriority === EventPriority.NORMAL) {
         this.registeredEvents[i].event(event)
       }
     }
 
     for (let i in this.registeredEvents) {
-      if (this.registeredEvents[i].name == event.getEventName() && this.registeredEvents[i].eventPriority == EventPriority.LOW) {
+      if (this.registeredEvents[i].name === event.getEventName() && this.registeredEvents[i].eventPriority === EventPriority.LOW) {
         this.registeredEvents[i].event(event)
       }
     }
 
     for (let i in this.registeredEvents) {
-      if (this.registeredEvents[i].name == event.getEventName() && this.registeredEvents[i].eventPriority == EventPriority.LOWEST) {
+      if (this.registeredEvents[i].name === event.getEventName() && this.registeredEvents[i].eventPriority === EventPriority.LOWEST) {
         this.registeredEvents[i].event(event)
       }
     }
 
     for (let i in this.registeredEvents) {
-      if (this.registeredEvents[i].name == event.getEventName() && this.registeredEvents[i].eventPriority == EventPriority.MONITOR) {
+      if (this.registeredEvents[i].name === event.getEventName() && this.registeredEvents[i].eventPriority === EventPriority.MONITOR) {
         this.registeredEvents[i].event(event)
       }
     }

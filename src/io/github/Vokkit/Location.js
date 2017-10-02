@@ -1,5 +1,5 @@
 class Location {
-  constructor(world = Vokkit.getServer().getWorlds()[0], x = 0, y = 0, z = 0, yaw = 0, pitch = 0) {
+  constructor (world = Vokkit.getServer().getWorlds()[0], x = 0, y = 0, z = 0, yaw = 0, pitch = 0) {
     this.world = world
     this.x = x
     this.y = y
@@ -8,69 +8,69 @@ class Location {
     this.pitch = pitch
   }
 
-  getWorld() {
+  getWorld () {
     return this.world
   }
 
-  setWorld(world) {
+  setWorld (world) {
     this.world = world
     return this
   }
 
-  getX() {
+  getX () {
     return this.x
   }
 
-  setX(x) {
+  setX (x) {
     this.x = x
     return this
   }
 
-  getY() {
+  getY () {
     return this.y
   }
 
-  setY(y) {
+  setY (y) {
     this.y = y
     return this
   }
 
-  getZ() {
+  getZ () {
     return this.z
   }
 
-  setZ(z) {
+  setZ (z) {
     this.z = z
     return this
   }
 
-  getYaw() {
+  getYaw () {
     return this.yaw
   }
 
-  setYaw(yaw) {
+  setYaw (yaw) {
     this.yaw = yaw
     return this
   }
 
-  getPitch() {
+  getPitch () {
     return this.pitch
   }
 
-  setPitch(pitch) {
+  setPitch (pitch) {
     this.pitch = pitch
     return this
   }
 
-  distance(loc) {
+  distance (loc) {
     return Math.sqrt(this.distanceSquared(loc))
   }
 
-  distanceSquared(loc) {
+  distanceSquared (loc) {
     return Math.pow(loc.x - this.x, 2) + Math.pow(loc.y - this.y, 2) + Math.pow(loc.z - this.z, 2)
   }
 
-  set(x, y, z) {
+  set (x, y, z) {
     if (x instanceof Location) {
       this.x = x.x
       this.y = x.y
@@ -87,7 +87,7 @@ class Location {
     return this
   }
 
-  add(x, y, z) {
+  add (x, y, z) {
     if (x instanceof Location) {
       this.x += x.x
       this.y += x.y
@@ -104,7 +104,7 @@ class Location {
     return this
   }
 
-  subtract(x, y, z) {
+  subtract (x, y, z) {
     if (x instanceof Location) {
       this.x -= x.x
       this.y -= x.y
@@ -121,15 +121,15 @@ class Location {
     return this
   }
 
-  toVector() {
+  toVector () {
     return new THREE.Vector3(this.x, this.y, this.z)
   }
 
-  clone() {
+  clone () {
     return new Location(this.world, this.x, this.y, this.z, this.yaw, this.pitch)
   }
 
-  copy(loc) {
+  copy (loc) {
     this.world = loc.world
     this.x = loc.x
     this.y = loc.y
@@ -139,16 +139,14 @@ class Location {
     return this
   }
 
-  equals(loc) {
-    return loc.world.equals(this.world) && loc.x == this.x && loc.y == this.y && loc.z == this.z && loc.yaw == this.yaw && loc.pitch == this.pitch
+  equals (loc) {
+    return loc.world.equals(this.world) && loc.x === this.x && loc.y === this.y && loc.z === this.z && loc.yaw === this.yaw && loc.pitch === this.pitch
   }
 
-  static locToBlock(loc) {
+  static locToBlock (loc) {
     loc.set(Math.floor(loc.x), Math.floor(loc.y), Math.floor(loc.z))
     return loc
   }
 }
-
-
 
 module.exports = Location

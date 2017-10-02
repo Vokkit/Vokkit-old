@@ -1,12 +1,7 @@
 const readline = require('readline')
 
-const ConsoleCommandSender = require('./ConsoleCommandSender.js')
-
-const CommandManager = require('../manager/CommandManager.js')
-
 class ConsoleManager {
-  init() {
-    let sender = new ConsoleCommandSender()
+  init () {
     let rl = readline.createInterface(process.stdin, process.stdout)
     rl.setPrompt('> ')
     rl.prompt(true)
