@@ -4,9 +4,13 @@
   "description": "Voxel server launcher accessed via a web browser",
   "main": "index.js",
   "scripts": {
-    "build": "browserify index.js | uglifyjs -o build.js",
+    "build": "browserify public/index.js | uglifyjs -o build.js",
     "lint": "standard",
     "lint-fix": "standard --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vokkit/Vokkit.git"
   },
   "contributors": [
     {
@@ -25,6 +29,10 @@
     }
   ],
   "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Vokkit/Vokkit/issues"
+  },
+  "homepage": "https://github.com/Vokkit/Vokkit#readme",
   "dependencies": {
     "async": "^2.5.0",
     "browserify": "^14.4.0",

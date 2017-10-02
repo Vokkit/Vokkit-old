@@ -7,6 +7,10 @@
     "lint": "standard",
     "lint-fix": "standard --fix"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vokkit/Vokkit.git"
+  },
   "contributors": [
     {
       "name": "Scripter36",
@@ -24,6 +28,10 @@
     }
   ],
   "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/Vokkit/Vokkit/issues"
+  },
+  "homepage": "https://github.com/Vokkit/Vokkit#readme",
   "dependencies": {
     "socket.io": "^2.0.3",
     "three": "^0.87.1"
