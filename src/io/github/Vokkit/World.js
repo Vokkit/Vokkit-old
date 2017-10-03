@@ -19,10 +19,7 @@ class World {
     let position = new THREE.Vector3()
     for (let i in lines) {
       let blockData = lines[i].split(',')
-      blockData[0] = parseInt(blockData[0])
-      blockData[1] = parseInt(blockData[1])
-      blockData[2] = parseInt(blockData[2])
-      blockData[3] = parseInt(blockData[3])
+      blockData.forEach((v, i) => blockData[i] = parseInt(v))
       if (blockData[3] !== 0) {
         if (blockData[3] !== 1 && blockData[3] !== 2 && blockData[3] !== 3) continue
 
