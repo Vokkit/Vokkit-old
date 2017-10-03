@@ -2,7 +2,7 @@ const ServerCommandEvent = require('../event/server/ServerCommandEvent.js')
 const SocketManager = require('./SocketManager.js')
 const Parameter = require('../command/parameter/Parameter.js')
 const ParameterType = require('../command/parameter/ParameterType.js')
-const CommandSender = require('../command/CommandSender.js')
+const PlayerCommandSender = require('../command/PlayerCommandSender.js')
 const ConsoleCommandSender = require('../command/ConsoleCommandSender.js')
 const CommandProvider = require('../command/CommandProvider.js')
 const CommandExecutor = require('../command/CommandExecutor.js')
@@ -24,7 +24,7 @@ function callCommand (commandManager, socket, data) {
     return new Parameter(object, primitiveParameter[i])
   })
 
-  let sender = (player == null) ? new ConsoleCommandSender() : new CommandSender(player)
+  let sender = (player == null) ? new ConsoleCommandSender() : new PlayerCommandSender(player)
 
   let serverCommandEvent = new ServerCommandEvent(sender, command, parameter)
 

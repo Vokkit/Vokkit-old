@@ -6,7 +6,7 @@ const Browserify = require('browserify')
 const caller = require('caller-id')
 
 class PluginManager {
-  init() {
+  init () {
     this.registeredEvents = []
     this.pluginPath = path.resolve('', 'plugins')
     this.clientPath = path.resolve('', 'public')
@@ -14,7 +14,7 @@ class PluginManager {
     this.clientPlugins = []
   }
 
-  loadPlugin(name) {
+  loadPlugin (name) {
     let manifest = JSON.parse(fs.readFileSync(this.pluginPath + '/' + name + '/manifest.json', 'utf-8'))
     Vokkit.getServer().getLogger().info(manifest.name + ' ' + manifest.version + ' 로드 중')
     let serverPlugin = new (require(this.pluginPath + '/' + name + '/' + manifest['server-plugin'] + '/' + manifest['server-main']))()
@@ -30,14 +30,14 @@ class PluginManager {
     serverPlugin.onLoad()
   }
 
-  loadPlugins() {
+  loadPlugins () {
     let files = fs.readdirSync(this.pluginPath)
     for (let i in files) {
       this.loadPlugin(files[i])
     }
   }
 
-  enablePlugins() {
+  enablePlugins () {
     Vokkit.getServer().getLogger().info('클라이언트 빌드 중... 빌드는 비동기로 처리됩니다.')
 
     let pluginManagerPath = this.clientPath + '/src/io/github/Vokkit/plugin/PluginManager.js'
@@ -93,7 +93,7 @@ class PluginManager {
     }
   }
 
-  registerEvent(plugin, name, event, eventPriority = EventPriority.NORMAL) {
+  registerEvent (plugin, name, event, eventPriority = EventPriority.NORMAL) {
     this.registeredEvents.push({
       plugin: plugin,
       name: name,
@@ -102,7 +102,7 @@ class PluginManager {
     })
   }
 
-  makeEvent(event) {
+  makeEvent (event) {
     for (let i in this.registeredEvents) {
       if (this.registeredEvents[i].name === event.getEventName() && this.registeredEvents[i].eventPriority === EventPriority.HIGHEST) {
         this.registeredEvents[i].event(event)

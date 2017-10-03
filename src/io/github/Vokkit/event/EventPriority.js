@@ -1,25 +1,25 @@
 class EventPriority {
-  static get HIGHEST() {
+  static get HIGHEST () {
     return 5
   }
 
-  static get HIGH() {
+  static get HIGH () {
     return 4
   }
 
-  static get NORMAL() {
+  static get NORMAL () {
     return 3
   }
 
-  static get LOW() {
+  static get LOW () {
     return 2
   }
 
-  static get LOWEST() {
+  static get LOWEST () {
     return 1
   }
 
-  static get MONITOR() {
+  static get MONITOR () {
     return 0
   }
 }
