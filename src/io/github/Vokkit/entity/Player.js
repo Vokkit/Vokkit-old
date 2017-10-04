@@ -29,16 +29,16 @@ class Player extends Entity {
     return this.type
   }
 
+  setName (name) {
+    this.name = name
+  }
+
+  setSocket (socket) {
+    this.socket = socket
+  }
+
   setType (type) {
     this.type = type
-  }
-
-  setVRMode (vrmode) {
-    this.VRMode = !!vrmode
-  }
-
-  isVRMode () {
-    return this.VRMode
   }
 
   sendMessage (sender, message, format = '<%s> %s\n') {

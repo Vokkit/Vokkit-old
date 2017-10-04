@@ -110,10 +110,6 @@ class Server {
     return socketServer
   }
 
-  getDisconnectManager () {
-    return socketManager.disconnectManager
-  }
-
   getLoginManager () {
     return socketManager.loginManager
   }
@@ -124,6 +120,18 @@ class Server {
 
   getPlayerSkinManager () {
     return socketManager.playerSkinManager
+  }
+
+  getDisconnectManager () {
+    return socketManager.disconnectManager
+  }
+
+  getChatManager () {
+    return socketManager.disconnectManager
+  }
+
+  getCommandManager () {
+    return socketManager.disconnectManager
   }
 
   getSocketManager () {
@@ -154,8 +162,5 @@ class Server {
     return '0.0.1'
   }
 }
-
-Server.protocolVersion = 1
-Server.version = '0.0.1'
 
 module.exports = Server
