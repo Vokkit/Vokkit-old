@@ -4,7 +4,7 @@
   "description": "Voxel server launcher accessed via a web browser",
   "main": "index.js",
   "scripts": {
-    "build": "browserify public/index.js | uglifyjs -o build.js",
+    "build": "babel public/src -d public/lib",
     "lint": "standard",
     "lint-fix": "standard --fix"
   },
@@ -42,6 +42,10 @@
     "three": "^0.87.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-array-includes": "^2.0.3",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-stage-2": "^6.24.1",
     "standard": "^10.0.3"
   },
   "standard": {
@@ -49,10 +53,6 @@
       "Vokkit",
       "Util",
       "THREE"
-    ],
-    "ignore": [
-      "/public/",
-      "/images/"
     ]
   }
 }

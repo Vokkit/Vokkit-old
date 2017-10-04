@@ -40,7 +40,12 @@ class PluginManager {
   enablePlugins () {
     Vokkit.getServer().getLogger().info('클라이언트 빌드 중... 빌드는 비동기로 처리됩니다.')
 
-    let pluginManagerPath = this.clientPath + '/src/io/github/Vokkit/plugin/PluginManager.js'
+    let pluginManagerPath = this.clientPath + '/lib/plugin/PluginManager.js'
+
+    if (!fs.existsSync(pluginManagerPath)) {
+      throw Error('public/src를 먼저 컴파일 해주세요.');
+    }
+
     let source = ['class PluginManager {',
       '    init() {',
       '        this.plugins = [];',
