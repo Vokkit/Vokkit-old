@@ -30,33 +30,20 @@ function MoveManager() {
   }
   this.moveLocalPlayer = function (press) {
     var localPlayer = Vokkit.getClient().getLocalPlayer()
-    var webvrmanager = Vokkit.getClient().getWebVRManager()
-    if (webvrmanager.display != undefined && webvrmanager.display.isPresenting) {
-      Vokkit.getClient().getSocket().emit('VRRotation', {
-        yaw: webvrmanager.yaw + Math.PI / 180 * 15,
-        pitch: webvrmanager.pitch
-      })
-      return
-    }
     var location = localPlayer.getLocation()
     var yaw = location.getYaw()
-    var vr = 1
-    if (webvrmanager.isMobileVRMode) {
-      vr = -1
-      yaw = webvrmanager.mobileYaw
-    }
     var fps = Vokkit.getClient().getSceneManager().getFPS()
     var multiply = 10 / fps
     var velocity = localPlayer.getVelocity()
     if (press[0]) {
-      velocity.add(new THREE.Vector3(-Math.sin(yaw), 0, vr * Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(new THREE.Vector3(-Math.sin(yaw), 0, Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
     } else if (press[1]) {
-      velocity.add(new THREE.Vector3(Math.sin(yaw), 0, -vr * Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
     }
     if (press[2]) {
-      velocity.add(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, vr * Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(vr * multiply, vr * multiply, vr * multiply)))
+      velocity.add(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
     } else if (press[3]) {
-      velocity.add(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, vr * Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(vr * multiply, vr * multiply, vr * multiply)))
+      velocity.add(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
     }
     if (press[4]) {
       velocity.add(new THREE.Vector3(0, 1.5, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)))

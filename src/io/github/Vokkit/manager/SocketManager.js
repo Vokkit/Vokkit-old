@@ -5,7 +5,6 @@ class SocketManager {
     let WorldManager = require('./WorldManager.js')
     let PlayerSkinManager = require('./PlayerSkinManager.js')
     let DisconnectManager = require('./DisconnectManager.js')
-    // let WebVRManager = require("./WebVRManager.js")
     let ChatManager = require('./ChatManager.js')
     let CommandManager = require('./CommandManager.js')
 
@@ -14,7 +13,6 @@ class SocketManager {
     this.worldManager = new WorldManager()
     this.playerSkinManager = new PlayerSkinManager()
     this.disconnectManager = new DisconnectManager()
-    // this.webVRManager = new WebVRManager()
     this.chatManager = new ChatManager()
     this.commandManager = new CommandManager()
     this.commandManager.init()
@@ -27,7 +25,6 @@ class SocketManager {
       socketManager.worldManager.addListener(socket)
       socketManager.playerSkinManager.addListener(socket)
       socketManager.disconnectManager.addListener(socket)
-      // socketManager.webVRManager.addListener(socket)
       socketManager.chatManager.addListener(socket)
       socketManager.commandManager.addListener(socket)
     })

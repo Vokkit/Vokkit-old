@@ -5,7 +5,6 @@ var PlayerManager = require('./manager/PlayerManager.js')
 var SceneManager = require('./manager/SceneManager.js')
 var InputManager = require('./manager/InputManager.js')
 var BlockTextureManager = require('./manager/BlockTextureManager.js')
-var WebVRManager = require('./manager/WebVRManager.js')
 var UIManager = require('./manager/UIManager.js')
 var ChatManager = require('./manager/ChatManager.js')
 var PluginManager = require('./plugin/PluginManager.js')
@@ -20,7 +19,6 @@ var sceneManager
 var inputManager
 var playerBodyManager
 var blockTextureManager
-var webVRManager
 var uiManager
 var chatManager
 var pluginManager
@@ -45,7 +43,6 @@ function Client(){
     sceneManager = new SceneManager()
     sceneManager.loginInit()
     inputManager = new InputManager()
-    webVRManager = new WebVRManager()
     uiManager = new UIManager()
     chatManager = new ChatManager()
     loginManager.onLogin = function(){
@@ -57,7 +54,6 @@ function Client(){
   this.init = function(){
     moveManager.init()
     blockTextureManager.init()
-    webVRManager.init()
     sceneManager.init()
     worldManager.init()
     sceneManager.drawWorld(worldList[0])
@@ -90,9 +86,6 @@ function Client(){
   }
   this.getSocket = function(){
     return socket
-  }
-  this.getWebVRManager = function() {
-    return webVRManager
   }
   this.getUIManager = function() {
     return uiManager

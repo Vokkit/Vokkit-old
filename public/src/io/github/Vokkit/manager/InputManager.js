@@ -356,11 +356,6 @@ function InputManager() {
                 }
             } else coolDown = 0;
         }
-
-        var WebVRButton = document.getElementById("WebVRButton");
-        WebVRButton.onclick = function () {
-            Vokkit.getClient().getWebVRManager().toggleVR();
-        }
     }
 
     this.getPress = function () {

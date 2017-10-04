@@ -53,7 +53,7 @@ function SceneManager() {
     var multiply = new THREE.Vector3(-1, -1, -1);
     this.updateGroup = function (location) {
         //rotationGroup.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), - Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
-        if (!Vokkit.getClient().getWebVRManager().isMobileVRMode) camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
+        camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())));
     }
 
     this.getRenderer = function () {
