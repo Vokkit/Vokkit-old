@@ -4,7 +4,7 @@
   "description": "Voxel server launcher accessed via a web browser",
   "main": "index.js",
   "scripts": {
-    "build": "babel public/src -d public/lib",
+    "build": "webpack",
     "lint": "standard",
     "lint-fix": "standard --fix"
   },
@@ -34,18 +34,18 @@
   },
   "homepage": "https://github.com/Vokkit/Vokkit#readme",
   "dependencies": {
-    "async": "^2.5.0",
-    "browserify": "^14.4.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-minify": "^0.2.0",
     "caller-id": "^0.1.0",
     "express": "^4.16.1",
     "socketio": "^1.0.0",
-    "three": "^0.87.1"
+    "three": "^0.87.1",
+    "uglifyjs-webpack-plugin": "^0.4.6",
+    "webpack": "^3.6.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-array-includes": "^2.0.3",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-stage-2": "^6.24.1",
     "standard": "^10.0.3"
   },
   "standard": {

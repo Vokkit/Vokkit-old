@@ -2,8 +2,9 @@ const EventPriority = require('../event/EventPriority.js')
 
 const fs = require('fs')
 const path = require('path')
-const Browserify = require('browserify')
 const caller = require('caller-id')
+const webpack = require('webpack');
+const webpackConfig = require('../../../../../webpack.config')
 
 class PluginManager {
   init () {
@@ -76,20 +77,13 @@ class PluginManager {
     for (let i in this.clientPlugins) inject.push(this.clientPlugins[i].name + ': require(\'' + this.clientPlugins[i].path + '\')')
     source.splice(7, 0, inject.join(',\n'))
     fs.writeFileSync(pluginManagerPath, source.join('\n'))
-
-    let browserify = new Browserify()
-    browserify.add('./public/index.js')
-    let stream = browserify.bundle()
-    let contents = ''
-
-    stream.on('data', function (data) {
-      contents += data.toString()
-    })
-
-    stream.on('end', function () {
-      fs.writeFileSync('./public/build.js', contents)
+    
+    webpack(webpackConfig, (err, stats) => {
+      if (err || stats.hasErrors()) {
+        Vokkit.getServer().getLogger().info('클라이언트 빌드 오류 발생')
+      }
       Vokkit.getServer().getLogger().info('클라이언트를 빌드했습니다.')
-    })
+    });
 
     for (let i in this.plugins) {
       Vokkit.getServer().getLogger().info(this.plugins[i].manifest.name + ' ' + this.plugins[i].manifest.version + ' 활성화 중')

@@ -1,4 +1,4 @@
-import Block from './Block'
+import Block from './block/Block'
 import CulledMesher from './mesher/CulledMesher'
 
 export default class Chunk {

@@ -1,7 +1,3 @@
-var Block = require('./block/Block.js')
-
-var Chunk = require('./Chunk.js')
-
 import Block from './block/Block'
 import Chunk from './Chunk'
 

@@ -63,5 +63,4 @@ typings/
 # Private files
 worlds
 plugins
-public/build.js
-public/lib
+public/dist
