@@ -1,13 +1,24 @@
-export default class PluginManager {
-  init () {
+class PluginManager {
+  constructor () {
     this.plugins = []
+    this.loadedPlugins = {}
+  }
+
+  disable () {
+    for (const i in this.plugins) {
+      this.plugins[i].plugin.onDisable()
+    }
+  }
+
+  enable () {
+    for (const i in this.plugins) {
+      this.plugins[i].plugin.onEnable()
+    }
   }
 
   load () {
-    this.loadedPlugins = {
-    }
-    for (var i in this.loadedPlugins) {
-      var plugin = new (this.loadedPlugins[i])()
+    for (const i in this.loadedPlugins) {
+      const plugin = new (this.loadedPlugins[i])()
       plugin.onLoad()
       this.plugins.push({
         name: i,
@@ -15,10 +26,6 @@ export default class PluginManager {
       })
     }
   }
-
-  enable () {
-    for (var i in this.plugins) {
-      this.plugins[i].plugin.onEnable()
-    }
-  }
 }
+
+module.exports = PluginManager

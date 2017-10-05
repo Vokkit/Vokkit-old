@@ -2,8 +2,7 @@ const EventPriority = require('../event/EventPriority.js')
 
 const fs = require('fs')
 const path = require('path')
-const caller = require('caller-id')
-const webpack = require('webpack');
+const webpack = require('webpack')
 const webpackConfig = require('../../../../../webpack.config')
 
 class PluginManager {
@@ -44,7 +43,7 @@ class PluginManager {
     let pluginManagerPath = this.clientPath + '/lib/plugin/PluginManager.js'
 
     if (!fs.existsSync(pluginManagerPath)) {
-      throw Error('public/src를 먼저 컴파일 해주세요.');
+      throw Error('public/src를 먼저 컴파일 해주세요.')
     }
 
     let source = ['class PluginManager {',
@@ -77,13 +76,13 @@ class PluginManager {
     for (let i in this.clientPlugins) inject.push(this.clientPlugins[i].name + ': require(\'' + this.clientPlugins[i].path + '\')')
     source.splice(7, 0, inject.join(',\n'))
     fs.writeFileSync(pluginManagerPath, source.join('\n'))
-    
+
     webpack(webpackConfig, (err, stats) => {
       if (err || stats.hasErrors()) {
         Vokkit.getServer().getLogger().info('클라이언트 빌드 오류 발생')
       }
       Vokkit.getServer().getLogger().info('클라이언트를 빌드했습니다.')
-    });
+    })
 
     for (let i in this.plugins) {
       Vokkit.getServer().getLogger().info(this.plugins[i].manifest.name + ' ' + this.plugins[i].manifest.version + ' 활성화 중')

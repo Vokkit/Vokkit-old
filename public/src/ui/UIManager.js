@@ -1,7 +1,7 @@
 function UIManager () {
   this.init = function () {
     var type = Vokkit.getClient().getLocalPlayer().getType()
-    if (type == 'Mobile') {
+    if (type === 'Mobile') {
       document.getElementById('LeftButton').style.display = 'block'
       document.getElementById('RightButton').style.display = 'block'
       document.getElementById('ShiftButton').style.display = 'block'
@@ -19,7 +19,7 @@ function UIManager () {
   }
 
   this.isChatting = function () {
-    return document.getElementById('chatWindow').style.display == 'block'
+    return document.getElementById('chatWindow').style.display === 'block'
   }
 
   this.addChat = function (sender, message, format) {

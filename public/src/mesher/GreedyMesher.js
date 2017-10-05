@@ -1,19 +1,20 @@
-var GreedyMesh = (function () {
-  // Cache buffer internally
-  var mask = new Int32Array(4096)
+// Cache buffer internally
+let mask = new Int32Array(4096)
 
-  return function (volume, dims) {
+class GreedyMesh {
+  static optimize (volume, dims) {
     function f (i, j, k) {
       return volume[i + dims[0] * (j + dims[1] * k)]
     }
     // Sweep over 3-axes
-    var vertices = [], faces = []
+    const vertices = []
+    const faces = []
     for (var d = 0; d < 3; ++d) {
-      var i, j, k, l, w, h,
-        u = (d + 1) % 3,
-        v = (d + 2) % 3,
-        x = [0, 0, 0],
-        q = [0, 0, 0]
+      const u = (d + 1) % 3
+      const v = (d + 2) % 3
+      const x = [0, 0, 0]
+      const q = [0, 0, 0]
+      let i, j, k, l, w, h
       if (mask.length < dims[u] * dims[v]) {
         mask = new Int32Array(dims[u] * dims[v])
       }
@@ -23,8 +24,8 @@ var GreedyMesh = (function () {
         var n = 0
         for (x[v] = 0; x[v] < dims[v]; ++x[v]) {
           for (x[u] = 0; x[u] < dims[u]; ++x[u], ++n) {
-            var a = (x[d] >= 0 ? f(x[0], x[1], x[2]) : 0),
-              b = (x[d] < dims[d] - 1 ? f(x[0] + q[0], x[1] + q[1], x[2] + q[2]) : 0)
+            var a = (x[d] >= 0 ? f(x[0], x[1], x[2]) : 0)
+            var b = (x[d] < dims[d] - 1 ? f(x[0] + q[0], x[1] + q[1], x[2] + q[2]) : 0)
             if ((!!a) === (!!b)) {
               mask[n] = 0
             } else if (a) {
@@ -40,7 +41,7 @@ var GreedyMesh = (function () {
         n = 0
         for (j = 0; j < dims[v]; ++j) {
           for (i = 0; i < dims[u];) {
-            var c = mask[n]
+            let c = mask[n]
             if (c) {
               // Compute width
               for (w = 1; c === mask[n + w] && i + w < dims[u]; ++w) {
@@ -60,8 +61,8 @@ var GreedyMesh = (function () {
               }
               // Add quad
               x[u] = i; x[v] = j
-              var du = [0, 0, 0],
-                dv = [0, 0, 0]
+              const du = [0, 0, 0]
+              const dv = [0, 0, 0]
               if (c > 0) {
                 dv[v] = h
                 du[u] = w
@@ -70,12 +71,12 @@ var GreedyMesh = (function () {
                 du[v] = h
                 dv[u] = w
               }
-              var vertex_count = vertices.length
+              const len = vertices.length
               vertices.push([x[0], x[1], x[2]])
               vertices.push([x[0] + du[0], x[1] + du[1], x[2] + du[2]])
               vertices.push([x[0] + du[0] + dv[0], x[1] + du[1] + dv[1], x[2] + du[2] + dv[2]])
               vertices.push([x[0] + dv[0], x[1] + dv[1], x[2] + dv[2]])
-              faces.push([vertex_count, vertex_count + 1, vertex_count + 2, vertex_count + 3, c])
+              faces.push([len, len + 1, len + 2, len + 3, c])
 
               // Zero-out mask
               for (l = 0; l < h; ++l) {
@@ -94,6 +95,6 @@ var GreedyMesh = (function () {
     }
     return { vertices: vertices, faces: faces }
   }
-})()
+}
 
 module.exports = GreedyMesh

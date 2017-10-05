@@ -1,4 +1,4 @@
-export default class Block {
+class Block {
   constructor (position, id) {
     this.position = position
     this.id = id
@@ -6,6 +6,10 @@ export default class Block {
 
   getPosition () {
     return this.position.clone()
+  }
+
+  setPosition (position) {
+    this.position = position
   }
 
   getId () {
@@ -16,3 +20,5 @@ export default class Block {
     this.id = id
   }
 }
+
+module.exports = Block

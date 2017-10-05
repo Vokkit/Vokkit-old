@@ -4,10 +4,10 @@ function MoveManager () {
   this.init = function () {
     socket = Vokkit.getClient().getSocket()
     socket.on('move', function (data) {
-      if (data.id == Vokkit.getClient().getLocalPlayer().getId() && !data.update) return
+      if (data.id === Vokkit.getClient().getLocalPlayer().getId() && !data.update) return
       var players = Vokkit.getClient().getOnlinePlayers()
       for (var i in players) {
-        if (players[i].getId() == data.id) {
+        if (players[i].getId() === data.id) {
           var loc = players[i].getLocation()
           loc.set(data.x, data.y, data.z)
           loc.setYaw(data.yaw)
@@ -54,16 +54,22 @@ function MoveManager () {
     localPlayer.setVelocity(velocity)
     var players = Vokkit.getClient().getOnlinePlayers()
     for (var i in players) {
-      var velocity = players[i].getVelocity()
+      let velocity = players[i].getVelocity()
       if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) players[i].body.playAnimation('walk')
-      var location = players[i].getLocation()
-      var add = new THREE.Vector3()
-      var x = 0, y = 0, z = 0
+      let location = players[i].getLocation()
+      let add = new THREE.Vector3()
+      let x = 0
+      let y = 0
+      let z = 0
       var plusX = velocity.x > 0 ? 0.1 : -0.1
       var plusY = velocity.y > 0 ? 0.1 : -0.1
       var plusZ = velocity.z > 0 ? 0.1 : -0.1
-      var xFinish = velocity.x == 0, yFinish = velocity.y == 0, zFinish = velocity.z == 0
-      var xcollision = false, ycollision = false, zcollision = false
+      var xFinish = velocity.x === 0
+      var yFinish = velocity.y === 0
+      var zFinish = velocity.z === 0
+      var xcollision = false
+      var ycollision = false
+      var zcollision = false
       while (true) {
         if (!xFinish) {
           var previousX = x
@@ -84,7 +90,7 @@ function MoveManager () {
           }
 
           var block = Vokkit.getClient().getWorlds()[0].getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-          if (block.id != 0) { // collision
+          if (block.id !== 0) { // collision
             xFinish = true
             x = previousX
             velocity.x = 0
@@ -110,8 +116,8 @@ function MoveManager () {
               yFinish = true
             }
           }
-          var block = Vokkit.getClient().getWorlds()[0].getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-          if (block.id != 0) { // collision
+          let block = Vokkit.getClient().getWorlds()[0].getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
+          if (block.id !== 0) { // collision
             yFinish = true
             y = previousY
             velocity.y = 0
@@ -138,7 +144,7 @@ function MoveManager () {
             }
           }
           var block = Vokkit.getClient().getWorlds()[0].getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-          if (block.id != 0) { // collision
+          if (block.id !== 0) { // collision
             zFinish = true
             z = previousZ
             velocity.z = 0

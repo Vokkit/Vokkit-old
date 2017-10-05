@@ -1,8 +1,8 @@
-import Client from './Client'
+const Client = require('./Client')
 
 let client
 
-export default class Vokkit {
+class Vokkit {
   static init (plugins) {
     client = new Client(plugins)
     client.loginInit()
@@ -11,3 +11,5 @@ export default class Vokkit {
     return client
   }
 }
+
+module.exports = Vokkit

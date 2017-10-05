@@ -1,11 +1,11 @@
-import Block from './block/Block'
-import Chunk from './Chunk'
+const Block = require('../block/Block')
+const Chunk = require('../Chunk')
 
-export default class {
-  constructor(worldName) {
-    this.worldName = worldName;
-    this.chunks =[]
-    this.prepared =false;
+class World {
+  constructor (worldName) {
+    this.worldName = worldName
+    this.chunks = []
+    this.prepared = false
   }
 
   static prepareWorlds (data) {
@@ -22,11 +22,11 @@ export default class {
     for (var i in data) {
       var blockData = data[i]
       var chunkExists = false
-      const chunks = this.chunks;
+      const chunks = this.chunks
       for (var i in chunks) {
         if (chunks[i].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
-          if (chunks[i].chunkData[blockData[0]] == undefined) chunks[i].chunkData[blockData[0]] = []
-          if (chunks[i].chunkData[blockData[0]][blockData[1]] == undefined) chunks[i].chunkData[blockData[0]][blockData[1]] = []
+          if (chunks[i].chunkData[blockData[0]] === undefined) chunks[i].chunkData[blockData[0]] = []
+          if (chunks[i].chunkData[blockData[0]][blockData[1]] === undefined) chunks[i].chunkData[blockData[0]][blockData[1]] = []
           chunks[i].chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3])
           chunkExists = true
           break
@@ -34,8 +34,8 @@ export default class {
       }
       if (!chunkExists) {
         var chunk = new Chunk(Math.floor(blockData[0] / 16) * 16, Math.floor(blockData[2] / 16) * 16, [])
-        if (chunk.chunkData[blockData[0]] == undefined) chunk.chunkData[blockData[0]] = []
-        if (chunk.chunkData[blockData[0]][blockData[1]] == undefined) chunk.chunkData[blockData[0]][blockData[1]] = []
+        if (chunk.chunkData[blockData[0]] === undefined) chunk.chunkData[blockData[0]] = []
+        if (chunk.chunkData[blockData[0]][blockData[1]] === undefined) chunk.chunkData[blockData[0]][blockData[1]] = []
         chunk.chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3])
         chunks.push(chunk)
       }
@@ -44,6 +44,7 @@ export default class {
   }
 
   getBlock (position) {
+    const chunks = this.chunks
     if (!this.world.prepared) return
     for (var i in chunks) {
       if (chunks[i].containsPosition(position)) {
@@ -54,6 +55,7 @@ export default class {
   }
 
   setBlock (block) {
+    const chunks = this.chunks
     if (!this.world.prepared) return
     var chunkExists = false
     for (var i in chunks) {
@@ -70,11 +72,13 @@ export default class {
     }
   }
 
-  getWorldName  () {
+  getWorldName () {
     return this.worldName
   }
 
-  getChunks  () {
+  getChunks () {
     return this.chunks
   }
 }
+
+module.exports = World

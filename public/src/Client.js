@@ -1,13 +1,13 @@
-var LoginManager = require('./manager/LoginManager.js')
-var MoveManager = require('./manager/MoveManager.js')
-var WorldManager = require('./manager/WorldManager.js')
-var PlayerManager = require('./manager/PlayerManager.js')
-var SceneManager = require('./manager/SceneManager.js')
-var InputManager = require('./manager/InputManager.js')
-var BlockTextureManager = require('./manager/BlockTextureManager.js')
-var UIManager = require('./manager/UIManager.js')
-var ChatManager = require('./manager/ChatManager.js')
-var PluginManager = require('./plugin/PluginManager.js')
+var LoginManager = require('./client/LoginManager')
+var MoveManager = require('./entity/MoveManager')
+var WorldManager = require('./world/WorldManager')
+var PlayerManager = require('./entity/PlayerManager')
+var SceneManager = require('./ui/SceneManager')
+var InputManager = require('./ui/InputManager')
+var BlockTextureManager = require('./block/BlockTextureManager')
+var UIManager = require('./ui/UIManager')
+var ChatManager = require('./chat/ChatManager')
+var PluginManager = require('./plugin/PluginManager')
 
 /** @type {SocketIO.Server} */
 var socket = io()
@@ -17,7 +17,6 @@ var worldManager
 var playerManager
 var sceneManager
 var inputManager
-var playerBodyManager
 var blockTextureManager
 var uiManager
 var chatManager
@@ -29,27 +28,19 @@ function Client () {
   var worldList = []
   var playerList = []
   var client = this
-  var logined = false
   this.loginInit = function () {
     pluginManager = new PluginManager()
-    pluginManager.init()
     pluginManager.load()
-    loginManager = new LoginManager()
+    loginManager = new LoginManager(client)
     blockTextureManager = new BlockTextureManager()
     moveManager = new MoveManager()
     worldManager = new WorldManager()
     playerManager = new PlayerManager()
-    playerManager.init()
     sceneManager = new SceneManager()
     sceneManager.loginInit()
     inputManager = new InputManager()
     uiManager = new UIManager()
     chatManager = new ChatManager()
-    loginManager.onLogin = function () {
-      logined = true
-      client.init()
-    }
-    loginManager.init()
   }
   this.init = function () {
     moveManager.init()
@@ -95,7 +86,7 @@ function Client () {
   }
   this.getWorld = function (worldName) {
     for (var i in worldList) {
-      if (worldList[i].getWorldName() == worldName) {
+      if (worldList[i].getWorldName() === worldName) {
         return worldList[i]
       }
     }
@@ -109,14 +100,14 @@ function Client () {
   }
   this.getPlayer = function (name) {
     for (var i in playerList) {
-      if (playerList[i].getName() == name) {
+      if (playerList[i].getName() === name) {
         return playerList[i]
       }
     }
   }
   this.getPlayerById = function (id) {
     for (var i in playerList) {
-      if (playerList[i].getId() == id) {
+      if (playerList[i].getId() === id) {
         return playerList[i]
       }
     }
@@ -126,7 +117,7 @@ function Client () {
   }
   this.addPlayer = function (player) {
     for (var i in playerList) {
-      if (playerList[i].getId() == player.getId()) {
+      if (playerList[i].getId() === player.getId()) {
         return
       }
     }
@@ -134,7 +125,7 @@ function Client () {
   }
   this.removePlayer = function (id) {
     for (var i in playerList) {
-      if (playerList[i].getId() == id) {
+      if (playerList[i].getId() === id) {
         playerList.splice(i, 1)
         return
       }

@@ -1,43 +1,44 @@
-var Entity = require('./Entity.js')
+const Entity = require('./Entity')
+const PlayerRenderer = require('../renderer/PlayerRenderer')
 
-var PlayerBody = require('../body/PlayerBody.js')
+class Player extends Entity {
+  constructor (id, location, velocity, name, isLocalPlayer, type) {
+    super(id, location, velocity)
+    this.name = name
+    this.isLocalPlayer = isLocalPlayer
+    this.type = type
+    this.renderer = new PlayerRenderer('steve', this)
+    if (!global.bodies) global.bodies = []
+  }
 
-function Player (id, location, velocity, name, isLocalPlayer, type) {
-  Entity.call(this, id, location, velocity)
-  this.name = name
-  this.isLocalPlayer = isLocalPlayer
-  this.body = new PlayerBody('steve', this)
-  this.type = type
-  if (global.bodies == undefined) global.bodies = []
-}
+  getEyeLocation () {
+    const location = this.getLocation()
+    location.add(0, 1.8, 0)
+    return location
+  }
 
-Player.prototype = new Entity() // Player extends Entity
+  getName () {
+    return this.name
+  }
 
-Player.prototype.getName = function () {
-  return this.name
-}
+  getType () {
+    return this.type
+  }
 
-Player.prototype.getEyeLocation = function () {
-  var location = this.getLocation()
-  location.add(0, 1.8, 0)
-  return location
-}
+  moveTo (location) {
+    super.moveTo(location)
+    if (this.isLocalPlayer) {
+      Vokkit.getClient().getSceneManager().updateGroup(location)
+    }
+  }
 
-Player.prototype.getType = function () {
-  return this.type
-}
+  setName (name) {
+    this.name = name
+  }
 
-Player.prototype.setType = function (type) {
-  this.type = type
-}
-
-Player.prototype.teleport = function (location) {
-  Entity.prototype.teleport.call(this, location)
-  if (this.isLocalPlayer) {
-    Vokkit.getClient().getSceneManager().updateGroup(location)
+  setType (type) {
+    this.type = type
   }
 }
-
-Player.prototype.constructor = Player
 
 module.exports = Player

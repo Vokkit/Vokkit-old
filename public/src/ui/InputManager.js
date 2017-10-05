@@ -1,11 +1,11 @@
-var Block = require('../block/Block.js')
+var Block = require('../block/Block')
 
 var press = [false, false, false, false, false, false, false, false]
 
 var fakeCamera
 
-function InputManager () {
-  this.init = function () {
+class InputManager {
+  constructor () {
     var renderer = Vokkit.getClient().getSceneManager().getRenderer()
     var camera = Vokkit.getClient().getSceneManager().getCamera()
     fakeCamera = camera.clone()
@@ -149,65 +149,69 @@ function InputManager () {
 
     function onKeyDown (e) {
       if (!Vokkit.getClient().getUIManager().isChatting()) {
-        if (e.keyCode == 87) { // w
+        if (e.keyCode === 87) { // w
           press[0] = true
-        } else if (e.keyCode == 83) { // s
+        } else if (e.keyCode === 83) { // s
           press[1] = true
-        } else if (e.keyCode == 65) { // a
+        } else if (e.keyCode === 65) { // a
           press[2] = true
-        } else if (e.keyCode == 68) { // d
+        } else if (e.keyCode === 68) { // d
           press[3] = true
-        } else if (e.keyCode == 32) { // space
+        } else if (e.keyCode === 32) { // space
           press[4] = true
-        } else if (e.keyCode == 16) { // shift
+        } else if (e.keyCode === 16) { // shift
           press[5] = true
         }
       } else {
-        if (e.keyCode == 13) { // Enter
+        if (e.keyCode === 13) { // Enter
           let name = Vokkit.getClient().getLocalPlayer().getName()
           let text = document.getElementById('chatText').value
-          if (text[0] == '/') { Vokkit.getClient().getChatManager().sendCommand(name, text.replace('/', '')) } else { Vokkit.getClient().getChatManager().sendChat(name, text) }
-        } else if (e.keyCode == 38) { // 위
+          if (text[0] === '/') {
+            Vokkit.getClient().getChatManager().sendCommand(name, text.replace('/', ''))
+          } else {
+            Vokkit.getClient().getChatManager().sendChat(name, text)
+          }
+        } else if (e.keyCode === 38) { // 위
 
-        } else if (e.keyCode == 40) { // 아래
+        } else if (e.keyCode === 40) { // 아래
 
         }
       }
-      if (e.keyCode == 84) { // t
+      if (e.keyCode === 84) { // t
         Vokkit.getClient().getUIManager().toggleChat()
       }
     }
 
     function onKeyUp (e) {
-      if (e.keyCode == 87) {
+      if (e.keyCode === 87) {
         press[0] = false
-      } else if (e.keyCode == 83) {
+      } else if (e.keyCode === 83) {
         press[1] = false
-      } else if (e.keyCode == 65) {
+      } else if (e.keyCode === 65) {
         press[2] = false
-      } else if (e.keyCode == 68) {
+      } else if (e.keyCode === 68) {
         press[3] = false
-      } else if (e.keyCode == 32) {
+      } else if (e.keyCode === 32) {
         press[4] = false
-      } else if (e.keyCode == 16) {
+      } else if (e.keyCode === 16) {
         press[5] = false
       }
     }
 
     function onMouseDown (e) {
-      if (e.button == 0 || e.button == undefined) {
+      if (e.button === 0 || e.button === undefined) {
         press[6] = true
-      } else if (e.button == 1) {
+      } else if (e.button === 1) {
                 // 선택된 블럭을 인벤토리에 넣음. TODO
-      } else if (e.button == 2) {
+      } else if (e.button === 2) {
         press[7] = true
       }
     }
 
     function onMouseUp (e) {
-      if (e.button == 0 || e.button == undefined) {
+      if (e.button === 0 || e.button === undefined) {
         press[6] = false
-      } else if (e.button == 2) {
+      } else if (e.button === 2) {
         press[7] = false
       }
     }
@@ -288,7 +292,7 @@ function InputManager () {
     this.mouseControl = function () {
       if ((press[6] || press[7]) && !(press[6] && press[7])) {
         if (coolDown > 0) coolDown--
-        if (coolDown == 0) {
+        if (coolDown === 0) {
           var direction = new THREE.Vector3()
           var blockPosition
           var camera = Vokkit.getClient().getSceneManager().getCamera()
@@ -355,8 +359,8 @@ function InputManager () {
     }
   }
 
-  this.getPress = function () {
-    return press.slice()
+  getPress () {
+    return this.press.slice()
   }
 }
 

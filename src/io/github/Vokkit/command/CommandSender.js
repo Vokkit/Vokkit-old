@@ -1,6 +1,6 @@
 class CommandSender {
   constructor () {
-
+    // Useless constructor
   }
 
   sendMessage () {

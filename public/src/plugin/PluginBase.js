@@ -1,4 +1,4 @@
-export default class PluginBase {
+class PluginBase {
   onLoad () {
 
   }
@@ -11,3 +11,5 @@ export default class PluginBase {
 
   }
 }
+
+module.exports = PluginBase

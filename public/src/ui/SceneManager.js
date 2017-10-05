@@ -1,6 +1,6 @@
-var Material = require('../Material.js')
+var Material = require('../Materials')
 
-var Block = require('../block/Block.js')
+var Block = require('../block/Block')
 
 var scene
 var group
@@ -88,7 +88,7 @@ function SceneManager () {
   }
 
   this.reloadChunk = function (chunk) {
-    if (dirtyChunks.indexOf(chunk) == -1) dirtyChunks.push(chunk)
+    if (dirtyChunks.indexOf(chunk) === -1) dirtyChunks.push(chunk)
   }
 
   this.start = function () {
@@ -105,7 +105,7 @@ function SceneManager () {
     }, 1000 / fps)
     var draw = function () {
       var localPlayer = Vokkit.getClient().getLocalPlayer()
-      if (localPlayer != undefined) {
+      if (localPlayer !== undefined) {
         group.position.copy(localPlayer.getEyeLocation().toVector().multiply(multiply))
       }
       for (var i in dirtyChunks) {

@@ -1,4 +1,4 @@
-export default class Location {
+class Location {
   constructor (world, x, y, z, yaw = 0, pitch = 0) {
     this.world = world
     this.x = x
@@ -147,6 +147,8 @@ export default class Location {
   }
 
   equals (loc) {
-    return loc.world.equals(this.world) && loc.x == this.x && loc.y == this.y && loc.z == this.z && loc.yaw == this.yaw && loc.pitch == this.pitch
+    return loc.world.equals(this.world) && loc.x === this.x && loc.y === this.y && loc.z === this.z && loc.yaw === this.yaw && loc.pitch === this.pitch
   }
 }
+
+module.exports = Location

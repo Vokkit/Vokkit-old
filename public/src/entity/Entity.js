@@ -1,34 +1,43 @@
-function Entity (id, location, velocity) {
-  this.id = id
-  this.location = location == undefined ? undefined : location.clone()
-  this.velocity = location == undefined ? undefined : velocity.clone()
-}
+class Entity {
+  constructor (id, location, velocity) {
+    this.is = id
+    this.location = typeof location === 'undefined' ? undefined : location.clone()
+    this.velocity = typeof location === 'undefined' ? undefined : velocity.clone()
+    this.renderer = null
+  }
 
-Entity.prototype.getId = function () {
-  return this.id
-}
+  equals (object) {
+    return object instanceof this.constructor && object.getId() === this.getId()
+  }
 
-Entity.prototype.getLocation = function () {
-  return this.location.clone()
-}
+  getId () {
+    return this.id
+  }
 
-Entity.prototype.teleport = function (loc) {
-  this.location.copy(loc)
-  if (this.body != undefined) this.body.updatePosition(this.location, this.velocity)
-}
+  getLocation () {
+    return this.location.clone()
+  }
 
-Entity.prototype.getVelocity = function () {
-  return this.velocity.clone()
-}
+  getVelocity () {
+    return this.velocity.clone()
+  }
 
-Entity.prototype.setVelocity = function (velocity) {
-  this.velocity.copy(velocity)
-}
+  moveTo (location) {
+    this.location.copy(location)
+    if (this.renderer) this.renderer.updatePosition(this.location, this.velocity)
+  }
 
-Entity.prototype.equals = function (object) {
-  return object instanceof this.constructor && object.getId() == this.getId()
-}
+  setId (id) {
+    this.id = id
+  }
 
-Entity.prototype.constructor = Entity
+  setLocation (location) {
+    this.location.clone(location)
+  }
+
+  setVelocity (velocity) {
+    this.velocity.clone(velocity)
+  }
+}
 
 module.exports = Entity

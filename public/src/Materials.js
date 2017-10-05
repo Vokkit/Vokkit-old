@@ -28,7 +28,7 @@ const MaterialAPI = {
   get (name) {
     if (!isNaN(name)) {
       for (var i in Materials) {
-        if (Materials[i].id == name) {
+        if (Materials[i].id === name) {
           return Materials[i]
         }
       }
@@ -45,4 +45,4 @@ for (const i in Materials) {
   MaterialModule[i] = Materials[i]
 }
 
-export default MaterialModule
+module.exports = MaterialModule

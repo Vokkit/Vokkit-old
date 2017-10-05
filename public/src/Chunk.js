@@ -1,7 +1,7 @@
-import Block from './block/Block'
-import CulledMesher from './mesher/CulledMesher'
+const Block = require('./block/Block')
+const CulledMesher = require('./mesher/CulledMesher')
 
-export default class Chunk {
+class Chunk {
   constructor (x, z, chunkData) {
     this.x = x
     this.z = z
@@ -50,16 +50,16 @@ export default class Chunk {
 
   mesher () {
     var data = this.toMesherData()
-    var result = CulledMesher(data.volume, data.dims)
+    var result = CulledMesher.optimize(data.volume, data.dims)
 
     var geometry = new THREE.Geometry()
 
-    for (var i in result.vertices) {
+    for (let i in result.vertices) {
       geometry.vertices.push(new THREE.Vector3(result.vertices[i][0], result.vertices[i][1], result.vertices[i][2]))
     }
 
-    var uvgeometry = blockTextureManager.uvsGeometry(new THREE.BoxGeometry(1, 1, 1))
-        // geometry.faceVertexUvs[0].push(new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0), new THREE.Vector2(0, 0), new THREE.Vector2(0, 0.5));
+    // var uvgeometry = blockTextureManager.uvsGeometry(new THREE.BoxGeometry(1, 1, 1))
+    // geometry.faceVertexUvs[0].push(new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0), new THREE.Vector2(0, 0), new THREE.Vector2(0, 0.5));
 
     var blockPosition = new THREE.Vector3()
 
@@ -82,9 +82,9 @@ export default class Chunk {
 
     var zpuvs = [new THREE.Vector2(1, 0), new THREE.Vector2(1, 0.5), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 0)]
 
-    for (var i in result.faces) {
+    for (let i in result.faces) {
       var faces = result.faces[i]
-      if (faces.length == 5) {
+      if (faces.length === 5) {
         var face = new THREE.Face3(faces[0], faces[1], faces[2])
         var face2 = new THREE.Face3(faces[0], faces[2], faces[3])
                 // face가 어느 방향인지 검출.
@@ -104,10 +104,10 @@ export default class Chunk {
         minx += this.x
         minz += this.z
 
-        if (geometry.vertices[faces[0]].x == geometry.vertices[faces[1]].x && geometry.vertices[faces[1]].x == geometry.vertices[faces[2]].x) {
+        if (geometry.vertices[faces[0]].x === geometry.vertices[faces[1]].x && geometry.vertices[faces[1]].x === geometry.vertices[faces[2]].x) {
                     // x 방향. 블럭 확인해서 어느 방향인지 재검출
           var block = this.getBlock(blockPosition.set(minx, miny, minz))
-          if (block.id == 0) {
+          if (block.id === 0) {
                         // x- 방향에 블럭있음.
             geometry.faceVertexUvs[0].push([xmuvs[0], xmuvs[1], xmuvs[2]])
             geometry.faceVertexUvs[0].push([xmuvs[0], xmuvs[2], xmuvs[3]])
@@ -121,10 +121,10 @@ export default class Chunk {
             face.materialIndex = block.id
             face2.materialIndex = block.id
           }
-        } else if (geometry.vertices[faces[0]].y == geometry.vertices[faces[1]].y && geometry.vertices[faces[1]].y == geometry.vertices[faces[2]].y) {
+        } else if (geometry.vertices[faces[0]].y === geometry.vertices[faces[1]].y && geometry.vertices[faces[1]].y === geometry.vertices[faces[2]].y) {
                     // y 방향. 블럭 확인해서 어느 방향인지 재검출
-          var block = this.getBlock(blockPosition.set(minx, miny, minz))
-          if (block.id == 0) {
+          let block = this.getBlock(blockPosition.set(minx, miny, minz))
+          if (block.id === 0) {
                         // y- 방향에 블럭있음. 이건 거꾸로 뒤집힘
             geometry.faceVertexUvs[0].push([ymuvs[0], ymuvs[1], ymuvs[2]])
             geometry.faceVertexUvs[0].push([ymuvs[0], ymuvs[2], ymuvs[3]])
@@ -138,10 +138,10 @@ export default class Chunk {
             face.materialIndex = block.id
             face2.materialIndex = block.id
           }
-        } else if (geometry.vertices[faces[0]].z == geometry.vertices[faces[1]].z && geometry.vertices[faces[1]].z == geometry.vertices[faces[2]].z) {
+        } else if (geometry.vertices[faces[0]].z === geometry.vertices[faces[1]].z && geometry.vertices[faces[1]].z === geometry.vertices[faces[2]].z) {
                     // z 방향. 블럭 확인해서 어느 방향인지 재검출
-          var block = this.getBlock(blockPosition.set(minx, miny, minz))
-          if (block.id == 0) {
+          let block = this.getBlock(blockPosition.set(minx, miny, minz))
+          if (block.id === 0) {
                         // z- 방향에 블럭있음. 이건 거꾸로 뒤집힘
             geometry.faceVertexUvs[0].push([zmuvs[0], zmuvs[1], zmuvs[2]])
             geometry.faceVertexUvs[0].push([zmuvs[0], zmuvs[2], zmuvs[3]])
@@ -163,7 +163,7 @@ export default class Chunk {
 
     var materials = Vokkit.getClient().getBlockTextureManager().getTextures()
 
-    mesh = new THREE.Mesh(geometry, materials)
+    const mesh = new THREE.Mesh(geometry, materials)
     mesh.position.set(this.x, 0, this.z)
     return mesh
   }
@@ -173,6 +173,8 @@ export default class Chunk {
   }
 
   getLastMesh () {
-    this.mesh
+    return this.mesh
   }
 }
+
+module.exports = Chunk
