@@ -22,7 +22,7 @@ class LoginManager extends SocketManager {
       }
       let playerList = Vokkit.getServer().getPlayers()
       for (let i in playerList) {
-        if (playerList[i].getName() === data.name) {
+        if (playerList[i].getName() === player.getName()) {
           socket.emit('loginResult', {
             succeed: false,
             reason: '이름이 중복됩니다.'
@@ -41,7 +41,7 @@ class LoginManager extends SocketManager {
         worlds: Vokkit.getServer().getWorldManager().getWorldArray()
       })
       Vokkit.getServer().addPlayer(player)
-      Vokkit.getServer().getLogger().info(player.getName() + '[' + address.address + ':' + address.port + ', type: ' + data.type + '] 이가 로그인 했습니다.')
+      Vokkit.getServer().getLogger().info(player.getName() + '[' + address.address + ':' + address.port + ', type: ' + player.getType() + '] 이가 로그인 했습니다.')
       let playerJoinEvent = new PlayerJoinEvent(player)
       Vokkit.getServer().getPluginManager().makeEvent(playerJoinEvent)
       Vokkit.getServer().getSocketServer().emit('playerJoin', player.toObject())
