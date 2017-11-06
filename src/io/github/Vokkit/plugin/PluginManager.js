@@ -23,7 +23,7 @@ class PluginManager {
       manifest: manifest
     })
     this.clientPlugins.push({
-      path: '../../../../../../plugins/' + manifest.name + '/' + manifest['client-plugin'] + '/' + manifest['client-main'],
+      path: '../../../plugins/' + manifest.name + '/' + manifest['client-plugin'] + '/' + manifest['client-main'],
       name: manifest.name
     })
     Vokkit.getServer().getLogger().info(manifest.name + ' ' + manifest.version + ' 로드 완료')
@@ -40,14 +40,14 @@ class PluginManager {
   enablePlugins () {
     Vokkit.getServer().getLogger().info('클라이언트 빌드 중... 빌드는 비동기로 처리됩니다.')
 
-    let pluginManagerPath = this.clientPath + '/lib/plugin/PluginManager.js'
+    let pluginManagerPath = this.clientPath + '/src/plugin/PluginManager.js'
 
     if (!fs.existsSync(pluginManagerPath)) {
       throw Error('public/src를 먼저 컴파일 해주세요.')
     }
 
     let source = ['class PluginManager {',
-      '    init() {',
+      '    constructor () {',
       '        this.plugins = [];',
       '    }',
       '',
@@ -80,6 +80,7 @@ class PluginManager {
     webpack(webpackConfig, (err, stats) => {
       if (err || stats.hasErrors()) {
         Vokkit.getServer().getLogger().info('클라이언트 빌드 오류 발생')
+        throw new Error(stats.toString())
       }
       Vokkit.getServer().getLogger().info('클라이언트를 빌드했습니다.')
     })

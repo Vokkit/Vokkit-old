@@ -25,8 +25,8 @@ class Player extends Entity {
     return this.type
   }
 
-  moveTo (location) {
-    super.moveTo(location)
+  teleport (location) {
+    super.teleport(location)
     if (this.isLocalPlayer) {
       Vokkit.getClient().getSceneManager().updateGroup(location)
     }

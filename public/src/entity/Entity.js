@@ -22,7 +22,7 @@ class Entity {
     return this.velocity.clone()
   }
 
-  moveTo (location) {
+  teleport (location) {
     this.location.copy(location)
     if (this.renderer) this.renderer.updatePosition(this.location, this.velocity)
   }

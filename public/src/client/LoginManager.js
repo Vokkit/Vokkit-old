@@ -10,8 +10,8 @@ class LoginManager {
       } else {
         this.logined = true
         World.prepareWorlds(data.worlds)
-        var playerManager = Vokkit.getClient().getPlayerManager()
-        for (var i in data.players) {
+        const playerManager = Vokkit.getClient().getPlayerManager()
+        for (const i in data.players) {
           playerManager.addPlayer(data.players[i], true)
         }
         this.isLogined = true
@@ -29,11 +29,11 @@ class LoginManager {
     if (id === '') {
       return false
     }
-    var type = 'PC'
-    var uAgent = navigator.userAgent.toLowerCase()
-    var mobilePhones = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce', 'nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile']
-    for (var i in mobilePhones) {
-      if (uAgent.indexOf(mobilePhones[i]) !== -1) {
+    let type = 'PC'
+    const uAgent = navigator.userAgent.toLowerCase()
+    const mobilePhones = ['iphone', 'ipod', 'ipad', 'android', 'blackberry', 'windows ce', 'nokia', 'webos', 'opera mini', 'sonyericsson', 'opera mobi', 'iemobile']
+    for (const i in mobilePhones) {
+      if (uAgent.includes(mobilePhones[i])) {
         type = 'Mobile'
         break
       }

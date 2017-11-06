@@ -15,13 +15,13 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['env', 'minify']
+            presets: [/*'env', 'minify'*/]
           }
         }
       }
     ]
-  },
+  }/*,
   plugins: [
     new UglifyJSPlugin()
-  ]
+  ]*/
 }

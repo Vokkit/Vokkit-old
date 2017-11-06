@@ -165,6 +165,7 @@ class Chunk {
 
     const mesh = new THREE.Mesh(geometry, materials)
     mesh.position.set(this.x, 0, this.z)
+    this.mesh = mesh
     return mesh
   }
 

@@ -40,12 +40,12 @@ class World {
         chunks.push(chunk)
       }
     }
-    this.world.prepared = true
+    this.prepared = true
   }
 
   getBlock (position) {
     const chunks = this.chunks
-    if (!this.world.prepared) return
+    if (!this.prepared) return
     for (var i in chunks) {
       if (chunks[i].containsPosition(position)) {
         return chunks[i].getBlock(position)
@@ -56,7 +56,7 @@ class World {
 
   setBlock (block) {
     const chunks = this.chunks
-    if (!this.world.prepared) return
+    if (!this.prepared) return
     var chunkExists = false
     for (var i in chunks) {
       if (chunks[i].containsPosition(block.position)) {

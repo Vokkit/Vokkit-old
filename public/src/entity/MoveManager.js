@@ -1,14 +1,12 @@
-function MoveManager () {
-  var socket
-  var moveManager = this
-  this.init = function () {
-    socket = Vokkit.getClient().getSocket()
-    socket.on('move', function (data) {
+class MoveManager{
+  constructor() {
+    this.socket = Vokkit.getClient().getSocket()
+    this.socket.on('move', function (data) {
       if (data.id === Vokkit.getClient().getLocalPlayer().getId() && !data.update) return
-      var players = Vokkit.getClient().getOnlinePlayers()
-      for (var i in players) {
+      const players = Vokkit.getClient().getOnlinePlayers()
+      for (const i in players) {
         if (players[i].getId() === data.id) {
-          var loc = players[i].getLocation()
+          const loc = players[i].getLocation()
           loc.set(data.x, data.y, data.z)
           loc.setYaw(data.yaw)
           loc.setPitch(data.pitch)
@@ -18,8 +16,9 @@ function MoveManager () {
       }
     })
   }
-  this.requestMove = function (location, velocity) {
-    socket.emit('requestMove', {
+
+  requestMove (location, velocity) {
+    this.socket.emit('requestMove', {
       x: location.x,
       y: location.y,
       z: location.z,
@@ -28,138 +27,37 @@ function MoveManager () {
       velocity: [velocity.x, velocity.y, velocity.z]
     })
   }
-  this.moveLocalPlayer = function (press) {
-    var localPlayer = Vokkit.getClient().getLocalPlayer()
-    var location = localPlayer.getLocation()
-    var yaw = location.getYaw()
-    var fps = Vokkit.getClient().getSceneManager().getFPS()
-    var multiply = 10 / fps
-    var velocity = localPlayer.getVelocity()
+
+  moveLocalPlayer (press) {
+    const localPlayer = Vokkit.getClient().getLocalPlayer()
+    const location = localPlayer.getLocation()
+    const yaw = location.getYaw()
+    const fps = Vokkit.getClient().getSceneManager().getFPS()
+    const multiply = 10 / fps
+    const velocity = localPlayer.getVelocity()
+    const tmpVector = new THREE.Vector3()
     if (press[0]) {
-      velocity.add(new THREE.Vector3(-Math.sin(yaw), 0, Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(tmpVector.set(-Math.sin(yaw), 0, Math.cos(yaw)).multiplyScalar(multiply))
     } else if (press[1]) {
-      velocity.add(new THREE.Vector3(Math.sin(yaw), 0, -Math.cos(yaw)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(tmpVector.set(Math.sin(yaw), 0, -Math.cos(yaw)).multiplyScalar(multiply))
     }
     if (press[2]) {
-      velocity.add(new THREE.Vector3(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(tmpVector.set(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiplyScalar(multiply))
     } else if (press[3]) {
-      velocity.add(new THREE.Vector3(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(tmpVector.set(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiplyScalar(multiply))
     }
     if (press[4]) {
-      velocity.add(new THREE.Vector3(0, 1.5, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(tmpVector.set(0, 1.5, 0).multiplyScalar(multiply))
     } else if (press[5]) {
-      velocity.add(new THREE.Vector3(0, -1, 0).multiply(new THREE.Vector3(multiply, multiply, multiply)))
+      velocity.add(tmpVector.set(0, -1, 0).multiplyScalar(multiply))
     }
     // localPlayer.addVelocity(new THREE.Vector3(0, -9.8 / fps, 0));
     localPlayer.setVelocity(velocity)
-    var players = Vokkit.getClient().getOnlinePlayers()
-    for (var i in players) {
-      let velocity = players[i].getVelocity()
-      if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) players[i].body.playAnimation('walk')
-      let location = players[i].getLocation()
-      let add = new THREE.Vector3()
-      let x = 0
-      let y = 0
-      let z = 0
-      var plusX = velocity.x > 0 ? 0.1 : -0.1
-      var plusY = velocity.y > 0 ? 0.1 : -0.1
-      var plusZ = velocity.z > 0 ? 0.1 : -0.1
-      var xFinish = velocity.x === 0
-      var yFinish = velocity.y === 0
-      var zFinish = velocity.z === 0
-      var xcollision = false
-      var ycollision = false
-      var zcollision = false
-      while (true) {
-        if (!xFinish) {
-          var previousX = x
-          if (velocity.x > 0) {
-            if (x < velocity.x - 0.1) x += 0.1
-            else if (x < velocity.x) {
-              x = velocity.x
-              xFinish = true
-            }
-          }
-
-          if (velocity.x < 0) {
-            if (x > velocity.x + 0.1) x -= 0.1
-            else if (x > velocity.x) {
-              x = velocity.x
-              xFinish = true
-            }
-          }
-
-          var block = Vokkit.getClient().getWorlds()[0].getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-          if (block.id !== 0) { // collision
-            xFinish = true
-            x = previousX
-            velocity.x = 0
-            xcollision = true
-          }
-          add.set(0, 0, 0)
-        }
-
-        if (!yFinish) {
-          var previousY = y
-          if (velocity.y > 0) {
-            if (y < velocity.y - 0.1) y += 0.1
-            else if (y < velocity.y) {
-              y = velocity.y
-              yFinish = true
-            }
-          }
-
-          if (velocity.y < 0) {
-            if (y > velocity.y + 0.1) y -= 0.1
-            else if (y > velocity.y) {
-              y = velocity.y
-              yFinish = true
-            }
-          }
-          let block = Vokkit.getClient().getWorlds()[0].getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-          if (block.id !== 0) { // collision
-            yFinish = true
-            y = previousY
-            velocity.y = 0
-            ycollision = true
-          }
-          add.set(0, 0, 0)
-        }
-
-        if (!zFinish) {
-          var previousZ = z
-          if (velocity.z > 0) {
-            if (z < velocity.z - 0.1) z += 0.1
-            else if (z < velocity.z) {
-              z = velocity.z
-              zFinish = true
-            }
-          }
-
-          if (velocity.z < 0) {
-            if (z > velocity.z + 0.1) z -= 0.1
-            else if (z > velocity.z) {
-              z = velocity.z
-              zFinish = true
-            }
-          }
-          var block = Vokkit.getClient().getWorlds()[0].getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-          if (block.id !== 0) { // collision
-            zFinish = true
-            z = previousZ
-            velocity.z = 0
-            zcollision = true
-          }
-          add.set(0, 0, 0)
-        }
-
-        if (xFinish && yFinish && zFinish) break
-      }
-      players[i].teleport(players[i].getLocation().add(x, y, z))
-      if (ycollision) players[i].setVelocity(velocity.multiply(new THREE.Vector3(0.5, 0.7, 0.5)))
-      else players[i].setVelocity(velocity.multiply(new THREE.Vector3(0.7, 0.7, 0.7)))
+    const players = Vokkit.getClient().getOnlinePlayers()
+    for (const i in players) {
+      players[i].renderer.checkMove(location, velocity)
     }
-    moveManager.requestMove(localPlayer.getLocation(), localPlayer.getVelocity())
+    this.requestMove(localPlayer.getLocation(), localPlayer.getVelocity())
   }
 }
 

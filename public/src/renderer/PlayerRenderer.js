@@ -1,14 +1,13 @@
 const Renderer = require('./Renderer')
 // Height: 1.8 Blocks
 
-let noRendered
-let rightLegMove = 1 // 오른다리 z+ 방향 움직임.
-let legMove = 0// 움직임 진행도(-1<legMove<1);
-let walkOn = false
-
 class PlayerRenderer extends Renderer {
-  constructor (skinPath, player) {
+  constructor(skinPath, player) {
     super(skinPath)
+    this.noRendered = null
+    this.rightLegMove = 1// 오른다리 z+ 방향 움직임.
+    this.legMove = 0// 움직임 진행도(-1<this.legMove<1);
+    this.walkOn = false
     this.name = player.getName()
     this.width = 0.6
     this.height = 1.8
@@ -19,12 +18,12 @@ class PlayerRenderer extends Renderer {
     // 스킨 한 픽셀당 0.05625 칸
     this.headGeometry = new THREE.BoxGeometry(0.45, 0.45, 0.45)
 
-    var headUvs0 = [new THREE.Vector2(0.125, 0.75), new THREE.Vector2(0.125, 0.5), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0.75)]
-    var headUvs1 = [new THREE.Vector2(0, 0.75), new THREE.Vector2(0, 0.5), new THREE.Vector2(0.125, 0.5), new THREE.Vector2(0.125, 0.75)]
-    var headUvs2 = [new THREE.Vector2(0.25, 0.75), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.375, 0.5), new THREE.Vector2(0.375, 0.75)]
-    var headUvs3 = [new THREE.Vector2(0.375, 0.75), new THREE.Vector2(0.375, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 0.75)]
-    var headUvs4 = [new THREE.Vector2(0.125, 1), new THREE.Vector2(0.125, 0.75), new THREE.Vector2(0.25, 0.75), new THREE.Vector2(0.25, 1)]
-    var headUvs5 = [new THREE.Vector2(0.25, 1), new THREE.Vector2(0.25, 0.75), new THREE.Vector2(0.375, 0.75), new THREE.Vector2(0.375, 1)]
+    const headUvs0 = [new THREE.Vector2(0.125, 0.75), new THREE.Vector2(0.125, 0.5), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0.75)]
+    const headUvs1 = [new THREE.Vector2(0, 0.75), new THREE.Vector2(0, 0.5), new THREE.Vector2(0.125, 0.5), new THREE.Vector2(0.125, 0.75)]
+    const headUvs2 = [new THREE.Vector2(0.25, 0.75), new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.375, 0.5), new THREE.Vector2(0.375, 0.75)]
+    const headUvs3 = [new THREE.Vector2(0.375, 0.75), new THREE.Vector2(0.375, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 0.75)]
+    const headUvs4 = [new THREE.Vector2(0.125, 1), new THREE.Vector2(0.125, 0.75), new THREE.Vector2(0.25, 0.75), new THREE.Vector2(0.25, 1)]
+    const headUvs5 = [new THREE.Vector2(0.25, 1), new THREE.Vector2(0.25, 0.75), new THREE.Vector2(0.375, 0.75), new THREE.Vector2(0.375, 1)]
 
     this.headGeometry.faceVertexUvs[0][8] = [headUvs0[0], headUvs0[1], headUvs0[3]]
     this.headGeometry.faceVertexUvs[0][9] = [headUvs0[1], headUvs0[2], headUvs0[3]]
@@ -41,12 +40,12 @@ class PlayerRenderer extends Renderer {
 
     this.bodyGeometry = new THREE.BoxGeometry(0.45, 0.675, 0.225)
 
-    var bodyUvs0 = [new THREE.Vector2(0.3125, 0.375), new THREE.Vector2(0.3125, 0), new THREE.Vector2(0.4375, 0), new THREE.Vector2(0.4375, 0.375)]
-    var bodyUvs1 = [new THREE.Vector2(0.25, 0.375), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.3125, 0), new THREE.Vector2(0.3125, 0.375)]
-    var bodyUvs2 = [new THREE.Vector2(0.4375, 0.375), new THREE.Vector2(0.4375, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.375)]
-    var bodyUvs3 = [new THREE.Vector2(0.5, 0.375), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.625, 0), new THREE.Vector2(0.625, 0.375)]
-    var bodyUvs4 = [new THREE.Vector2(0.3125, 0.5), new THREE.Vector2(0.3125, 0.375), new THREE.Vector2(0.4375, 0.375), new THREE.Vector2(0.4375, 0.5)]
-    var bodyUvs5 = [new THREE.Vector2(0.4375, 0.5), new THREE.Vector2(0.4375, 0.375), new THREE.Vector2(0.5625, 0.375), new THREE.Vector2(0.5625, 0.5)]
+    const bodyUvs0 = [new THREE.Vector2(0.3125, 0.375), new THREE.Vector2(0.3125, 0), new THREE.Vector2(0.4375, 0), new THREE.Vector2(0.4375, 0.375)]
+    const bodyUvs1 = [new THREE.Vector2(0.25, 0.375), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.3125, 0), new THREE.Vector2(0.3125, 0.375)]
+    const bodyUvs2 = [new THREE.Vector2(0.4375, 0.375), new THREE.Vector2(0.4375, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.375)]
+    const bodyUvs3 = [new THREE.Vector2(0.5, 0.375), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.625, 0), new THREE.Vector2(0.625, 0.375)]
+    const bodyUvs4 = [new THREE.Vector2(0.3125, 0.5), new THREE.Vector2(0.3125, 0.375), new THREE.Vector2(0.4375, 0.375), new THREE.Vector2(0.4375, 0.5)]
+    const bodyUvs5 = [new THREE.Vector2(0.4375, 0.5), new THREE.Vector2(0.4375, 0.375), new THREE.Vector2(0.5625, 0.375), new THREE.Vector2(0.5625, 0.5)]
 
     this.bodyGeometry.faceVertexUvs[0][8] = [bodyUvs0[0], bodyUvs0[1], bodyUvs0[3]]
     this.bodyGeometry.faceVertexUvs[0][9] = [bodyUvs0[1], bodyUvs0[2], bodyUvs0[3]]
@@ -63,12 +62,12 @@ class PlayerRenderer extends Renderer {
 
     this.rightArmGeometry = new THREE.BoxGeometry(0.225, 0.675, 0.225)
 
-    var rightArmUvs0 = [new THREE.Vector2(0.6875, 0.375), new THREE.Vector2(0.6875, 0), new THREE.Vector2(0.75, 0), new THREE.Vector2(0.75, 0.375)]
-    var rightArmUvs1 = [new THREE.Vector2(0.625, 0.375), new THREE.Vector2(0.625, 0), new THREE.Vector2(0.6875, 0), new THREE.Vector2(0.6875, 0.375)]
-    var rightArmUvs2 = [new THREE.Vector2(0.75, 0.375), new THREE.Vector2(0.75, 0), new THREE.Vector2(0.8125, 0), new THREE.Vector2(0.8125, 0.375)]
-    var rightArmUvs3 = [new THREE.Vector2(0.8125, 0.375), new THREE.Vector2(0.8125, 0), new THREE.Vector2(0.875, 0), new THREE.Vector2(0.875, 0.375)]
-    var rightArmUvs4 = [new THREE.Vector2(0.6875, 0.5), new THREE.Vector2(0.6875, 0.375), new THREE.Vector2(0.75, 0.375), new THREE.Vector2(0.75, 0.5)]
-    var rightArmUvs5 = [new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 0.375), new THREE.Vector2(0.8125, 0.375), new THREE.Vector2(0.8125, 0.5)]
+    const rightArmUvs0 = [new THREE.Vector2(0.6875, 0.375), new THREE.Vector2(0.6875, 0), new THREE.Vector2(0.75, 0), new THREE.Vector2(0.75, 0.375)]
+    const rightArmUvs1 = [new THREE.Vector2(0.625, 0.375), new THREE.Vector2(0.625, 0), new THREE.Vector2(0.6875, 0), new THREE.Vector2(0.6875, 0.375)]
+    const rightArmUvs2 = [new THREE.Vector2(0.75, 0.375), new THREE.Vector2(0.75, 0), new THREE.Vector2(0.8125, 0), new THREE.Vector2(0.8125, 0.375)]
+    const rightArmUvs3 = [new THREE.Vector2(0.8125, 0.375), new THREE.Vector2(0.8125, 0), new THREE.Vector2(0.875, 0), new THREE.Vector2(0.875, 0.375)]
+    const rightArmUvs4 = [new THREE.Vector2(0.6875, 0.5), new THREE.Vector2(0.6875, 0.375), new THREE.Vector2(0.75, 0.375), new THREE.Vector2(0.75, 0.5)]
+    const rightArmUvs5 = [new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 0.375), new THREE.Vector2(0.8125, 0.375), new THREE.Vector2(0.8125, 0.5)]
 
     this.rightArmGeometry.faceVertexUvs[0][8] = [rightArmUvs0[0], rightArmUvs0[1], rightArmUvs0[3]]
     this.rightArmGeometry.faceVertexUvs[0][9] = [rightArmUvs0[1], rightArmUvs0[2], rightArmUvs0[3]]
@@ -87,12 +86,12 @@ class PlayerRenderer extends Renderer {
 
     this.rightLegGeometry = new THREE.BoxGeometry(0.225, 0.675, 0.225)
 
-    var rightLegUvs0 = [new THREE.Vector2(0.0625, 0.375), new THREE.Vector2(0.0625, 0), new THREE.Vector2(0.125, 0), new THREE.Vector2(0.125, 0.375)]
-    var rightLegUvs1 = [new THREE.Vector2(0, 0.375), new THREE.Vector2(0, 0), new THREE.Vector2(0.0625, 0), new THREE.Vector2(0.0625, 0.375)]
-    var rightLegUvs2 = [new THREE.Vector2(0.1875, 0.375), new THREE.Vector2(0.125, 0), new THREE.Vector2(0.1875, 0), new THREE.Vector2(0.1875, 0.375)]
-    var rightLegUvs3 = [new THREE.Vector2(0.1875, 0.375), new THREE.Vector2(0.1875, 0), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.25, 0.375)]
-    var rightLegUvs4 = [new THREE.Vector2(0.0625, 0.5), new THREE.Vector2(0.0625, 0.375), new THREE.Vector2(0.125, 0.375), new THREE.Vector2(0.125, 0.5)]
-    var rightLegUvs5 = [new THREE.Vector2(0.125, 0.5), new THREE.Vector2(0.125, 0.375), new THREE.Vector2(0.1875, 0.375), new THREE.Vector2(0.1875, 0.5)]
+    const rightLegUvs0 = [new THREE.Vector2(0.0625, 0.375), new THREE.Vector2(0.0625, 0), new THREE.Vector2(0.125, 0), new THREE.Vector2(0.125, 0.375)]
+    const rightLegUvs1 = [new THREE.Vector2(0, 0.375), new THREE.Vector2(0, 0), new THREE.Vector2(0.0625, 0), new THREE.Vector2(0.0625, 0.375)]
+    const rightLegUvs2 = [new THREE.Vector2(0.1875, 0.375), new THREE.Vector2(0.125, 0), new THREE.Vector2(0.1875, 0), new THREE.Vector2(0.1875, 0.375)]
+    const rightLegUvs3 = [new THREE.Vector2(0.1875, 0.375), new THREE.Vector2(0.1875, 0), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.25, 0.375)]
+    const rightLegUvs4 = [new THREE.Vector2(0.0625, 0.5), new THREE.Vector2(0.0625, 0.375), new THREE.Vector2(0.125, 0.375), new THREE.Vector2(0.125, 0.5)]
+    const rightLegUvs5 = [new THREE.Vector2(0.125, 0.5), new THREE.Vector2(0.125, 0.375), new THREE.Vector2(0.1875, 0.375), new THREE.Vector2(0.1875, 0.5)]
 
     this.rightLegGeometry.faceVertexUvs[0][8] = [rightLegUvs0[0], rightLegUvs0[1], rightLegUvs0[3]]
     this.rightLegGeometry.faceVertexUvs[0][9] = [rightLegUvs0[1], rightLegUvs0[2], rightLegUvs0[3]]
@@ -109,29 +108,29 @@ class PlayerRenderer extends Renderer {
 
     this.leftLegGeometry = this.rightLegGeometry.clone()
 
-    var add = new THREE.Vector3()
+    const add = new THREE.Vector3()
 
     add.set(0, 0.225, 0)
-    for (var i in this.headGeometry.vertices) {
+    for (const i in this.headGeometry.vertices) {
       this.headGeometry.vertices[i].add(add)
     }
     add.set(-0.3375, -0.1125, 0)
-    for (var i in this.rightArmGeometry.vertices) {
+    for (const i in this.rightArmGeometry.vertices) {
       this.rightArmGeometry.vertices[i].add(add)
     }
 
     add.set(0.3375, -0.1125, 0)
-    for (var i in this.rightArmGeometry.vertices) {
+    for (const i in this.rightArmGeometry.vertices) {
       this.leftArmGeometry.vertices[i].add(add)
     }
 
     add.set(-0.1125, -0.1125, 0)
-    for (var i in this.rightArmGeometry.vertices) {
+    for (const i in this.rightArmGeometry.vertices) {
       this.rightLegGeometry.vertices[i].add(add)
     }
 
     add.set(0.1125, -0.1125, 0)
-    for (var i in this.rightArmGeometry.vertices) {
+    for (const i in this.rightArmGeometry.vertices) {
       this.leftLegGeometry.vertices[i].add(add)
     }
 
@@ -142,7 +141,7 @@ class PlayerRenderer extends Renderer {
     this.rightLegMesh = new THREE.Mesh(this.rightLegGeometry, this.material)
     this.leftLegMesh = new THREE.Mesh(this.leftLegGeometry, this.material)
 
-    var location = player.getLocation()// 정확히 오른발과 왼발 사이
+    const location = player.getLocation()// 정확히 오른발과 왼발 사이
 
     this.headMesh.position.set(location.x, location.y + 1.35, location.z)
     this.bodyMesh.position.set(location.x, location.y + 1.0125, location.z)
@@ -151,7 +150,7 @@ class PlayerRenderer extends Renderer {
     this.rightLegMesh.position.set(location.x, location.y + 0.45, location.z)
     this.leftLegMesh.position.set(location.x, location.y + 0.45, location.z)
 
-    var group = Vokkit.getClient().getSceneManager().getGroup()
+    const group = Vokkit.getClient().getSceneManager().getGroup()
     if (!player.isLocalPlayer) {
       group.add(this.headMesh)
     }
@@ -162,18 +161,18 @@ class PlayerRenderer extends Renderer {
     group.add(this.leftLegMesh)
   }
 
-  playAnimation (animationName) {
-    if (noRendered) return
+  playAnimation(animationName) {
+    if (this.noRendered) return
     if (animationName === 'walk') {
-      walkOn = true
+      this.walkOn = true
     }
   }
 
-  updatePosition (location, velocity) {
-    if (typeof noRendered === 'undefined' && typeof Vokkit.getClient().getLocalPlayer() !== 'undefined') {
+  updatePosition(location, velocity) {
+    if (this.noRendered === null && typeof Vokkit.getClient().getLocalPlayer() !== 'undefined') {
       if (Vokkit.getClient().getLocalPlayer().getName() === this.name) {
-        noRendered = true
-        var group = Vokkit.getClient().getSceneManager().getGroup()
+        this.noRendered = true
+        const group = Vokkit.getClient().getSceneManager().getGroup()
         group.remove(this.headMesh)
         group.remove(this.bodyMesh)
         group.remove(this.rightArmMesh)
@@ -181,19 +180,19 @@ class PlayerRenderer extends Renderer {
         group.remove(this.rightLegMesh)
         group.remove(this.leftLegMesh)
       } else {
-        noRendered = false
+        this.noRendered = false
       }
     }
-    if (noRendered) return
+    if (this.noRendered) return
     this.headMesh.position.set(location.x, location.y + 1.35, location.z)
     this.headMesh.lookAt(new THREE.Vector3(this.headMesh.position.x - Math.sin(location.getYaw()) * Math.cos(location.getPitch()), this.headMesh.position.y + Math.sin(location.getPitch()), this.headMesh.position.z + Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
 
     this.bodyYaw = Math.atan2(velocity.x, velocity.z)
     this.bodyPitch = Math.asin(-velocity.y)
-    var bodyYawSin = -Math.sin(this.bodyYaw)
-    var bodyYawCos = Math.cos(this.bodyYaw)
-    var ArmYawSin = -Math.sin(this.bodyYaw + Math.PI / 2)
-    var ArmYawCos = Math.cos(this.bodyYaw + Math.PI / 2)
+    const bodyYawSin = -Math.sin(this.bodyYaw)
+    const bodyYawCos = Math.cos(this.bodyYaw)
+    //const ArmYawSin = -Math.sin(this.bodyYaw + Math.PI / 2)
+    //const ArmYawCos = Math.cos(this.bodyYaw + Math.PI / 2)
 
     this.bodyMesh.position.set(location.x, location.y + 1.0125, location.z)
     this.bodyMesh.lookAt(new THREE.Vector3(this.bodyMesh.position.x - bodyYawSin, this.bodyMesh.position.y, this.bodyMesh.position.z + bodyYawCos))
@@ -204,23 +203,23 @@ class PlayerRenderer extends Renderer {
     this.leftArmMesh.position.set(location.x, location.y + 1.125, location.z)
     this.leftArmMesh.lookAt(new THREE.Vector3(this.leftArmMesh.position.x - bodyYawSin, this.leftArmMesh.position.y, this.leftArmMesh.position.z + bodyYawCos))
 
-    if (rightLegMove) {
-      if (legMove != 0 || walkOn) legMove += 0.05
-      if (legMove >= 1) {
-        rightLegMove = false
+    if (this.rightLegMove) {
+      if (this.legMove != 0 || this.walkOn) this.legMove += 0.05
+      if (this.legMove >= 1) {
+        this.rightLegMove = false
       }
     } else {
-      if (legMove != 0 || walkOn) legMove -= 0.05
-      if (legMove <= -1) {
-        rightLegMove = true
+      if (this.legMove != 0 || this.walkOn) this.legMove -= 0.05
+      if (this.legMove <= -1) {
+        this.rightLegMove = true
       }
     }
-    walkOn = false
+    this.walkOn = false
 
-    var rightPitch = legMove * 30 / 180 * Math.PI
-    var leftPitch = -legMove * 30 / 180 * Math.PI
-    var bodyPitchSin = Math.sin(rightPitch)
-    var bodyPitchCos = Math.cos(rightPitch)
+    const rightPitch = this.legMove * 30 / 180 * Math.PI
+    const leftPitch = -this.legMove * 30 / 180 * Math.PI
+    let bodyPitchSin = Math.sin(rightPitch)
+    let bodyPitchCos = Math.cos(rightPitch)
 
     this.rightLegMesh.position.set(location.x, location.y + 0.45, location.z)
     this.rightLegMesh.lookAt(new THREE.Vector3(this.rightLegMesh.position.x - bodyYawSin * bodyPitchCos, this.rightLegMesh.position.y + bodyPitchSin, this.rightLegMesh.position.z + bodyYawCos * bodyPitchCos))
@@ -229,6 +228,109 @@ class PlayerRenderer extends Renderer {
     bodyPitchCos = Math.cos(leftPitch)
     this.leftLegMesh.position.set(location.x, location.y + 0.45, location.z)
     this.leftLegMesh.lookAt(new THREE.Vector3(this.leftLegMesh.position.x - bodyYawSin * bodyPitchCos, this.leftLegMesh.position.y + bodyPitchSin, this.leftLegMesh.position.z + bodyYawCos * bodyPitchCos))
+  }
+
+  checkMove(location, velocity) {
+    if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) this.player.renderer.playAnimation('walk')
+    const add = new THREE.Vector3()
+    const plusX = velocity.x > 0 ? 0.1 : -0.1
+    const plusY = velocity.y > 0 ? 0.1 : -0.1
+    const plusZ = velocity.z > 0 ? 0.1 : -0.1
+    let x = 0
+    let y = 0
+    let z = 0
+    let xFinish = velocity.x === 0
+    let yFinish = velocity.y === 0
+    let zFinish = velocity.z === 0
+    let xCollision = false
+    let yCollision = false
+    let zCollision = false
+    while (!(xFinish && yFinish && zFinish)) {
+      if (!xFinish) {
+        const previousX = x
+        if (velocity.x > 0) {
+          if (x < velocity.x - 0.1) x += 0.1
+          else if (x < velocity.x) {
+            x = velocity.x
+            xFinish = true
+          }
+        }
+
+        if (velocity.x < 0) {
+          if (x > velocity.x + 0.1) x -= 0.1
+          else if (x > velocity.x) {
+            x = velocity.x
+            xFinish = true
+          }
+        }
+
+        const block = this.player.getLocation().getWorld().getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
+        if (block.id !== 0) { // collision
+          xFinish = true
+          x = previousX
+          velocity.x = 0
+          xCollision = true
+        }
+        add.set(0, 0, 0)
+      }
+
+      if (!yFinish) {
+        const previousY = y
+        if (velocity.y > 0) {
+          if (y < velocity.y - 0.1) y += 0.1
+          else if (y < velocity.y) {
+            y = velocity.y
+            yFinish = true
+          }
+        }
+
+        if (velocity.y < 0) {
+          if (y > velocity.y + 0.1) y -= 0.1
+          else if (y > velocity.y) {
+            y = velocity.y
+            yFinish = true
+          }
+        }
+        const block = this.player.getLocation().getWorld().getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
+        if (block.id !== 0) { // collision
+          yFinish = true
+          y = previousY
+          velocity.y = 0
+          yCollision = true
+        }
+        add.set(0, 0, 0)
+      }
+
+      if (!zFinish) {
+        const previousZ = z
+        if (velocity.z > 0) {
+          if (z < velocity.z - 0.1) z += 0.1
+          else if (z < velocity.z) {
+            z = velocity.z
+            zFinish = true
+          }
+        }
+
+        if (velocity.z < 0) {
+          if (z > velocity.z + 0.1) z -= 0.1
+          else if (z > velocity.z) {
+            z = velocity.z
+            zFinish = true
+          }
+        }
+        const block = this.player.getLocation().getWorld().getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
+        if (block.id !== 0) { // collision
+          zFinish = true
+          z = previousZ
+          velocity.z = 0
+          zCollision = true
+        }
+        add.set(0, 0, 0)
+      }
+    }
+    this.player.teleport(this.player.getLocation().add(x, y, z))
+    if (yCollision) this.player.setVelocity(velocity.multiply(new THREE.Vector3(0.5, 0.7, 0.5)))
+    else this.player.setVelocity(velocity.multiplyScalar(0.7))
   }
 }
 
