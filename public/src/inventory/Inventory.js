@@ -1,22 +1,22 @@
 class Inventory {
-  constructor(size, contents = []) {
+  constructor (size, contents = []) {
     this.size = size
     this.contents = contents
   }
 
-  getContents() {
+  getContents () {
     return this.contents
   }
 
-  getItem(count) {
+  getItem (count) {
     return this.contents[count]
   }
 
-  setItem(count, item) {
+  setItem (count, item) {
     this.contents[count] = item
   }
 
-  addItem(items) {
+  addItem (items) {
     if (items instanceof Array) {
       for (const i in items) {
         if (!this.addItem(items[i])) return false
@@ -34,7 +34,7 @@ class Inventory {
     return false
   }
 
-  removeItem(items) {
+  removeItem (items) {
     if (items instanceof Array) {
       for (const i in items) {
         this.removeItem(items[i])

@@ -2,7 +2,7 @@ const Renderer = require('./Renderer')
 // Height: 1.8 Blocks
 
 class PlayerRenderer extends Renderer {
-  constructor(skinPath, player) {
+  constructor (skinPath, player) {
     super(skinPath)
     this.noRendered = null
     this.rightLegMove = 1// 오른다리 z+ 방향 움직임.
@@ -161,14 +161,14 @@ class PlayerRenderer extends Renderer {
     group.add(this.leftLegMesh)
   }
 
-  playAnimation(animationName) {
+  playAnimation (animationName) {
     if (this.noRendered) return
     if (animationName === 'walk') {
       this.walkOn = true
     }
   }
 
-  updatePosition(location, velocity) {
+  updatePosition (location, velocity) {
     if (this.noRendered === null && typeof Vokkit.getClient().getLocalPlayer() !== 'undefined') {
       if (Vokkit.getClient().getLocalPlayer().getName() === this.name) {
         this.noRendered = true
@@ -191,8 +191,8 @@ class PlayerRenderer extends Renderer {
     this.bodyPitch = Math.asin(-velocity.y)
     const bodyYawSin = -Math.sin(this.bodyYaw)
     const bodyYawCos = Math.cos(this.bodyYaw)
-    //const ArmYawSin = -Math.sin(this.bodyYaw + Math.PI / 2)
-    //const ArmYawCos = Math.cos(this.bodyYaw + Math.PI / 2)
+    // const ArmYawSin = -Math.sin(this.bodyYaw + Math.PI / 2)
+    // const ArmYawCos = Math.cos(this.bodyYaw + Math.PI / 2)
 
     this.bodyMesh.position.set(location.x, location.y + 1.0125, location.z)
     this.bodyMesh.lookAt(new THREE.Vector3(this.bodyMesh.position.x - bodyYawSin, this.bodyMesh.position.y, this.bodyMesh.position.z + bodyYawCos))
@@ -230,7 +230,7 @@ class PlayerRenderer extends Renderer {
     this.leftLegMesh.lookAt(new THREE.Vector3(this.leftLegMesh.position.x - bodyYawSin * bodyPitchCos, this.leftLegMesh.position.y + bodyPitchSin, this.leftLegMesh.position.z + bodyYawCos * bodyPitchCos))
   }
 
-  checkMove(location, velocity) {
+  checkMove (location, velocity) {
     if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) this.player.renderer.playAnimation('walk')
     const add = new THREE.Vector3()
     const plusX = velocity.x > 0 ? 0.1 : -0.1

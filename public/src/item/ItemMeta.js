@@ -1,26 +1,26 @@
 class ItemMeta {
-  constructor(lore = [], displayName = null) {
+  constructor (lore = [], displayName = null) {
     this.lore = lore
     this.displayName = displayName
   }
 
-  getLore() {
+  getLore () {
     return this.lore
   }
 
-  setLore(lore) {
+  setLore (lore) {
     this.lore = lore
   }
 
-  getDisplayName() {
+  getDisplayName () {
     return this.displayName
   }
 
-  setDisplayName(displayName) {
+  setDisplayName (displayName) {
     this.displayName = displayName
   }
 
-  equals(itemMeta) {
+  equals (itemMeta) {
     return itemMeta instanceof ItemMeta && itemMeta.getLore().slice().splice(this.getLore()).length == 0 && this.getLore().slice().splice(itemMeta.getLore()).length == 0 && this.getDisplayName() == itemMeta.getDisplayName()
   }
 }

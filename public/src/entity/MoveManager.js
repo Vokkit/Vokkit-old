@@ -1,5 +1,5 @@
-class MoveManager{
-  constructor() {
+class MoveManager {
+  constructor () {
     this.socket = Vokkit.getClient().getSocket()
     this.socket.on('move', function (data) {
       if (data.id === Vokkit.getClient().getLocalPlayer().getId() && !data.update) return

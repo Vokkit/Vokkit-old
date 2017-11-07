@@ -54,11 +54,11 @@ class Player extends Entity {
     Vokkit.getServer().getLogger().info(sender + ' tell ' + message + ' to ' + this.name)
   }
 
-  getInventory() {
+  getInventory () {
     return this.inventory
   }
 
-  openInventory(inventory) {
+  openInventory (inventory) {
     this.socket.emit('inventoryOpen', {
       inventory: inventory.toObject()
     })

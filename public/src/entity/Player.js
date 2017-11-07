@@ -42,12 +42,12 @@ class Player extends Entity {
     this.type = type
   }
 
-  getInventory() {
+  getInventory () {
     return this.inventory
   }
 
-  openInventory(inventory) {
-    //TODO: UI 작업
+  openInventory (inventory) {
+    // TODO: UI 작업
   }
 }
 

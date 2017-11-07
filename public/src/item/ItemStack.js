@@ -1,50 +1,49 @@
 const ItemMeta = require('./ItemMeta')
 
 class ItemStack {
-  constructor(type, amount = 1, data = 0) {
+  constructor (type, amount = 1, data = 0) {
     this.type = type
     this.amount = amount
     this.data = data
     this.itemMeta = new ItemMeta()
   }
 
-  getType() {
+  getType () {
     return this.type
   }
 
-  setType(type) {
+  setType (type) {
     this.type = type
   }
 
-  getAmount() {
+  getAmount () {
     return this.amount
   }
 
-  setAmount(amount) {
+  setAmount (amount) {
     this.amount = amount
   }
 
-  getData() {
+  getData () {
     return this.data
   }
 
-  setData(data) {
+  setData (data) {
     this.data = data
   }
 
-  getItemMeta() {
+  getItemMeta () {
     return this.itemMeta
   }
 
-  setItemMeta(itemMeta) {
+  setItemMeta (itemMeta) {
     this.itemMeta = itemMeta
   }
 
-  equals(item) {
+  equals (item) {
     return item instanceof ItemStack && item.getType().equals(this.type) && item.getData() == this.data && item.getItemMeta().equals(this.getItem
     ())
   }
-
 }
 
 module.exports = ItemStack
