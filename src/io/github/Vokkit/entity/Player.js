@@ -1,12 +1,14 @@
-var Entity = require('./Entity.js')
+const Entity = require('./Entity.js')
+const Inventory = require('../inventory/Inventory')
 
 class Player extends Entity {
-  constructor (id, location, velocity, name, socket, type) {
+  constructor (id, location, velocity, name, socket, type, inventory = new Inventory(54)) {
     super(id, location, velocity)
 
     this.name = name
     this.socket = socket
     this.type = type
+    this.inventory = inventory
   }
 
   getName () {
@@ -50,6 +52,16 @@ class Player extends Entity {
     })
 
     Vokkit.getServer().getLogger().info(sender + ' tell ' + message + ' to ' + this.name)
+  }
+
+  getInventory() {
+    return this.inventory
+  }
+
+  openInventory(inventory) {
+    this.socket.emit('inventoryOpen', {
+      inventory: inventory.toObject()
+    })
   }
 
   toObject () {

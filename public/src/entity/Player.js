@@ -1,5 +1,6 @@
 const Entity = require('./Entity')
 const PlayerRenderer = require('../renderer/PlayerRenderer')
+const Inventory = require('../inventory/Inventory')
 
 class Player extends Entity {
   constructor (id, location, velocity, name, isLocalPlayer, type) {
@@ -8,6 +9,7 @@ class Player extends Entity {
     this.isLocalPlayer = isLocalPlayer
     this.type = type
     this.renderer = new PlayerRenderer('steve', this)
+    this.inventory = new Inventory(54)
     if (!global.bodies) global.bodies = []
   }
 
@@ -38,6 +40,14 @@ class Player extends Entity {
 
   setType (type) {
     this.type = type
+  }
+
+  getInventory() {
+    return this.inventory
+  }
+
+  openInventory(inventory) {
+    //TODO: UI 작업
   }
 }
 
