@@ -1,6 +1,6 @@
 const World = require('./World.js')
 const Logger = new (require('./Logger.js'))()
-const SocketManager = require('./manager/SocketManager.js')
+const SocketConnectManager = require('./manager/SocketConnectManager.js')
 const PluginManager = require('./plugin/PluginManager.js')
 const ConsoleManager = require('./command/ConsoleManager.js')
 
@@ -11,7 +11,7 @@ const io = require('socket.io')
 const socketServer = io.listen(http)
 const path = require('path')
 
-let socketManager
+let socketConnectManager
 let consoleManager
 let pluginManager
 
@@ -31,8 +31,8 @@ class Server {
     Logger.info(this.worldList.length + '개의 월드를 불러왔습니다.')
 
     Logger.info('통신 기능을 불러오는 중...')
-    socketManager = new SocketManager()
-    socketManager.init()
+    socketConnectManager = new SocketConnectManager()
+    socketConnectManager.init()
     Logger.info('통신 기능을 불러왔습니다.')
 
     pluginManager = new PluginManager()
@@ -111,35 +111,35 @@ class Server {
   }
 
   getLoginManager () {
-    return socketManager.loginManager
+    return socketConnectManager.loginManager
   }
 
   getMoveManager () {
-    return socketManager.moveManager
-  }
-
-  getPlayerSkinManager () {
-    return socketManager.playerSkinManager
-  }
-
-  getDisconnectManager () {
-    return socketManager.disconnectManager
-  }
-
-  getChatManager () {
-    return socketManager.disconnectManager
-  }
-
-  getCommandManager () {
-    return socketManager.disconnectManager
-  }
-
-  getSocketManager () {
-    return socketManager
+    return socketConnectManager.moveManager
   }
 
   getWorldManager () {
-    return socketManager.worldManager
+    return socketConnectManager.worldManager
+  }
+
+  getPlayerSkinManager () {
+    return socketConnectManager.playerSkinManager
+  }
+
+  getDisconnectManager () {
+    return socketConnectManager.disconnectManager
+  }
+
+  getChatManager () {
+    return socketConnectManager.chatManager
+  }
+
+  getCommandManager () {
+    return socketConnectManager.commandManager
+  }
+
+  getSocketConnectManager () {
+    return socketConnectManager
   }
 
   getPluginManager () {

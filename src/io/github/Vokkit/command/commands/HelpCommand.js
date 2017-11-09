@@ -10,7 +10,7 @@ class HelpCommand extends Command {
   }
 
   execute (parameterNumber, sender, parameter) {
-    let allCommands = Vokkit.getServer().getSocketManager().getCommandManager().getCommandProvider().getAllCommands()
+    let allCommands = Vokkit.getServer().getCommandManager().getCommandProvider().getAllCommands()
     let text = ''
 
     switch (parameterNumber) {
