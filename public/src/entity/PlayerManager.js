@@ -1,16 +1,19 @@
-var Player = require('./Player')
-var Location = require('../Location')
+const Player = require('./Player')
+const LocalPlayer = require('./LocalPlayer')
 
-function PlayerManager () {
-  var socket
-  var playerManager = this
-  socket = Vokkit.getClient().getSocket()
-  socket.on('playerJoin', playerManager.addPlayer)
-  socket.on('playerQuit', playerManager.removePlayer)
-  this.addPlayer = function (data, ignoreLocal) {
-    if (Vokkit.getClient().getLoginManager().isLogined() && (ignoreLocal || !(socket.id === data.id))) Vokkit.getClient().addPlayer(Player.fromObject(data))
+class PlayerManager {
+  constructor() {
+    const socket = Vokkit.getClient().getSocket()
+    socket.on('playerJoin', this.addPlayer)
+    socket.on('playerQuit', this.removePlayer)
   }
-  this.removePlayer = function (data) {
+
+  addPlayer (data, ignoreLocal) {
+    console.log(data)
+    const socket = Vokkit.getClient().getSocket()
+    if (Vokkit.getClient().getLoginManager().isLogined() && (ignoreLocal || !(socket.id === data.id))) Vokkit.getClient().addPlayer(data.id == socket.id ? LocalPlayer.fromObject(data, socket) : Player.fromObject(data, socket))
+  }
+  removePlayer (data) {
     if (Vokkit.getClient().getLoginManager().isLogined()) Vokkit.getClient().removePlayer(data.id)
   }
 }

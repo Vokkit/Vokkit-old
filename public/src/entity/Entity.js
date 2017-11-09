@@ -1,6 +1,6 @@
 class Entity {
   constructor (id, location, velocity) {
-    this.is = id
+    this.id = id
     this.location = typeof location === 'undefined' ? undefined : location.clone()
     this.velocity = typeof location === 'undefined' ? undefined : velocity.clone()
     this.renderer = null

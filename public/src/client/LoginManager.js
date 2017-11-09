@@ -14,7 +14,7 @@ class LoginManager {
         for (const i in data.players) {
           playerManager.addPlayer(data.players[i], true)
         }
-        this.isLogined = true
+        this.logined = true
         client.init()
       }
     })

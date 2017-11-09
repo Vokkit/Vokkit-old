@@ -9,7 +9,7 @@ var UIManager = require('./ui/UIManager')
 var ChatManager = require('./chat/ChatManager')
 var PluginManager = require('./plugin/PluginManager')
 
-const LocalPlayer = require('../entity/LocalPlayer')
+const LocalPlayer = require('./entity/LocalPlayer')
 
 /** @type {SocketIO.Server} */
 var socket = io()
@@ -114,7 +114,7 @@ function Client () {
       }
     }
   }
-  this.getOnlinePlayers = function (name) {
+  this.getOnlinePlayers = function () {
     return playerList.slice()
   }
   this.addPlayer = function (player) {
@@ -123,7 +123,6 @@ function Client () {
         return
       }
     }
-    if (player instanceof LocalPlayer) localPlayer = player
     playerList.push(player)
   }
   this.removePlayer = function (id) {
@@ -135,7 +134,11 @@ function Client () {
     }
   }
   this.getLocalPlayer = function () {
-    return localPlayer
+    for (var i in playerList) {
+      if (playerList[i].getId() == socket.id) {
+        return playerList[i]
+      }
+    }
   }
   this.isDebug = function () {
     return isDebug

@@ -1,5 +1,7 @@
 const ItemMeta = require('./ItemMeta')
 
+const Material = require('../Materials')
+
 class ItemStack {
   constructor (type, amount = 1, data = 0) {
     this.type = type
@@ -43,6 +45,19 @@ class ItemStack {
   equals (item) {
     return item instanceof ItemStack && item.getType().equals(this.type) && item.getData() == this.data && item.getItemMeta().equals(this.getItem
     ())
+  }
+
+  toObject () {
+    return {
+      type: this.type.id,
+      amount: this.amount,
+      data: this.data,
+      itemMeta: this.itemMeta.toObject()
+    }
+  }
+
+  static fromObject (object) {
+    return new ItemStack(Material.get(object.type), object.amount, object.data, ItemMeta.fromObject(object.itemMeta))
   }
 }
 

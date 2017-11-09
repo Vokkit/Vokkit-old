@@ -23,6 +23,17 @@ class ItemMeta {
   equals (itemMeta) {
     return itemMeta instanceof ItemMeta && itemMeta.getLore().slice().splice(this.getLore()).length == 0 && this.getLore().slice().splice(itemMeta.getLore()).length == 0 && this.getDisplayName() == itemMeta.getDisplayName()
   }
+
+  toObject () {
+    return {
+      lore: this.lore,
+      displayName: this.displayName
+    }
+  }
+
+  static fromObject (object) {
+    return new ItemMeta(object.lore, object.displayName)
+  }
 }
 
 module.exports = ItemMeta

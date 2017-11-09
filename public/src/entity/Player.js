@@ -1,6 +1,7 @@
 const Entity = require('./Entity')
 const PlayerRenderer = require('../renderer/PlayerRenderer')
 const Inventory = require('../inventory/Inventory')
+const Location = require('../Location')
 
 class Player extends Entity {
   constructor (id, location, velocity, name, type, inventory = new Inventory(54), gamemode = 0) {
@@ -73,7 +74,7 @@ class Player extends Entity {
   }
 
   static fromObject(object, socket) {
-    return new Player(object.name, new Location(Vokkit.getServer().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.name, socket, object.type, Inventory.fromObject(object.inventory))
+    return new Player(object.id, new Location(Vokkit.getClient().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.name, object.type, Inventory.fromObject(object.inventory))
   }
 
 }

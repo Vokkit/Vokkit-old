@@ -12,12 +12,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        use: {
+        /*use: {
           loader: 'babel-loader',
           options: {
-            presets: [/*'env', 'minify'*/]
+            presets: ['env', 'minify']
           }
-        }
+        }*/
       }
     ]
   }/*,

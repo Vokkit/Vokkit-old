@@ -1,6 +1,5 @@
 const Renderer = require('./Renderer')
 // Height: 1.8 Blocks
-const LocalPlayer = require('../entity/LocalPlayer')
 
 class PlayerRenderer extends Renderer {
   constructor (skinPath, player) {
@@ -152,7 +151,7 @@ class PlayerRenderer extends Renderer {
     this.leftLegMesh.position.set(location.x, location.y + 0.45, location.z)
 
     const group = Vokkit.getClient().getSceneManager().getGroup()
-    if (!(player instanceof LocalPlayer)) {
+    if (!(player.constructor.name != 'LocalPlayer')) {
       group.add(this.headMesh)
     }
     group.add(this.bodyMesh)

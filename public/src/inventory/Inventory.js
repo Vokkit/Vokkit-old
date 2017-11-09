@@ -1,3 +1,5 @@
+const ItemStack = require('../item/ItemStack')
+
 class Inventory {
   constructor (size, contents = []) {
     this.size = size
@@ -56,6 +58,27 @@ class Inventory {
         }
       }
     }
+  }
+
+  toObject () {
+    const contents = []
+    for (let i = 0; i < this.size; i++) {
+      if (typeof this.contents[i] === 'undefined') contents[i] = undefined
+      else contents[i] = this.contents[i].toObject()
+    }
+    return {
+      size: this.size,
+      contents: contents
+    }
+  }
+
+  static fromObject (object) {
+    const contents = []
+    for (let i = 0; i < object.size; i++) {
+      if (object.contents[i] == undefined) contents[i] = undefined
+      else contents[i] = ItemStack.fromObject(object.contents[i])
+    }
+    return new Inventory(object.size, contents)
   }
 }
 
