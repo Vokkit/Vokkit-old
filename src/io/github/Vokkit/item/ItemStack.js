@@ -1,11 +1,13 @@
 const ItemMeta = require('./ItemMeta')
 
+const Material = require('../Material')
+
 class ItemStack {
-  constructor (type, amount = 1, data = 0) {
+  constructor (type, amount = 1, data = 0, itemMeta = new ItemMeta()) {
     this.type = type
     this.amount = amount
     this.data = data
-    this.itemMeta = new ItemMeta()
+    this.itemMeta = itemMeta
   }
 
   getType () {
@@ -52,6 +54,10 @@ class ItemStack {
       data: this.data,
       itemMeta: this.itemMeta.toObject()
     }
+  }
+
+  static fromObject (object) {
+    return new ItemStack(Material.get(object.type), object.amount, object.data, ItemMeta.fromObject(object.itemMeta))
   }
 }
 

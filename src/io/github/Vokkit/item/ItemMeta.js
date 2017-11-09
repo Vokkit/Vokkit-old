@@ -30,6 +30,10 @@ class ItemMeta {
       displayName: this.displayName
     }
   }
+
+  static fromObject (object) {
+    return new ItemMeta(object.lore, object.displayName)
+  }
 }
 
 module.exports = ItemMeta

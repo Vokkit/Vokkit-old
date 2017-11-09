@@ -3,13 +3,13 @@ const PlayerRenderer = require('../renderer/PlayerRenderer')
 const Inventory = require('../inventory/Inventory')
 
 class Player extends Entity {
-  constructor (id, location, velocity, name, isLocalPlayer, type) {
+  constructor (id, location, velocity, name, type, inventory = new Inventory(54), gamemode = 0) {
     super(id, location, velocity)
     this.name = name
-    this.isLocalPlayer = isLocalPlayer
     this.type = type
     this.renderer = new PlayerRenderer('steve', this)
-    this.inventory = new Inventory(54)
+    this.inventory = inventory
+    this.gamemode = gamemode
     if (!global.bodies) global.bodies = []
   }
 
@@ -27,13 +27,6 @@ class Player extends Entity {
     return this.type
   }
 
-  teleport (location) {
-    super.teleport(location)
-    if (this.isLocalPlayer) {
-      Vokkit.getClient().getSceneManager().updateGroup(location)
-    }
-  }
-
   setName (name) {
     this.name = name
   }
@@ -49,6 +42,40 @@ class Player extends Entity {
   openInventory (inventory) {
     // TODO: UI 작업
   }
+
+  getGameMode() {
+    return this.gamemode
+  }
+
+  setGameMode(gamemode) {
+    this.gamemode = gamemode
+  }
+
+  toObject() {
+    return {
+      name: this.name,
+
+      x: this.location.x,
+      y: this.location.y,
+      z: this.location.z,
+
+      yaw: this.location.yaw,
+      pitch: this.location.pitch,
+
+      velocity: [this.velocity.x, this.velocity.y, this.velocity.z],
+
+      id: this.id,
+      worldName: this.location.world.getWorldName(),
+      type: this.type,
+      inventory: this.inventory.toObject(),
+      gamemode: this.gamemode
+    }
+  }
+
+  static fromObject(object, socket) {
+    return new Player(object.name, new Location(Vokkit.getServer().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.name, socket, object.type, Inventory.fromObject(object.inventory))
+  }
+
 }
 
 module.exports = Player

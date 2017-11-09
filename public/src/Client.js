@@ -9,6 +9,8 @@ var UIManager = require('./ui/UIManager')
 var ChatManager = require('./chat/ChatManager')
 var PluginManager = require('./plugin/PluginManager')
 
+const LocalPlayer = require('../entity/LocalPlayer')
+
 /** @type {SocketIO.Server} */
 var socket = io()
 var loginManager
@@ -28,6 +30,7 @@ function Client () {
   var worldList = []
   var playerList = []
   var client = this
+  var localPlayer = null
   this.loginInit = function () {
     pluginManager = new PluginManager()
     loginManager = new LoginManager(client)
@@ -120,6 +123,7 @@ function Client () {
         return
       }
     }
+    if (player instanceof LocalPlayer) localPlayer = player
     playerList.push(player)
   }
   this.removePlayer = function (id) {
@@ -131,11 +135,7 @@ function Client () {
     }
   }
   this.getLocalPlayer = function () {
-    for (var i in playerList) {
-      if (playerList[i].isLocalPlayer) {
-        return playerList[i]
-      }
-    }
+    return localPlayer
   }
   this.isDebug = function () {
     return isDebug
