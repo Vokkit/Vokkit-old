@@ -11,6 +11,12 @@ class BlockTextureManager {
         overdraw: true
       })
     }
+    this.Uvs0 = [new THREE.Vector2(0, 0.5), new THREE.Vector2(0, 0), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.25, 0.5)]
+    this.Uvs1 = [new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.5)]
+    this.Uvs2 = [new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 1), new THREE.Vector2(0.25, 1)]
+    this.Uvs3 = [new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 1), new THREE.Vector2(0.5, 1)]
+    this.Uvs4 = [new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.75, 0), new THREE.Vector2(0.75, 0.5)]
+    this.Uvs5 = [new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 0.5)]
   }
 
   getTextures () {
@@ -18,28 +24,23 @@ class BlockTextureManager {
   }
 
   getUvsGeometry (geometry) {
-    const Uvs0 = [new THREE.Vector2(0, 0.5), new THREE.Vector2(0, 0), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.25, 0.5)]
-    const Uvs1 = [new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.5)]
-    const Uvs2 = [new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 1), new THREE.Vector2(0.25, 1)]
-    const Uvs3 = [new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 1), new THREE.Vector2(0.5, 1)]
-    const Uvs4 = [new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.75, 0), new THREE.Vector2(0.75, 0.5)]
-    const Uvs5 = [new THREE.Vector2(0.75, 0.5), new THREE.Vector2(0.75, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 0.5)]
-    geometry.faceVertexUvs[0][0] = [Uvs0[0], Uvs0[1], Uvs0[3]]
-    geometry.faceVertexUvs[0][1] = [Uvs0[1], Uvs0[2], Uvs0[3]]
-    geometry.faceVertexUvs[0][2] = [Uvs1[0], Uvs1[1], Uvs1[3]]
-    geometry.faceVertexUvs[0][3] = [Uvs1[1], Uvs1[2], Uvs1[3]]
+    
+    geometry.faceVertexUvs[0][0] = [this.Uvs0[0], this.Uvs0[1], this.Uvs0[3]]
+    geometry.faceVertexUvs[0][1] = [this.Uvs0[1], this.Uvs0[2], this.Uvs0[3]]
+    geometry.faceVertexUvs[0][2] = [this.Uvs1[0], this.Uvs1[1], this.Uvs1[3]]
+    geometry.faceVertexUvs[0][3] = [this.Uvs1[1], this.Uvs1[2], this.Uvs1[3]]
 
-    geometry.faceVertexUvs[0][4] = [Uvs2[0], Uvs2[1], Uvs2[3]]
-    geometry.faceVertexUvs[0][5] = [Uvs2[1], Uvs2[2], Uvs2[3]]
+    geometry.faceVertexUvs[0][4] = [this.Uvs2[0], this.Uvs2[1], this.Uvs2[3]]
+    geometry.faceVertexUvs[0][5] = [this.Uvs2[1], this.Uvs2[2], this.Uvs2[3]]
 
-    geometry.faceVertexUvs[0][6] = [Uvs3[0], Uvs3[1], Uvs3[3]]
-    geometry.faceVertexUvs[0][7] = [Uvs3[1], Uvs3[2], Uvs3[3]]
+    geometry.faceVertexUvs[0][6] = [this.Uvs3[0], this.Uvs3[1], this.Uvs3[3]]
+    geometry.faceVertexUvs[0][7] = [this.Uvs3[1], this.Uvs3[2], this.Uvs3[3]]
 
-    geometry.faceVertexUvs[0][8] = [Uvs4[0], Uvs4[1], Uvs4[3]]
-    geometry.faceVertexUvs[0][9] = [Uvs4[1], Uvs4[2], Uvs4[3]]
+    geometry.faceVertexUvs[0][8] = [this.Uvs4[0], this.Uvs4[1], this.Uvs4[3]]
+    geometry.faceVertexUvs[0][9] = [this.Uvs4[1], this.Uvs4[2], this.Uvs4[3]]
 
-    geometry.faceVertexUvs[0][10] = [Uvs5[0], Uvs5[1], Uvs5[3]]
-    geometry.faceVertexUvs[0][11] = [Uvs5[1], Uvs5[2], Uvs5[3]]
+    geometry.faceVertexUvs[0][10] = [this.Uvs5[0], this.Uvs5[1], this.Uvs5[3]]
+    geometry.faceVertexUvs[0][11] = [this.Uvs5[1], this.Uvs5[2], this.Uvs5[3]]
     return geometry
   }
 
