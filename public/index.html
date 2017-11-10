@@ -15,13 +15,31 @@
     border: 0px;
     padding: 8px;
     cursor: pointer;
-    position:absolute;background-color: rgb(0, 0, 0);
+    position: absolute;
+    background-color: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
     font-family: sans-serif;
     font-size: 13px;
     font-style: normal;
     text-align: center;
     z-index: 999;
+  }
+
+  img {
+    image-rendering: optimizeSpeed;
+    /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;
+    /* Firefox                        */
+    image-rendering: -o-crisp-edges;
+    /* Opera                          */
+    image-rendering: -webkit-optimize-contrast;
+    /* Chrome (and eventually Safari) */
+    image-rendering: pixelated;
+    /* Chrome */
+    image-rendering: optimize-contrast;
+    /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;
+    /* IE8+                           */
   }
 </style>
 
@@ -40,6 +58,14 @@
 
   <div id="cross" style="position:fixed; left:50%; top:50%; width:32px; height:32px; margin:-16px 0px 0px -16px;display:none">
     <img src="./assets/gui/cross.png"></img>
+  </div>
+
+  <div id="crossbar" style="position: fixed; left: 31.8%; bottom: 0%; width: 36.4vw; display: none">
+    <img src="./assets/gui/crossbar.png" style="width: 36.4vw;"></img>
+  </div>
+
+  <div id="crossbar_selected" style="position: fixed; left: calc(31.8% - 0.2vw); bottom: -0.2vw; width: 4.8vw; display: none">
+    <img src="./assets/gui/crossbar_selected.png" style="width: 4.8vw;"></img>
   </div>
 
   <div id="chatWindow" style="position:fixed;width:100%;height:100%;display:none">

@@ -2,7 +2,7 @@ const Entity = require('./Entity.js')
 const Inventory = require('../inventory/Inventory')
 
 class Player extends Entity {
-  constructor(id, location, velocity, name, socket, type, inventory = new Inventory(54), gamemode = 0) {
+  constructor(id, location, velocity, name, socket, type, inventory = new Inventory(54), gamemode = 0, selectedSlotId = 0) {
     super(id, location, velocity)
 
     this.name = name
@@ -10,6 +10,7 @@ class Player extends Entity {
     this.type = type
     this.inventory = inventory
     this.gamemode = gamemode
+    this.selectedSlotId = selectedSlotId
   }
 
   getName() {
@@ -73,6 +74,14 @@ class Player extends Entity {
     this.gamemode = gamemode
   }
 
+  getSelectedSlotId() {
+    return this.selectedSlotId
+  }
+
+  setSelectedSlotId(selectedSlotId) {
+    this.selectedSlotId = selectedSlotId
+  }
+
   toObject() {
     return {
       name: this.name,
@@ -90,12 +99,13 @@ class Player extends Entity {
       worldName: this.location.world.getWorldName(),
       type: this.type,
       inventory: this.inventory.toObject(),
-      gamemode: this.gamemode
+      gamemode: this.gamemode,
+      selectedSlotId: this.selectedSlotId
     }
   }
 
   static fromObject(object, socket) {
-    return new Player(object.id, new Location(Vokkit.getServer().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.name, socket, object.type, Inventory.fromObject(object.inventory))
+    return new Player(object.id, new Location(Vokkit.getServer().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.name, socket, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId)
   }
 }
 

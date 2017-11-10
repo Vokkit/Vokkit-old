@@ -11,6 +11,8 @@ function UIManager () {
     }
     document.getElementById('login').style.display = 'none'
     document.getElementById('cross').style.display = 'block'
+    document.getElementById('crossbar').style.display = 'block'
+    document.getElementById('crossbar_selected').style.display = 'block'
   }
 
   this.toggleChat = function (display) {
@@ -30,6 +32,11 @@ function UIManager () {
   this.clearChat = function () {
     var chatLog = document.getElementById('chatLog')
     chatLog.innerText = ''
+  }
+
+  this.updateCrossbarSelected = function () {
+    const selectedSlotId = Vokkit.getClient().getLocalPlayer().getSelectedSlotId()
+    document.getElementById('crossbar_selected').style.left = `calc(31.8% - 0.2vw + ${selectedSlotId * 4}vw)`
   }
 }
 

@@ -44,6 +44,9 @@ class InputManager {
           press[4] = true
         } else if (e.keyCode === 16) { // shift
           press[5] = true
+        } else if (e.keyCode >= 49 && e.keyCode <= 57) {
+          Vokkit.getClient().getLocalPlayer().setSelectedSlotId(e.keyCode - 49)
+          Vokkit.getClient().getUIManager().updateCrossbarSelected()
         }
       } else {
         if (e.keyCode === 13) { // Enter
@@ -100,6 +103,28 @@ class InputManager {
         press[6] = false
       } else if (e.button === 2) {
         press[7] = false
+      }
+    })
+
+    let lastTimestamp;
+
+    document.addEventListener('mousewheel', e => {
+      if (e.timeStamp - lastTimestamp < 1) return
+      lastTimestamp = e.timeStamp
+      const localPlayer = Vokkit.getClient().getLocalPlayer()
+      const UIManager = Vokkit.getClient().getUIManager()
+      if (e.deltaY > 0) {
+        //아래로 스크롤 - 오른쪽으로 이동
+        const selectedSlotId = localPlayer.getSelectedSlotId()
+        if (selectedSlotId == 8) localPlayer.setSelectedSlotId(0)
+        else localPlayer.setSelectedSlotId(selectedSlotId + 1)
+        UIManager.updateCrossbarSelected()
+      } else if (e.deltaY < 0) {
+        //위로 스크롤 - 왼쪽으로 이동
+        const selectedSlotId = localPlayer.getSelectedSlotId()
+        if (selectedSlotId == 0) localPlayer.setSelectedSlotId(8)
+        else localPlayer.setSelectedSlotId(selectedSlotId - 1)
+        UIManager.updateCrossbarSelected()
       }
     })
 
