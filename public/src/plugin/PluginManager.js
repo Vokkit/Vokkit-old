@@ -1,30 +1,31 @@
 class PluginManager {
-    constructor () {
-        this.plugins = [];
-    }
+  constructor () {
+    this.plugins = []
+    this.loadedPlugins = {}
+  }
 
-    load() {
-        this.loadedPlugins = {
-EssentialCommands: require('../../../plugins/EssentialCommands/client/index.js'),
-JavaMAL: require('../../../plugins/JavaMAL/client/index.js'),
-MuseClientSupport: require('../../../plugins/MuseClientSupport/client/index.js'),
-WebVR: require('../../../plugins/WebVR/client/index.js')
-        };
-        for (let i in this.loadedPlugins) {
-            let plugin = new (this.loadedPlugins[i])();
-            plugin.onLoad();
-            this.plugins.push({
-                name: i,
-                plugin: plugin
-            });
-        }
+  disable () {
+    for (const i in this.plugins) {
+      this.plugins[i].plugin.onDisable()
     }
+  }
 
-    enable() {
-        for (let i in this.plugins) {
-            this.plugins[i].plugin.onEnable();
-        }
+  enable () {
+    for (const i in this.plugins) {
+      this.plugins[i].plugin.onEnable()
     }
+  }
+
+  load () {
+    for (const i in this.loadedPlugins) {
+      const plugin = new (this.loadedPlugins[i])()
+      plugin.onLoad()
+      this.plugins.push({
+        name: i,
+        plugin: plugin
+      })
+    }
+  }
 }
 
-module.exports = PluginManager;
+module.exports = PluginManager
