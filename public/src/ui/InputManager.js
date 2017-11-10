@@ -19,11 +19,33 @@ class InputManager {
       Vokkit.getClient().getSceneManager().updateGroup(location)
     }
 
+    function onMouseDown (e) {
+      if (e.button === 0 || e.button === undefined) {
+        press[6] = true
+      } else if (e.button === 1) {
+        // 선택된 블럭을 인벤토리에 넣음. TODO
+      } else if (e.button === 2) {
+        press[7] = true
+      }
+    }
+
+    function onMouseUp (e) {
+      if (e.button === 0 || e.button === undefined) {
+        press[6] = false
+      } else if (e.button === 2) {
+        press[7] = false
+      }
+    }
+
     function onPointerLockChange () {
       if (document.pointerLockElement === renderer.domElement || document.mozPointerLockElement === renderer.domElement) {
         document.addEventListener('mousemove', onMouseMove, false)
+        document.addEventListener('mousedown', onMouseDown, false)
+        document.addEventListener('mouseup', onMouseUp, false)
       } else {
         document.removeEventListener('mousemove', onMouseMove, false)
+        document.removeEventListener('mousedown', onMouseDown, false)
+        document.removeEventListener('mouseup', onMouseUp, false)
       }
     }
 
@@ -44,7 +66,7 @@ class InputManager {
           press[4] = true
         } else if (e.keyCode === 16) { // shift
           press[5] = true
-        } else if (e.keyCode >= 49 && e.keyCode <= 57) {
+        } else if (e.keyCode >= 49 && e.keyCode <= 57) { // 1 ~ 9
           Vokkit.getClient().getLocalPlayer().setSelectedSlotId(e.keyCode - 49)
           Vokkit.getClient().getUIManager().updateCrossbarSelected()
         }
@@ -86,24 +108,6 @@ class InputManager {
 
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault()
-    })
-
-    document.addEventListener('mousedown', (e) => {
-      if (e.button === 0 || e.button === undefined) {
-        press[6] = true
-      } else if (e.button === 1) {
-        // 선택된 블럭을 인벤토리에 넣음. TODO
-      } else if (e.button === 2) {
-        press[7] = true
-      }
-    })
-
-    document.addEventListener('mouseup', (e) => {
-      if (e.button === 0 || e.button === undefined) {
-        press[6] = false
-      } else if (e.button === 2) {
-        press[7] = false
-      }
     })
 
     let lastTimestamp
