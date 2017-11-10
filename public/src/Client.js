@@ -45,15 +45,15 @@ function Client () {
     chatManager = new ChatManager()
   }
   this.init = function () {
-    //moveManager.init()
-    //blockTextureManager.init()
+    // moveManager.init()
+    // blockTextureManager.init()
     sceneManager.init()
-    //worldManager.init()
+    // worldManager.init()
     sceneManager.drawWorld(worldList[0])
-    //inputManager.init()
+    // inputManager.init()
     sceneManager.start()
     uiManager.init()
-    //chatManager.init()
+    // chatManager.init()
     pluginManager.enable()
   }
   this.getLoginManager = function () {

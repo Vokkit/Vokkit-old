@@ -45,23 +45,23 @@ class Player extends Entity {
     // TODO: UI 작업
   }
 
-  getGameMode() {
+  getGameMode () {
     return this.gamemode
   }
 
-  setGameMode(gamemode) {
+  setGameMode (gamemode) {
     this.gamemode = gamemode
   }
 
-  getSelectedSlotId() {
+  getSelectedSlotId () {
     return this.selectedSlotId
   }
 
-  setSelectedSlotId(selectedSlotId) {
+  setSelectedSlotId (selectedSlotId) {
     this.selectedSlotId = selectedSlotId
   }
 
-  toObject() {
+  toObject () {
     return {
       name: this.name,
 
@@ -83,10 +83,9 @@ class Player extends Entity {
     }
   }
 
-  static fromObject(object, socket) {
+  static fromObject (object, socket) {
     return new Player(object.id, new Location(Vokkit.getClient().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.name, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId)
   }
-
 }
 
 module.exports = Player

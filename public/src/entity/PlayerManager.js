@@ -2,7 +2,7 @@ const Player = require('./Player')
 const LocalPlayer = require('./LocalPlayer')
 
 class PlayerManager {
-  constructor() {
+  constructor () {
     const socket = Vokkit.getClient().getSocket()
     socket.on('playerJoin', this.addPlayer)
     socket.on('playerQuit', this.removePlayer)

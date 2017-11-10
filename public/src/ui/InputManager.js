@@ -106,7 +106,7 @@ class InputManager {
       }
     })
 
-    let lastTimestamp;
+    let lastTimestamp
 
     document.addEventListener('mousewheel', e => {
       if (e.timeStamp - lastTimestamp < 1) return
@@ -114,13 +114,13 @@ class InputManager {
       const localPlayer = Vokkit.getClient().getLocalPlayer()
       const UIManager = Vokkit.getClient().getUIManager()
       if (e.deltaY > 0) {
-        //아래로 스크롤 - 오른쪽으로 이동
+        // 아래로 스크롤 - 오른쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
         if (selectedSlotId == 8) localPlayer.setSelectedSlotId(0)
         else localPlayer.setSelectedSlotId(selectedSlotId + 1)
         UIManager.updateCrossbarSelected()
       } else if (e.deltaY < 0) {
-        //위로 스크롤 - 왼쪽으로 이동
+        // 위로 스크롤 - 왼쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
         if (selectedSlotId == 0) localPlayer.setSelectedSlotId(8)
         else localPlayer.setSelectedSlotId(selectedSlotId - 1)

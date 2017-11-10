@@ -1,5 +1,5 @@
 class SocketManager {
-  addListener(socket) {
+  addListener (socket) {
 
   }
 }

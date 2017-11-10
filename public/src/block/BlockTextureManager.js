@@ -24,7 +24,6 @@ class BlockTextureManager {
   }
 
   getUvsGeometry (geometry) {
-    
     geometry.faceVertexUvs[0][0] = [this.Uvs0[0], this.Uvs0[1], this.Uvs0[3]]
     geometry.faceVertexUvs[0][1] = [this.Uvs0[1], this.Uvs0[2], this.Uvs0[3]]
     geometry.faceVertexUvs[0][2] = [this.Uvs1[0], this.Uvs1[1], this.Uvs1[3]]
