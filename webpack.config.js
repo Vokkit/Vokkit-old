@@ -1,3 +1,4 @@
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const path = require('path')
 
@@ -20,8 +21,9 @@ module.exports = {
         }*/
       }
     ]
-  }/*,
+  },
   plugins: [
-    new UglifyJSPlugin()
-  ]*/
+    new CleanWebpackPlugin(['public/dist'])//,
+    //new UglifyJSPlugin()
+  ]
 }
