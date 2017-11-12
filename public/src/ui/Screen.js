@@ -1,7 +1,9 @@
 class Screen {
-  constructor (name, inputBinder) {
+  constructor (name, type, inputBinder) {
     this.name = name
+    this.type = type // base, stack
     this.inputBinder = inputBinder
+    this.dom = document.createElement('div')
   }
 
   getName () {
@@ -10,6 +12,14 @@ class Screen {
 
   getInputBinder () {
     return this.inputBinder
+  }
+
+  show () {
+    document.body.appendChild(this.dom)
+  }
+
+  dismiss () {
+    document.body.removeChild(this.dom)
   }
 }
 

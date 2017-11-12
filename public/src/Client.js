@@ -54,7 +54,7 @@ function Client () {
     // inputManager.init()
     screenManager.getScreen('MainScreen').start()
     uiManager.init()
-    inputManager.init()
+    inputManager.setInput()
     // chatManager.init()
     pluginManager.enable()
   }

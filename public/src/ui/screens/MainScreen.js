@@ -8,7 +8,7 @@ let THREE = require("three")
 
 class MainScreen extends Screen {
   constructor () {
-    super('MainScreen', new InputBinder())
+    super('MainScreen', 'base', new InputBinder())
 
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -27,7 +27,7 @@ class MainScreen extends Screen {
     this.initScreen()
     this.initInput()
 
-    document.body.appendChild(this.renderer.domElement)
+    this.dom = this.renderer.domElement
   }
 
   initScreen () {
@@ -98,6 +98,11 @@ class MainScreen extends Screen {
         Vokkit.getClient().getLocalPlayer().setSelectedSlotId(event.keyCode - 49)
         Vokkit.getClient().getUIManager().updateCrossbarSelected()
       }
+      if (event.keyCode === 84) {
+        Vokkit.getClient().getScreenManager().setScreen('ChatScreen')
+      } else if (event.keyCode === 9) {
+        alert('test')
+      }
     })
 
     this.inputBinder.setkeyUpListener(event => {
@@ -113,6 +118,27 @@ class MainScreen extends Screen {
         this.press[4] = false
       } else if (event.keyCode === 16) {
         this.press[5] = false
+      }
+    })
+
+    let lastTimestamp
+    this.inputBinder.setMouseWheelListener(event => {
+      if (event.timeStamp - lastTimestamp < 1) return
+      lastTimestamp = event.timeStamp
+      const localPlayer = Vokkit.getClient().getLocalPlayer()
+      const UIManager = Vokkit.getClient().getUIManager()
+      if (event.deltaY > 0) {
+        // 아래로 스크롤 - 오른쪽으로 이동
+        const selectedSlotId = localPlayer.getSelectedSlotId()
+        if (selectedSlotId == 8) localPlayer.setSelectedSlotId(0)
+        else localPlayer.setSelectedSlotId(selectedSlotId + 1)
+        UIManager.updateCrossbarSelected()
+      } else if (event.deltaY < 0) {
+        // 위로 스크롤 - 왼쪽으로 이동
+        const selectedSlotId = localPlayer.getSelectedSlotId()
+        if (selectedSlotId == 0) localPlayer.setSelectedSlotId(8)
+        else localPlayer.setSelectedSlotId(selectedSlotId - 1)
+        UIManager.updateCrossbarSelected()
       }
     })
   }
