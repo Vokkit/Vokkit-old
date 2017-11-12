@@ -24,7 +24,7 @@ class Chunk {
     if (typeof this.chunkData[x] === 'undefined') this.chunkData[x] = []
     if (typeof this.chunkData[x][y] === 'undefined') this.chunkData[x][y] = []
     this.chunkData[x][y][z] = block
-    Vokkit.getClient().getSceneManager().reloadChunk(this)
+    Vokkit.getClient().getScreenManager().getScreen('MainScreen').reloadChunk(this)
   }
 
   toMesherData () {

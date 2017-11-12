@@ -2,7 +2,7 @@ var LoginManager = require('./client/LoginManager')
 var MoveManager = require('./entity/MoveManager')
 var WorldManager = require('./world/WorldManager')
 var PlayerManager = require('./entity/PlayerManager')
-var SceneManager = require('./ui/SceneManager')
+var ScreenManager = require('./ui/ScreenManager')
 var InputManager = require('./ui/InputManager')
 var BlockTextureManager = require('./block/BlockTextureManager')
 var UIManager = require('./ui/UIManager')
@@ -17,7 +17,7 @@ var loginManager
 var moveManager
 var worldManager
 var playerManager
-var sceneManager
+var screenManager
 var inputManager
 var blockTextureManager
 var uiManager
@@ -38,8 +38,8 @@ function Client () {
     moveManager = new MoveManager()
     worldManager = new WorldManager()
     playerManager = new PlayerManager()
-    sceneManager = new SceneManager()
-    sceneManager.loginInit()
+    screenManager = new ScreenManager()
+    screenManager.init()
     inputManager = new InputManager()
     uiManager = new UIManager()
     chatManager = new ChatManager()
@@ -47,12 +47,14 @@ function Client () {
   this.init = function () {
     // moveManager.init()
     // blockTextureManager.init()
-    sceneManager.init()
+    screenManager.init()
+    screenManager.setScreen('MainScreen')
     // worldManager.init()
-    sceneManager.drawWorld(worldList[0])
+    screenManager.getScreen('MainScreen').drawWorld(worldList[0])
     // inputManager.init()
-    sceneManager.start()
+    screenManager.getScreen('MainScreen').start()
     uiManager.init()
+    inputManager.init()
     // chatManager.init()
     pluginManager.enable()
   }
@@ -68,8 +70,8 @@ function Client () {
   this.getPlayerManager = function () {
     return playerManager
   }
-  this.getSceneManager = function () {
-    return sceneManager
+  this.getScreenManager = function () {
+    return screenManager
   }
   this.getInputManager = function () {
     return inputManager

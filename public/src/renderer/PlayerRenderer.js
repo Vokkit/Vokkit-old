@@ -150,7 +150,7 @@ class PlayerRenderer extends Renderer {
     this.rightLegMesh.position.set(location.x, location.y + 0.45, location.z)
     this.leftLegMesh.position.set(location.x, location.y + 0.45, location.z)
 
-    const group = Vokkit.getClient().getSceneManager().getGroup()
+    const group = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getGroup()
     if (!(player.constructor.name != 'LocalPlayer')) {
       group.add(this.headMesh)
     }
@@ -172,7 +172,7 @@ class PlayerRenderer extends Renderer {
     if (this.noRendered === null && typeof Vokkit.getClient().getLocalPlayer() !== 'undefined') {
       if (Vokkit.getClient().getLocalPlayer().getName() === this.name) {
         this.noRendered = true
-        const group = Vokkit.getClient().getSceneManager().getGroup()
+        const group = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getGroup()
         group.remove(this.headMesh)
         group.remove(this.bodyMesh)
         group.remove(this.rightArmMesh)

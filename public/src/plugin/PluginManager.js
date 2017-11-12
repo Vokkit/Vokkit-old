@@ -1,31 +1,27 @@
 class PluginManager {
-  constructor () {
-    this.plugins = []
-    this.loadedPlugins = {}
-  }
-
-  disable () {
-    for (const i in this.plugins) {
-      this.plugins[i].plugin.onDisable()
+    constructor () {
+        this.plugins = [];
     }
-  }
 
-  enable () {
-    for (const i in this.plugins) {
-      this.plugins[i].plugin.onEnable()
-    }
-  }
+    load() {
+        this.loadedPlugins = {
 
-  load () {
-    for (const i in this.loadedPlugins) {
-      const plugin = new (this.loadedPlugins[i])()
-      plugin.onLoad()
-      this.plugins.push({
-        name: i,
-        plugin: plugin
-      })
+        };
+        for (let i in this.loadedPlugins) {
+            let plugin = new (this.loadedPlugins[i])();
+            plugin.onLoad();
+            this.plugins.push({
+                name: i,
+                plugin: plugin
+            });
+        }
     }
-  }
+
+    enable() {
+        for (let i in this.plugins) {
+            this.plugins[i].plugin.onEnable();
+        }
+    }
 }
 
-module.exports = PluginManager
+module.exports = PluginManager;

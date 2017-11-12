@@ -32,7 +32,7 @@ class MoveManager {
     const localPlayer = Vokkit.getClient().getLocalPlayer()
     const location = localPlayer.getLocation()
     const yaw = location.getYaw()
-    const fps = Vokkit.getClient().getSceneManager().getFPS()
+    const fps = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getFPS()
     const multiply = 10 / fps
     const velocity = localPlayer.getVelocity()
     const tmpVector = new THREE.Vector3()
