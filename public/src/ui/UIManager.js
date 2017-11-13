@@ -11,16 +11,21 @@ class UIManager {
     this.heartHalf = []
 
     for (let i = 0; i < 10; i++) {
-      this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
+      //this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
       this.heartFull[i] = document.getElementById(`heart_full_${i}`)
       this.heartHalf[i] = document.getElementById(`heart_half_${i}`)
     }
+
+    this.heartBackgroundBlack = document.getElementById('heart_background_black')
+    this.heartBackgroundWhite = document.getElementById('heart_background_white')
 
     this.cross.style.display = 'block'
     this.crossbar.style.display = 'block'
     this.crossbar_selected.style.display = 'block'
     document.getElementById('login').style.display = 'none'
-    document.getElementById('heart_background_black').style.display = 'block'
+    this.heartBackgroundBlack.style.display = 'block'
+
+    this.lastHealth = 0
   }
 
   toggleChat () {
@@ -47,6 +52,28 @@ class UIManager {
 
   updateHealthBar () {
     const health = Vokkit.getClient().getLocalPlayer().getHealth()
+    if (health < this.lastHealth) {
+      let count = 0
+      const manager = this
+      const animation = () => {
+        if (count % 2 == 0) {
+          manager.heartBackgroundBlack.style.display = 'block'
+          manager.heartBackgroundWhite.style.display = 'none'
+        } else {
+          manager.heartBackgroundBlack.style.display = 'none'
+          manager.heartBackgroundWhite.style.display = 'block'
+        }
+
+        if (count > 3) {
+          clearInterval(interval)
+        }
+
+        count++
+      }
+
+      animation()
+      const interval = setInterval(animation, 150)
+    }
     const fullHeart = Math.floor(health / 2)
 
     let i = 0
@@ -67,7 +94,10 @@ class UIManager {
       this.heartFull[i].style.display = 'none'
       this.heartHalf[i].style.display = 'none'
     }
+
+    this.lastHealth = health
   }
+
 }
 
 module.exports = UIManager
