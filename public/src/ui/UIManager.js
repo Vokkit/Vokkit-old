@@ -1,42 +1,72 @@
-function UIManager () {
-  this.init = function () {
-    var type = Vokkit.getClient().getLocalPlayer().getType()
-    if (type === 'Mobile') {
-      document.getElementById('LeftButton').style.display = 'block'
-      document.getElementById('RightButton').style.display = 'block'
-      document.getElementById('ShiftButton').style.display = 'block'
-      document.getElementById('FrontButton').style.display = 'block'
-      document.getElementById('BackButton').style.display = 'block'
-      document.getElementById('JumpButton').style.display = 'block'
+class UIManager {
+  init () {
+    this.cross = document.getElementById('cross')
+    this.crossbar = document.getElementById('crossbar')
+    this.crossbar_selected = document.getElementById('crossbar_selected')
+    this.chatLog = document.getElementById('chatLog')
+    this.chatWindow = document.getElementById('chatWindow')
+
+    this.heartBackgroundBlack = []
+    this.heartFull = []
+    this.heartHalf = []
+
+    for (let i = 0; i < 10; i++) {
+      this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
+      this.heartFull[i] = document.getElementById(`heart_full_${i}`)
+      this.heartHalf[i] = document.getElementById(`heart_half_${i}`)
     }
+
+    this.cross.style.display = 'block'
+    this.crossbar.style.display = 'block'
+    this.crossbar_selected.style.display = 'block'
     document.getElementById('login').style.display = 'none'
-    document.getElementById('cross').style.display = 'block'
-    document.getElementById('crossbar').style.display = 'block'
-    document.getElementById('crossbar_selected').style.display = 'block'
+    document.getElementById('heart_background_black').style.display = 'block'
   }
 
-  this.toggleChat = function (display) {
-    if (this.isChatting()) document.getElementById('chatWindow').style.display = 'none'
-    else document.getElementById('chatWindow').style.display = 'block'
+  toggleChat () {
+    if (this.isChatting()) this.chatWindow.style.display = 'none'
+    else this.chatWindow.style.display = 'block'
   }
 
-  this.isChatting = function () {
-    return document.getElementById('chatWindow').style.display === 'block'
+  isChatting () {
+    return this.chatWindow.style.display === 'block'
   }
 
-  this.addChat = function (sender, message, format) {
-    var chatLog = document.getElementById('chatLog')
-    chatLog.innerText += format.replace('%s', sender).replace('%s', message)
+  addChat (sender, message, format) {
+    this.chatLog.innerText += format.replace('%s', sender).replace('%s', message)
   }
 
-  this.clearChat = function () {
-    var chatLog = document.getElementById('chatLog')
-    chatLog.innerText = ''
+  clearChat () {
+    this.chatLog.innerText = ''
   }
 
-  this.updateCrossbarSelected = function () {
+  updateCrossbarSelected () {
     const selectedSlotId = Vokkit.getClient().getLocalPlayer().getSelectedSlotId()
-    document.getElementById('crossbar_selected').style.left = `calc(31.8% - 0.2vw + ${selectedSlotId * 4}vw)`
+    this.crossbar_selected.style.left = `calc(31.8% - 0.2vw + ${selectedSlotId * 4}vw)`
+  }
+
+  updateHealthBar () {
+    const health = Vokkit.getClient().getLocalPlayer().getHealth()
+    const fullHeart = Math.floor(health / 2)
+
+    let i = 0
+
+    for (; i < fullHeart;) {
+      this.heartFull[i].style.display = 'block'
+      this.heartHalf[i].style.display = 'none'
+      i++
+    }
+
+    if (health % 2 == 1 && i < 10) {
+      this.heartFull[i].style.display = 'none'
+      this.heartHalf[i].style.display = 'block'
+      i++
+    }
+
+    for (; i < 10; i++) {
+      this.heartFull[i].style.display = 'none'
+      this.heartHalf[i].style.display = 'none'
+    }
   }
 }
 

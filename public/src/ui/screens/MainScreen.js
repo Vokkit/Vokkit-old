@@ -4,7 +4,7 @@ let InputBinder = require('../InputBinder.js')
 const Material = require('../../Materials')
 const Block = require('../../block/Block')
 
-let THREE = require("three")
+let THREE = require('three')
 
 class MainScreen extends Screen {
   constructor () {
@@ -156,7 +156,7 @@ class MainScreen extends Screen {
   }
 
   updateGroup (location) {
-    //rotationGroup.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), - Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
+    // rotationGroup.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), - Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
     this.camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
   }
 
@@ -192,7 +192,7 @@ class MainScreen extends Screen {
       this.group.add(mesher)
     }
 
-    let sky = new THREE.Mesh(new THREE.BoxGeometry(600, 600, 600, 1, 1, 1), new THREE.MeshBasicMaterial({ color: "#7EC0EE" }))
+    let sky = new THREE.Mesh(new THREE.BoxGeometry(600, 600, 600, 1, 1, 1), new THREE.MeshBasicMaterial({ color: '#7EC0EE' }))
     sky.scale.set(-1, 1, 1)
     this.group.add(sky)
 
@@ -226,7 +226,7 @@ class MainScreen extends Screen {
     })
   }
 
-  syncMouse() {
+  syncMouse () {
     if ((this.press[6] || this.press[7]) && !(this.press[6] && this.press[7])) {
       if (this.coolDown > 0) this.coolDown--
       if (this.coolDown === 0) {

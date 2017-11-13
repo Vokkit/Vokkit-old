@@ -5,7 +5,7 @@ let MainScreen = require('../UI/screens/MainScreen.js')
 let ChatScreen = require('../UI/screens/ChatScreen.js')
 
 class ScreenManager {
-  constructor() {
+  constructor () {
     this.screenProvider = new ScreenProvider()
     this.screenChooser = new ScreenChooser(this.screenProvider)
   }
@@ -24,7 +24,7 @@ class ScreenManager {
   }
 
   setScreen (screenName) {
-  this.getScreen(screenName).init()
+    this.getScreen(screenName).init()
     this.screenChooser.setScreen(screenName)
   }
 

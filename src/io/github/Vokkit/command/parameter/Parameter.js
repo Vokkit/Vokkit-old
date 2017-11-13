@@ -8,7 +8,7 @@ class Parameter {
 
   static toParameter (type, str) {
     switch (type) {
-      case ParameterType.INTEGER: case ParameterType.FLOAT:
+      case ParameterType.NUMBER:
         return Number(str)
       case ParameterType.PLAYER:
         return Vokkit.getServer().getPlayer(str)

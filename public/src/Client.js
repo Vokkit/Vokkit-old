@@ -33,6 +33,7 @@ function Client () {
   var localPlayer = null
   this.loginInit = function () {
     pluginManager = new PluginManager()
+    pluginManager.load()
     loginManager = new LoginManager(client)
     blockTextureManager = new BlockTextureManager()
     moveManager = new MoveManager()
@@ -54,6 +55,7 @@ function Client () {
     // inputManager.init()
     screenManager.getScreen('MainScreen').start()
     uiManager.init()
+    uiManager.updateHealthBar()
     inputManager.setInput()
     // chatManager.init()
     pluginManager.enable()

@@ -4,8 +4,8 @@ const Inventory = require('../inventory/Inventory')
 const Location = require('../Location')
 
 class Player extends Entity {
-  constructor (id, location, velocity, name, type, inventory = new Inventory(54), gamemode = 0, selectedSlotId = 0) {
-    super(id, location, velocity)
+  constructor (id, location, velocity, health = 20, name, type, inventory = new Inventory(54), gamemode = 0, selectedSlotId = 0) {
+    super(id, location, velocity, health)
     this.name = name
     this.type = type
     this.renderer = new PlayerRenderer('steve', this)
@@ -63,6 +63,7 @@ class Player extends Entity {
 
   toObject () {
     return {
+      health: this.health,
       name: this.name,
 
       x: this.location.x,
@@ -84,7 +85,7 @@ class Player extends Entity {
   }
 
   static fromObject (object, socket) {
-    return new Player(object.id, new Location(Vokkit.getClient().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.name, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId)
+    return new Player(object.id, new Location(Vokkit.getClient().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.health, object.name, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId)
   }
 }
 

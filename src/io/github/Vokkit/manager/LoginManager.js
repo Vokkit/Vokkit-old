@@ -9,7 +9,7 @@ const SocketManager = require('./SocketManager.js')
 class LoginManager extends SocketManager {
   addListener (socket) {
     socket.on('login', function (data) {
-      let player = new Player(socket.id, new Location(Vokkit.getServer().getWorlds()[0], 0, 0, 0, 0, 0), new THREE.Vector3(0, 0, 0), data.name, socket, data.type)
+      let player = new Player(socket.id, new Location(Vokkit.getServer().getWorlds()[0], 0, 0, 0, 0, 0), new THREE.Vector3(0, 0, 0), 20, data.name, socket, data.type)
       let address = socket.request.connection._peername
       let playerLoginEvent = new PlayerLoginEvent(player, address.address)
       Vokkit.getServer().getPluginManager().makeEvent(playerLoginEvent)

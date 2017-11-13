@@ -19,7 +19,7 @@ class ParameterType {
     let result = []
 
     for (let v of parameter) {
-      if (Number(v) === v) {
+      if (!isNaN(v)) {
         result.push(ParameterType.NUMBER)
       } else if (Vokkit.getServer().getPlayer(v) != null) {
         result.push(ParameterType.PLAYER)

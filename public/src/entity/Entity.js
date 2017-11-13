@@ -1,8 +1,9 @@
 class Entity {
-  constructor (id, location, velocity) {
+  constructor (id, location, velocity, health = 0) {
     this.id = id
     this.location = typeof location === 'undefined' ? undefined : location.clone()
     this.velocity = typeof location === 'undefined' ? undefined : velocity.clone()
+    this.health = health
     this.renderer = null
   }
 
@@ -22,6 +23,10 @@ class Entity {
     return this.velocity.clone()
   }
 
+  getHealth () {
+    return this.health
+  }
+
   teleport (location) {
     this.location.copy(location)
     if (this.renderer) this.renderer.updatePosition(this.location, this.velocity)
@@ -37,6 +42,10 @@ class Entity {
 
   setVelocity (velocity) {
     this.velocity.clone(velocity)
+  }
+
+  setHealth (health) {
+    this.health = health
   }
 }
 
