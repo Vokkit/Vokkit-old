@@ -64,3 +64,4 @@ typings/
 worlds
 plugins
 public/dist
+jsconfig.json
