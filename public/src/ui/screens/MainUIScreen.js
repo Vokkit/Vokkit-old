@@ -21,6 +21,58 @@ class MainUIScreen extends Screen {
 
       '<div id="crossbar_selected" style="position: fixed; left: calc(31.8% - 0.2vw); bottom: -0.2vw; width: 4.8vw; display: none">' +
         '<img src="./assets/gui/crossbar_selected.png" style="width: 4.8vw;"></img>' +
+      '</div>' +
+
+      '<div id="heart_background_black" style="position: fixed; left: calc(31.8%); bottom: 6.4vw; width: 16.2vw; display: none">' +
+        '<img id="heart_background_black_0" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8%); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_1" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 1.6vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_2" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 3.2vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_4" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 6.4vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_3" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 4.8vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_5" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 8vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_7" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 11.2vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_6" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 9.6vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_8" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 12.8vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_black_9" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 14.4vw); width: 1.8vw;"></img>' +
+      '</div>' +
+
+      '<div id="heart_background_white" style="position: fixed; left: calc(31.8%); bottom: 6.4vw; width: 16.2vw; display: none">' +
+        '<img id="heart_background_white_0" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8%); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_1" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 1.6vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_2" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 3.2vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_3" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 4.8vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_4" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 6.4vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_5" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 8vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_6" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 9.6vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_7" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 11.2vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_8" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 12.8vw); width: 1.8vw;"></img>' +
+        '<img id="heart_background_white_9" src="./assets/gui/heart_background_white.png" style="position: fixed; left: calc(31.8% + 14.4vw); width: 1.8vw;"></img>' +
+      '</div>' +
+
+      '<div id="heart_full" style="position: fixed; left: calc(31.8%); bottom: 6.4vw; width: 16.2vw; display: block">' +
+        '<img id="heart_full_0" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8%); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_1" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 1.6vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_2" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 3.2vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_3" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 4.8vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_4" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 6.4vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_5" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 8vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_6" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 9.6vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_7" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 11.2vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_8" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 12.8vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_full_9" src="./assets/gui/heart_full.png" style="position: fixed; left: calc(31.8% + 14.4vw); width: 1.8vw; display: none"></img>' +
+      '</div>' +
+
+      '<div id="heart_half" style="position: fixed; left: calc(31.8%); bottom: 6.4vw; width: 16.2vw; display: block">' +
+        '<img id="heart_half_0" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8%); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_1" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 1.6vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_2" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 3.2vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_3" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 4.8vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_4" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 6.4vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_5" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 8vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_6" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 9.6vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_7" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 11.2vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_8" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 12.8vw); width: 1.8vw; display: none"></img>' +
+        '<img id="heart_half_9" src="./assets/gui/heart_half.png" style="position: fixed; left: calc(31.8% + 14.4vw); width: 1.8vw; display: none"></img>' +
       '</div>'
     )
   }
@@ -28,6 +80,8 @@ class MainUIScreen extends Screen {
   initInput () {
     const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
     let renderer = MainScreen.getRenderer()
+
+    this.inputBinder.disableCursor = true
 
     renderer.domElement.requestPointerLock = (
       renderer.domElement.requestPointerLock ||
@@ -84,6 +138,7 @@ class MainUIScreen extends Screen {
       }
       if (event.keyCode === 84) {
         Vokkit.getClient().getScreenManager().addScreen('ChatScreen')
+        Vokkit.getClient().getInputManager().showCursor()
       } else if (event.keyCode === 9) {
         alert('test')
       }

@@ -28,11 +28,17 @@ class ChatScreen extends Screen {
       switch (event.keyCode) {
         case 27: // esc
           Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
+          Vokkit.getClient().getInputManager().dismissCursor()
           break
         case 13: // enter
           let name = Vokkit.getClient().getLocalPlayer().getName()
-          let text = this.dom.getElementById('chatText').value
-          if (text[0] == '/') { Vokkit.getClient().getChatManager().sendCommand(name, text.replace('/', '')) } else { Vokkit.getClient().getChatManager().sendChat(name, text) }
+          let text = document.getElementById('chatText').value
+
+          if (text[0] == '/') {
+            Vokkit.getClient().getChatManager().sendCommand(name, text.replace('/', ''))
+          } else {
+            Vokkit.getClient().getChatManager().sendChat(name, text)
+          }
           break
       }
     })

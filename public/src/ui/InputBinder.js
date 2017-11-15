@@ -7,6 +7,8 @@ class InputBinder {
     this.mouseUpListener = event => {}
     this.mouseMoveListener = event => {}
     this.mouseWheelListener = event => {}
+
+    this.disableCursor = false
   }
 
   // set

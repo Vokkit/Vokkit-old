@@ -1,8 +1,14 @@
 const Block = require('../block/Block')
 
 class InputManager {
-  constructor () {
+  constructor () {}
 
+  showCursor () {
+    document.exitPointerLock()
+  }
+
+  dismissCursor () {
+    document.body.requestPointerLock() // Not work
   }
 
   setInput () {
@@ -38,7 +44,7 @@ class InputManager {
         document.onwheel = onMouseWheel
         document.onkeydown = onKeyDown
         document.onkeyup = onKeyUp
-      } else {
+      } else if(Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().disableCursor) {
         document.onmousemove = null
         document.onmousedown = null
         document.onmouseup = null
@@ -54,8 +60,6 @@ class InputManager {
     document.addEventListener('contextmenu', (e) => {
       e.preventDefault()
     })
-
-    this.coolDown = 0
   }
 }
 
