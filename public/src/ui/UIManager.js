@@ -1,3 +1,8 @@
+/**
+  * DO NOT USE THIS CLASS!
+  */
+
+
 class UIManager {
   init () {
     this.cross = document.getElementById('cross')

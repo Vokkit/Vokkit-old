@@ -11,7 +11,7 @@ class ChatScreen extends Screen {
 
   init () {
     this.dom.innerHTML = (
-      '<div id="chatWindow" style="position:fixed; width:100%; height:100%;">' +
+      '<div id="chatWindow" style="width: 100vw; height: 100vh;">' +
         '<div id="chatLog" style="width: 100%; border: 0px; padding: 8px; height: calc(100% - 46px);cursor: pointer; position:absolute;background-color: rgba(0, 0, 0, 0.25); color: rgb(255, 255, 255); font-family: sans-serif; font-size: 15px; font-style: normal; z-index: 999;">' +
         '</div>' +
       '<div id="chatInput">' +

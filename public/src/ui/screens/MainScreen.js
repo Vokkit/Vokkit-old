@@ -8,7 +8,7 @@ let THREE = require('three')
 
 class MainScreen extends Screen {
   constructor () {
-    super('MainScreen', 'base', new InputBinder())
+    super('MainScreen', 'base', null)
 
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
@@ -25,7 +25,6 @@ class MainScreen extends Screen {
 
   init () {
     this.initScreen()
-    this.initInput()
 
     this.dom = this.renderer.domElement
   }
@@ -43,104 +42,6 @@ class MainScreen extends Screen {
 
     this.rotationGroup.add(this.group)
     this.scene.add(this.rotationGroup)
-  }
-
-  initInput () {
-    let renderer = this.getRenderer()
-
-    renderer.domElement.requestPointerLock = renderer.domElement.requestPointerLock ||
-      renderer.domElement.mozRequestPointerLock
-    renderer.domElement.onclick = function (e) {
-      renderer.domElement.requestPointerLock()
-    }
-
-    this.inputBinder.setMouseMoveListener(event => {
-      var location = Vokkit.getClient().getLocalPlayer().getLocation()
-
-      location.setYaw(location.getYaw() + event.movementX / 1000)
-      location.setPitch(location.getPitch() - event.movementY / 1000)
-      Vokkit.getClient().getLocalPlayer().teleport(location)
-      this.updateGroup(location)
-    })
-
-    this.inputBinder.setMouseDownListener(event => {
-      if (event.button === 0 || event.button === undefined) {
-        this.press[6] = true
-      } else if (event.button === 1) {
-        // 선택된 블럭을 인벤토리에 넣음. TODO
-      } else if (event.button === 2) {
-        this.press[7] = true
-      }
-    })
-
-    this.inputBinder.setMouseUpListener(event => {
-      if (event.button === 0 || event.button === undefined) {
-        this.press[6] = false
-      } else if (event.button === 2) {
-        this.press[7] = false
-      }
-    })
-
-    this.inputBinder.setKeyDownListener(event => {
-      if (event.keyCode === 87) { // w
-        this.press[0] = true
-      } else if (event.keyCode === 83) { // s
-        this.press[1] = true
-      } else if (event.keyCode === 65) { // a
-        this.press[2] = true
-      } else if (event.keyCode === 68) { // d
-        this.press[3] = true
-      } else if (event.keyCode === 32) { // space
-        this.press[4] = true
-      } else if (event.keyCode === 16) { // shift
-        this.press[5] = true
-      } else if (event.keyCode >= 49 && event.keyCode <= 57) { // 1 ~ 9
-        Vokkit.getClient().getLocalPlayer().setSelectedSlotId(event.keyCode - 49)
-        Vokkit.getClient().getUIManager().updateCrossbarSelected()
-      }
-      if (event.keyCode === 84) {
-        Vokkit.getClient().getScreenManager().setScreen('ChatScreen')
-      } else if (event.keyCode === 9) {
-        alert('test')
-      }
-    })
-
-    this.inputBinder.setkeyUpListener(event => {
-      if (event.keyCode === 87) {
-        this.press[0] = false
-      } else if (event.keyCode === 83) {
-        this.press[1] = false
-      } else if (event.keyCode === 65) {
-        this.press[2] = false
-      } else if (event.keyCode === 68) {
-        this.press[3] = false
-      } else if (event.keyCode === 32) {
-        this.press[4] = false
-      } else if (event.keyCode === 16) {
-        this.press[5] = false
-      }
-    })
-
-    let lastTimestamp
-    this.inputBinder.setMouseWheelListener(event => {
-      if (event.timeStamp - lastTimestamp < 1) return
-      lastTimestamp = event.timeStamp
-      const localPlayer = Vokkit.getClient().getLocalPlayer()
-      const UIManager = Vokkit.getClient().getUIManager()
-      if (event.deltaY > 0) {
-        // 아래로 스크롤 - 오른쪽으로 이동
-        const selectedSlotId = localPlayer.getSelectedSlotId()
-        if (selectedSlotId == 8) localPlayer.setSelectedSlotId(0)
-        else localPlayer.setSelectedSlotId(selectedSlotId + 1)
-        UIManager.updateCrossbarSelected()
-      } else if (event.deltaY < 0) {
-        // 위로 스크롤 - 왼쪽으로 이동
-        const selectedSlotId = localPlayer.getSelectedSlotId()
-        if (selectedSlotId == 0) localPlayer.setSelectedSlotId(8)
-        else localPlayer.setSelectedSlotId(selectedSlotId - 1)
-        UIManager.updateCrossbarSelected()
-      }
-    })
   }
 
   getCamera () {

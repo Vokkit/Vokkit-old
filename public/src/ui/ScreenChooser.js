@@ -10,8 +10,8 @@ class ScreenChooser {
     screen = this.getScreen(screen)
     screen.show()
 
-    if (this.now != null && this.now.type != 'base') { 
-      this.now.dismiss() 
+    if (this.now != null && this.now.type != 'base') {
+      this.now.dismiss()
     }
 
     this.lastScreens.push(this.now)
@@ -35,7 +35,6 @@ class ScreenChooser {
 
     this.now = this.lastScreens.pop()
     this.now.show()
-    this.now = this.screen
 
     Vokkit.getClient().getInputManager().setInput()
   }

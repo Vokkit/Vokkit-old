@@ -4,6 +4,7 @@ class Screen {
     this.type = type // base, stack
     this.inputBinder = inputBinder
     this.dom = document.createElement('div')
+    this.dom.setAttribute('style', 'position: fixed; top: 0px; left: 0px;')
   }
 
   getName () {
