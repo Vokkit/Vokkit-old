@@ -1,151 +1,136 @@
-var LoginManager = require('./client/LoginManager')
-var MoveManager = require('./entity/MoveManager')
-var WorldManager = require('./world/WorldManager')
-var PlayerManager = require('./entity/PlayerManager')
-var ScreenManager = require('./ui/ScreenManager')
-var InputManager = require('./ui/InputManager')
-var BlockTextureManager = require('./block/BlockTextureManager')
-var UIManager = require('./ui/UIManager')
-var ChatManager = require('./chat/ChatManager')
-var PluginManager = require('./plugin/PluginManager')
+const LoginManager = require('./client/LoginManager')
+const MoveManager = require('./entity/MoveManager')
+const WorldManager = require('./world/WorldManager')
+const PlayerManager = require('./entity/PlayerManager')
+const ScreenManager = require('./ui/ScreenManager')
+const InputManager = require('./ui/InputManager')
+const BlockTextureManager = require('./block/BlockTextureManager')
+const UIManager = require('./ui/UIManager')
+const ChatManager = require('./chat/ChatManager')
+const PluginManager = require('./plugin/PluginManager')
 
-const LocalPlayer = require('./entity/LocalPlayer')
+const isDebug = false
 
-/** @type {SocketIO.Server} */
-var socket = io()
-var loginManager
-var moveManager
-var worldManager
-var playerManager
-var screenManager
-var inputManager
-var blockTextureManager
-var uiManager
-var chatManager
-var pluginManager
-
-const isDebug = true
-
-function Client () {
-  var worldList = []
-  var playerList = []
-  var client = this
-  var localPlayer = null
-  this.loginInit = function () {
-    pluginManager = new PluginManager()
-    pluginManager.load()
-    loginManager = new LoginManager(client)
-    blockTextureManager = new BlockTextureManager()
-    moveManager = new MoveManager()
-    worldManager = new WorldManager()
-    playerManager = new PlayerManager()
-    screenManager = new ScreenManager()
-    screenManager.init()
-    inputManager = new InputManager()
-    uiManager = new UIManager()
-    chatManager = new ChatManager()
+class Client {
+  constructor () {
+    this.worldList = []
+    this.playerList = []
   }
-  this.init = function () {
+  loginInit () {
+    this.pluginManager = new PluginManager()
+    this.pluginManager.load()
+    this.loginManager = new LoginManager(this)
+    this.blockTextureManager = new BlockTextureManager()
+    this.moveManager = new MoveManager()
+    this.worldManager = new WorldManager()
+    this.playerManager = new PlayerManager()
+    this.screenManager = new ScreenManager()
+    this.screenManager.init()
+    this.inputManager = new InputManager()
+    this.uiManager = new UIManager()
+    this.chatManager = new ChatManager()
+  }
+  init () {
     // moveManager.init()
     // blockTextureManager.init()
-    screenManager.init()
-    screenManager.addScreen('MainScreen')
-    screenManager.addScreen('MainUIScreen')
+    this.screenManager.init()
+    this.screenManager.addScreen('MainScreen')
+    this.screenManager.addScreen('MainUIScreen')
     // worldManager.init()
-    screenManager.getScreen('MainScreen').drawWorld(worldList[0])
+    this.screenManager.getScreen('MainScreen').drawWorld(this.worldList[0])
     // inputManager.init()
-    screenManager.getScreen('MainScreen').start()
-    uiManager.init()
-    uiManager.updateHealthBar()
-    inputManager.setInput()
+    this.screenManager.getScreen('MainScreen').start()
+    this.uiManager.init()
+    this.uiManager.updateHealthBar()
+    this.inputManager.setInput()
     // chatManager.init()
-    pluginManager.enable()
+    this.pluginManager.enable()
   }
-  this.getLoginManager = function () {
-    return loginManager
+  getLoginManager () {
+    return this.loginManager
   }
-  this.getMoveManager = function () {
-    return moveManager
+  getMoveManager () {
+    return this.moveManager
   }
-  this.getWorldManager = function () {
-    return worldManager
+  getWorldManager () {
+    return this.worldManager
   }
-  this.getPlayerManager = function () {
-    return playerManager
+  getPlayerManager () {
+    return this.playerManager
   }
-  this.getScreenManager = function () {
-    return screenManager
+  getScreenManager () {
+    return this.screenManager
   }
-  this.getInputManager = function () {
-    return inputManager
+  getInputManager () {
+    return this.inputManager
   }
-  this.getBlockTextureManager = function () {
-    return blockTextureManager
+  getBlockTextureManager () {
+    return this.blockTextureManager
   }
-  this.getSocket = function () {
-    return socket
+  getSocket () {
+    return this.socket
   }
-  this.getUIManager = function () {
-    return uiManager
+  getUIManager () {
+    return this.uiManager
   }
-  this.getChatManager = function () {
-    return chatManager
+  getChatManager () {
+    return this.chatManager
   }
-  this.getWorld = function (worldName) {
-    for (var i in worldList) {
-      if (worldList[i].getWorldName() === worldName) {
-        return worldList[i]
+  getWorld (worldName) {
+    for (const i in this.worldList) {
+      if (this.worldList[i].getWorldName() === worldName) {
+        return this.worldList[i]
       }
     }
     return null
   }
-  this.getWorlds = function () {
-    return worldList.slice()
+  getWorlds () {
+    return this.worldList.slice()
   }
-  this.addWorld = function (world) {
-    worldList.push(world)
+  addWorld (world) {
+    this.worldList.push(world)
   }
-  this.getPlayer = function (name) {
-    for (var i in playerList) {
-      if (playerList[i].getName() === name) {
-        return playerList[i]
+  getPlayer (name) {
+    for (const i in this.playerList) {
+      if (this.playerList[i].getName() === name) {
+        return this.playerList[i]
       }
     }
   }
-  this.getPlayerById = function (id) {
-    for (var i in playerList) {
-      if (playerList[i].getId() === id) {
-        return playerList[i]
+  getPlayerById (id) {
+    for (const i in this.this.playerList) {
+      if (this.playerList[i].getId() === id) {
+        return this.playerList[i]
       }
     }
   }
-  this.getOnlinePlayers = function () {
-    return playerList.slice()
+  getOnlinePlayers () {
+    return this.playerList.slice()
   }
-  this.addPlayer = function (player) {
-    for (var i in playerList) {
-      if (playerList[i].getId() === player.getId()) {
+  addPlayer (player) {
+    for (const i in this.playerList) {
+      if (this.playerList[i].getId() === player.getId()) {
         return
       }
     }
-    playerList.push(player)
+    this.playerList.push(player)
   }
-  this.removePlayer = function (id) {
-    for (var i in playerList) {
-      if (playerList[i].getId() === id) {
-        playerList.splice(i, 1)
+  removePlayer (id) {
+    for (const i in this.playerList) {
+      if (this.playerList[i].getId() === id) {
+        this.playerList.splice(i, 1)
         return
       }
     }
   }
-  this.getLocalPlayer = function () {
-    for (var i in playerList) {
-      if (playerList[i].getId() == socket.id) {
-        return playerList[i]
+  getLocalPlayer () {
+    for (const i in this.playerList) {
+      if (this.playerList[i].getId() === this.socket.id) {
+        return this.playerList[i]
       }
     }
   }
-  this.isDebug = function () {
+  isDebug () {
     return isDebug
   }
 }
