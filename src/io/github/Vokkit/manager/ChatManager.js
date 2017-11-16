@@ -6,14 +6,20 @@ class ChatManager extends SocketManager {
   addListener (socket) {
     socket.on('chat', function (data) {
       let player = Vokkit.getServer().getPlayerById(socket.id)
+      let allPlayers = Vokkit.getServer().getPlayers()
       let sender = data.sender
       let message = data.message
       let format = '<%s> %s\n'
       let playerChatEvent = new PlayerChatEvent(player, sender, message, format)
+
       Vokkit.getServer().getPluginManager().makeEvent(playerChatEvent)
       if (!playerChatEvent.isCancelled()) {
-        player.sendMessage(playerChatEvent.getSender(), playerChatEvent.getMessage(), playerChatEvent.getFormat())
+        for (const p of allPlayers) {
+          p.sendMessage(playerChatEvent.getSender(), playerChatEvent.getMessage(), playerChatEvent.getFormat())
+        }
       }
+
+      Vokkit.getServer().getLogger().info('<' + sender + '> ' + message)
     })
   }
 

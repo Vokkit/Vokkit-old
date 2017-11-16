@@ -26,7 +26,6 @@ class ScreenManager {
   }
 
   addScreen (screenName) {
-    this.getScreen(screenName).init()
     this.screenChooser.setScreen(screenName)
   }
 

@@ -24,7 +24,7 @@ class TeleportCommand extends Command {
 
           text = sender.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
 
-          sender.sendMesesage(text)
+          sender.sendMessage(text)
         }
         break
       case 1:
@@ -34,7 +34,7 @@ class TeleportCommand extends Command {
 
         text = mover.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
 
-        sender.sendMesesage(text)
+        sender.sendMessage(text)
         break
       case 2:
         mover = parameter[0].getValue()
@@ -44,11 +44,11 @@ class TeleportCommand extends Command {
         mover.teleport(location)
 
         text = mover.getName() + '이(가) x: ' + location.getX() + ' y: ' + location.getY() + ' z: ' + location.getZ() + ' 좌표로 이동하였습니다.'
-
-        sender.sendMesesage(text)
+        
+        sender.sendMessage(text)
         break
       default:
-        sender.sendMesesage(this.getUsage())
+        sender.sendMessage(this.getUsage())
         break
     }
   }

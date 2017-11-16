@@ -21,6 +21,8 @@ class MainScreen extends Screen {
 
     this.dirtyChunks = []
     this.fps = 60
+
+    this.init()
   }
 
   init () {
@@ -180,13 +182,15 @@ class MainScreen extends Screen {
               worldName: Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getWorldName()
             })
           } else if (this.press[7]) {
+            const id = Vokkit.getClient().getLocalPlayer().getSelectedSlotId() + 1
+
             var blockPlacePosition = blockPosition.clone().add(direction)
-            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, 1))
+            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, id))
             Vokkit.getClient().getSocket().emit('requestSetBlock', {
               x: blockPlacePosition.x,
               y: blockPlacePosition.y,
               z: blockPlacePosition.z,
-              id: 1,
+              id: id,
               worldName: Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getWorldName()
             })
           }

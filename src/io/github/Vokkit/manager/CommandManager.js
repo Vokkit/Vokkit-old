@@ -24,7 +24,7 @@ function callCommand (commandManager, socket, data) {
     return new Parameter(object, primitiveParameter[i])
   })
 
-  let sender = (player == null) ? new ConsoleCommandSender() : new PlayerCommandSender(player)
+  let sender = (player === null) ? new ConsoleCommandSender() : new PlayerCommandSender(player)
 
   let serverCommandEvent = new ServerCommandEvent(sender, command, parameter)
 
