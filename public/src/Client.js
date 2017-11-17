@@ -15,6 +15,7 @@ class Client {
   constructor () {
     this.worldList = []
     this.playerList = []
+    this.socket = io()
   }
   loginInit () {
     this.pluginManager = new PluginManager()
