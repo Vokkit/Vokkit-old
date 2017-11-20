@@ -1,5 +1,6 @@
 const Block = require('./block/Block')
 const CulledMesher = require('./mesher/CulledMesher')
+const Material = require('./Materials')
 
 class Chunk {
   constructor (x, z, chunkData) {
@@ -12,9 +13,9 @@ class Chunk {
     var x = Math.floor(position.x)
     var y = Math.floor(position.y)
     var z = Math.floor(position.z)
-    if (typeof this.chunkData[x] === 'undefined') return new Block(position, 0)
-    if (typeof this.chunkData[x][y] === 'undefined') return new Block(position, 0)
-    return this.chunkData[x][y][z] || new Block(position, 0)
+    if (typeof this.chunkData[x] === 'undefined') return new Block(position.clone(), 0)
+    if (typeof this.chunkData[x][y] === 'undefined') return new Block(position.clone(), 0)
+    return this.chunkData[x][y][z] || new Block(position.clone(), 0)
   }
 
   setBlock (block) {
@@ -31,17 +32,19 @@ class Chunk {
     var high = [16, 256, 16]
     var low = [0, 0, 0]
     var dims = [high[0] - low[0], high[1] - low[1], high[2] - low[2]]
-    var volume = new Int32Array(dims[0] * dims[1] * dims[2])
+    var volume = []
     var count = 0
     var pos = new THREE.Vector3()
     for (var k = low[2]; k < high[2]; k++) {
       for (var j = low[1]; j < high[1]; j++) {
         for (var i = low[0]; i < high[0]; i++) {
-          volume[count] = this.getBlock(pos.set(this.x + i, j, this.z + k)).id
+          volume[count] = Material.get(this.getBlock(pos.set(this.x + i, j, this.z + k)).id)
           count++
         }
       }
     }
+
+    console.log(count)
     return {
       volume: volume,
       dims: dims
