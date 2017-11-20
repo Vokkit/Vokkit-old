@@ -1,7 +1,10 @@
+const Material = require('../Materials')
+
 class Block {
-  constructor (position, id) {
+  constructor (position, type) {
     this.position = position
-    this.id = id
+    this.type = type
+    this.id = type.id
   }
 
   getPosition () {
@@ -13,11 +16,19 @@ class Block {
   }
 
   getId () {
-    return this.id
+    return this.type.id
   }
 
   setId (id) {
-    this.id = id
+    this.type = Material.get(id)
+  }
+
+  getType () {
+    return this.type
+  }
+
+  setType (type) {
+    this.type = type
   }
 }
 

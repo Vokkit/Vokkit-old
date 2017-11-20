@@ -173,7 +173,7 @@ class MainScreen extends Screen {
           }
 
           if (this.press[6]) {
-            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition, 0))
+            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition, Material.AIR))
             Vokkit.getClient().getSocket().emit('requestSetBlock', {
               x: blockPosition.x,
               y: blockPosition.y,
@@ -185,7 +185,7 @@ class MainScreen extends Screen {
             const id = Vokkit.getClient().getLocalPlayer().getSelectedSlotId() + 1
 
             var blockPlacePosition = blockPosition.clone().add(direction)
-            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, id))
+            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, Material.get(id)))
             Vokkit.getClient().getSocket().emit('requestSetBlock', {
               x: blockPlacePosition.x,
               y: blockPlacePosition.y,
