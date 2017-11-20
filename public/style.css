@@ -1,6 +1,17 @@
+@font-face {
+  font-family: Minecraftia;
+  src: url('assets/font/Minecraftia.ttf');
+}
+
+@font-face {
+  font-family: 갈잎9;
+  src: url('assets/font/갈잎9.ttf')
+}
+
 * {
   padding: 0;
   margin: 0;
+  font-family: Minecraftia, 갈잎9, Arial, Helvetica, sans-serif
 }
 
 body {
@@ -8,17 +19,26 @@ body {
   position: relative;
   width: 100%;
   height: 100%;
+  background-image: url('assets/gui/options_background.png');
+  background-size: 3.2vw 3.2vw;
+  background-repeat: repeat;
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: pixelated;
+  image-rendering: optimize-contrast;
+  -ms-interpolation-mode: nearest-neighbor;
 }
 
 button {
   padding: 2px;
   border: 4px solid transparent;
-  border-image: url('assets/gui/button.png') 1 stretch;
+  border-image: url('assets/gui/button.png') 2 fill stretch;
   cursor: pointer;
   position: absolute;
 
   color: rgb(255, 255, 255);
-  font-family: sans-serif;
   font-size: 13px;
   font-style: normal;
   text-align: center;
@@ -28,11 +48,19 @@ button {
 }
 
 button:hover {
-  border-image: url('assets/gui/button_hover.png') 1 stretch;
+  border-image: url('assets/gui/button_hover.png') 2 fill stretch;
 }
 
-button:active {
-  border-image: url('assets/gui/button_pressed.png') 1 stretch;
+/*button:active {
+  border-image: url('assets/gui/button_pressed.png') 2 fill stretch;
+}*/
+
+.textInput {
+  border: solid lightgray;
+  border-width: 0.2vw;
+  background: black;
+  color: white;
+  padding: 1vw;
 }
 
 img {
