@@ -8,17 +8,20 @@ class LoginManager {
       if (!data.succeed) {
         alert('로그인 실패! 이유: ' + data.reason)
       } else {
-        this.logined = true
-        World.prepareWorlds(data.worlds)
-        const playerManager = Vokkit.getClient().getPlayerManager()
-        for (const i in data.players) {
-          playerManager.addPlayer(data.players[i], true)
-        }
-        this.logined = true
-        client.init()
+        Vokkit.getClient().getScreenManager().addScreen('LoadScreen')
+        // 딜레이를 안 주면 로딩화면이 안 생긴다.
+        setTimeout(() => {
+          this.logined = true
+          World.prepareWorlds(data.worlds)
+          const playerManager = Vokkit.getClient().getPlayerManager()
+          for (const i in data.players) {
+            playerManager.addPlayer(data.players[i], true)
+          }
+          this.logined = true
+          client.init()
+        }, 50)
       }
     })
-    document.getElementById('loginButton').onclick = () => this.requestLogin(document.getElementById('idText').value)
   }
 
   isLogined () {

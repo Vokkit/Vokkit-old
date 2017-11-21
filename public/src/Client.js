@@ -30,6 +30,7 @@ class Client {
     this.inputManager = new InputManager()
     this.uiManager = new UIManager()
     this.chatManager = new ChatManager()
+    this.screenManager.addScreen('LoginScreen')
   }
   init () {
     // moveManager.init()
