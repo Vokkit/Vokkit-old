@@ -13,7 +13,7 @@ class LoginScreen extends Screen {
     this.dom.innerHTML = (
       '<div id="load" class="background">' +
         '<div id="login" style="position: fixed;">' +
-          '<input id="idText" type="text" class="textInput" style="position: absolute; width: 80vw; left: 10vw; top: 2vw; height: 4vw"></input>' +
+          '<input id="idText" type="text" style="position: absolute; width: 80vw; left: 10vw; top: 2vw; height: 4vw"></input>' +
           '<button id="loginButton" type="button" style="position: absolute; width: 80vw; left: 10vw; top: 8vw; height: 4vw">Login</button>' +
         '</div>' +
       '</div>'

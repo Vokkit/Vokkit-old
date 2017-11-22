@@ -19,9 +19,9 @@
   image-rendering: pixelated;
   image-rendering: optimize-contrast;
   -ms-interpolation-mode: nearest-neighbor;
-  
-    font-size: 1.4vw;
-    text-shadow: 0.1vw 0.1vw 0 gray;
+
+  font-size: 1.4vw;
+  text-shadow: 2px 2px #000000;
 }
 
 body {
@@ -58,7 +58,7 @@ button:hover {
   border-image: url('assets/gui/button_pressed.png') 2 fill stretch;
 }*/
 
-.textInput {
+input {
   border: solid lightgray;
   border-width: 0.2vw;
   background: black;

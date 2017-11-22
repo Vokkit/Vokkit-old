@@ -1,5 +1,3 @@
-const Block = require('../block/Block')
-
 class InputManager {
   constructor () {}
 
@@ -44,6 +42,8 @@ class InputManager {
         document.onwheel = onMouseWheel
         document.onkeydown = onKeyDown
         document.onkeyup = onKeyUp
+
+        Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().pointerLockListener()
       } else if(Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().disableCursor) {
         document.onmousemove = null
         document.onmousedown = null
@@ -51,6 +51,8 @@ class InputManager {
         document.onwheel = null
         document.onkeydown = null
         document.onkeyup = null
+        
+        Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().pointerUnlockListener()
       }
     }
 

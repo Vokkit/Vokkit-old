@@ -5,7 +5,6 @@ const PlayerManager = require('./entity/PlayerManager')
 const ScreenManager = require('./ui/ScreenManager')
 const InputManager = require('./ui/InputManager')
 const BlockTextureManager = require('./block/BlockTextureManager')
-const UIManager = require('./ui/UIManager')
 const ChatManager = require('./chat/ChatManager')
 const PluginManager = require('./plugin/PluginManager')
 
@@ -28,7 +27,6 @@ class Client {
     this.screenManager = new ScreenManager()
     this.screenManager.init()
     this.inputManager = new InputManager()
-    this.uiManager = new UIManager()
     this.chatManager = new ChatManager()
     this.screenManager.addScreen('LoginScreen')
   }
@@ -42,8 +40,6 @@ class Client {
     this.screenManager.getScreen('MainScreen').drawWorld(this.worldList[0])
     // inputManager.init()
     this.screenManager.getScreen('MainScreen').start()
-    this.uiManager.init()
-    this.uiManager.updateHealthBar()
     this.inputManager.setInput()
     // chatManager.init()
     this.pluginManager.enable()
@@ -71,9 +67,6 @@ class Client {
   }
   getSocket () {
     return this.socket
-  }
-  getUIManager () {
-    return this.uiManager
   }
   getChatManager () {
     return this.chatManager

@@ -8,6 +8,9 @@ class InputBinder {
     this.mouseMoveListener = event => {}
     this.mouseWheelListener = event => {}
 
+    this.pointerLockListener = event => {}
+    this.pointerUnlockListener = event => {}
+
     this.disableCursor = false
   }
 
@@ -34,6 +37,14 @@ class InputBinder {
 
   setMouseWheelListener (listener) {
     this.mouseWheelListener = listener
+  }
+
+  setPointerLockListener (listener) {
+    this.pointerLockListener = listener
+  }
+
+  setPointerUnlockListener (listener) {
+    this.pointerUnlockListener = listener
   }
 }
 

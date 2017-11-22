@@ -2,7 +2,7 @@ class MoveManager {
   constructor () {
     this.socket = Vokkit.getClient().getSocket()
     this.socket.on('move', function (data) {
-      if (data.id === Vokkit.getClient().getLocalPlayer().getId() && !data.update) return
+      if (Vokkit.getClient().getLocalPlayer() != null && data.id === Vokkit.getClient().getLocalPlayer().getId() && !data.update) return
       const players = Vokkit.getClient().getOnlinePlayers()
       for (const i in players) {
         if (players[i].getId() === data.id) {

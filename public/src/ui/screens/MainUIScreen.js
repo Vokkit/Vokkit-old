@@ -7,23 +7,37 @@ class MainUIScreen extends Screen {
 
     this.init()
     this.initInput()
+
+    this.cross = null
+    this.crossbar = null
+    this.crossbar_selected = null
+
+    this.heartFull = []
+    this.heartHalf = []
+
+    this.heartBackgroundBlack = null
+    this.heartBackgroundWhite = null
+
+    this.heartFull = []
+    this.heartHalf = []
+    this.lastHealth = 0
   }
 
   init () {
     this.dom.innerHTML = (
-      '<div id="cross" style="position:fixed; left:50%; top:50%; width:32px; height:32px; margin:-16px 0px 0px -16px;display:none">' +
+      '<div id="cross" style="position:fixed; left:50%; top:50%; width:32px; height:32px; margin:-16px 0px 0px -16px; display: block;">' +
         '<img src="./assets/gui/cross.png"></img>' +
       '</div>' +
 
-      '<div id="crossbar" style="position: fixed; left: 31.8%; bottom: 0%; width: 36.4vw; display: none">' +
+      '<div id="crossbar" style="position: fixed; left: 31.8%; bottom: 0%; width: 36.4vw; display: block;">' +
         '<img src="./assets/gui/crossbar.png" style="width: 36.4vw;"></img>' +
       '</div>' +
 
-      '<div id="crossbar_selected" style="position: fixed; left: calc(31.8% - 0.2vw); bottom: -0.2vw; width: 4.8vw; display: none">' +
+      '<div id="crossbar_selected" style="position: fixed; left: calc(31.8% - 0.2vw); bottom: -0.2vw; width: 4.8vw; display: block;">' +
         '<img src="./assets/gui/crossbar_selected.png" style="width: 4.8vw;"></img>' +
       '</div>' +
 
-      '<div id="heart_background_black" style="position: fixed; left: calc(31.8%); bottom: 6.4vw; width: 16.2vw; display: none">' +
+      '<div id="heart_background_black" style="position: fixed; left: calc(31.8%); bottom: 6.4vw; width: 16.2vw; display: block;">' +
         '<img id="heart_background_black_0" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8%); width: 1.8vw;"></img>' +
         '<img id="heart_background_black_1" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 1.6vw); width: 1.8vw;"></img>' +
         '<img id="heart_background_black_2" src="./assets/gui/heart_background_black.png" style="position: fixed; left: calc(31.8% + 3.2vw); width: 1.8vw;"></img>' +
@@ -134,14 +148,19 @@ class MainUIScreen extends Screen {
         MainScreen.press[5] = true
       } else if (event.keyCode >= 49 && event.keyCode <= 57) { // 1 ~ 9
         Vokkit.getClient().getLocalPlayer().setSelectedSlotId(event.keyCode - 49)
-        Vokkit.getClient().getUIManager().updateCrossbarSelected()
+        Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').updateCrossbarSelected()
       }
       if (event.keyCode === 84) {
         Vokkit.getClient().getScreenManager().addScreen('ChatScreen')
+        Vokkit.getClient().getScreenManager().getScreen('ChatScreen').syncChat()
         Vokkit.getClient().getInputManager().showCursor()
-      } else if (event.keyCode === 9) {
-        alert('test')
       }
+
+    })
+
+    this.inputBinder.setPointerUnlockListener(() => {
+      Vokkit.getClient().getScreenManager().addScreen('PauseScreen')
+      Vokkit.getClient().getInputManager().showCursor()
     })
 
     this.inputBinder.setkeyUpListener(event => {
@@ -165,21 +184,93 @@ class MainUIScreen extends Screen {
       if (event.timeStamp - lastTimestamp < 1) return
       lastTimestamp = event.timeStamp
       const localPlayer = Vokkit.getClient().getLocalPlayer()
-      const UIManager = Vokkit.getClient().getUIManager()
+      const mainUiScreen = Vokkit.getClient().getScreenManager().getScreen('MainUIScreen')
+
       if (event.deltaY > 0) {
         // 아래로 스크롤 - 오른쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
         if (selectedSlotId == 8) localPlayer.setSelectedSlotId(0)
         else localPlayer.setSelectedSlotId(selectedSlotId + 1)
-        UIManager.updateCrossbarSelected()
+        mainUiScreen.updateCrossbarSelected()
       } else if (event.deltaY < 0) {
         // 위로 스크롤 - 왼쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
         if (selectedSlotId == 0) localPlayer.setSelectedSlotId(8)
         else localPlayer.setSelectedSlotId(selectedSlotId - 1)
-        UIManager.updateCrossbarSelected()
+        mainUiScreen.updateCrossbarSelected()
       }
     })
+  }
+
+  updateCrossbarSelected () {
+    if (this.cross == null) {
+      this.cross = document.getElementById('cross')
+      this.crossbar = document.getElementById('crossbar')
+      this.crossbar_selected = document.getElementById('crossbar_selected')
+    }
+
+    const selectedSlotId = Vokkit.getClient().getLocalPlayer().getSelectedSlotId()
+    this.crossbar_selected.style.left = `calc(31.8% - 0.2vw + ${selectedSlotId * 4}vw)`
+  }
+
+  updateHealthBar () {
+    if (this.heartBackgroundBlack == null) {
+      for (let i = 0; i < 10; i++) {
+        //this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
+        this.heartFull[i] = document.getElementById(`heart_full_${i}`)
+        this.heartHalf[i] = document.getElementById(`heart_half_${i}`)
+      }
+
+      this.heartBackgroundBlack = document.getElementById('heart_background_black')
+      this.heartBackgroundWhite = document.getElementById('heart_background_white')
+    }
+
+    const health = Vokkit.getClient().getLocalPlayer().getHealth()
+
+    if (health < this.lastHealth) {
+      let count = 0
+      const manager = this
+      const animation = () => {
+        if (count % 2 == 0) {
+          manager.heartBackgroundBlack.style.display = 'block'
+          manager.heartBackgroundWhite.style.display = 'none'
+        } else {
+          manager.heartBackgroundBlack.style.display = 'none'
+          manager.heartBackgroundWhite.style.display = 'block'
+        }
+
+        if (count > 3) {
+          clearInterval(interval)
+        }
+
+        count++
+      }
+
+      animation()
+      const interval = setInterval(animation, 150)
+    }
+    const fullHeart = Math.floor(health / 2)
+
+    let i = 0
+
+    for (; i < fullHeart;) {
+      this.heartFull[i].style.display = 'block'
+      this.heartHalf[i].style.display = 'none'
+      i++
+    }
+
+    if (health % 2 == 1 && i < 10) {
+      this.heartFull[i].style.display = 'none'
+      this.heartHalf[i].style.display = 'block'
+      i++
+    }
+
+    for (; i < 10; i++) {
+      this.heartFull[i].style.display = 'none'
+      this.heartHalf[i].style.display = 'none'
+    }
+
+    this.lastHealth = health
   }
 }
 
