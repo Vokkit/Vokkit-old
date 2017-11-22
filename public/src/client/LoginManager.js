@@ -30,6 +30,11 @@ class LoginManager {
 
   requestLogin (id) {
     if (id === '') {
+      alert('공백 ID를 사용할 수 없습니다.')
+      return false
+    }
+    if (id.length >= 20) {
+      alert('ID는 20자를 넘을 수 없습니다.')
       return false
     }
     let type = 'PC'

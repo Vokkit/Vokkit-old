@@ -20,6 +20,20 @@ class LoginManager extends SocketManager {
         })
         return
       }
+      if (data.name.length === 0) {
+        socket.emit('loginResult', {
+          succeed: false,
+          reason: '공백 ID를 사용할 수 없습니다.'
+        })
+        return
+      }
+      if (data.name.length >= 20) {
+        socket.emit('loginResult', {
+          succeed: false,
+          reason: 'ID는 20자를 넘을 수 없습니다.'
+        })
+        return
+      }
       let playerList = Vokkit.getServer().getPlayers()
       for (let i in playerList) {
         if (playerList[i].getName() === player.getName()) {

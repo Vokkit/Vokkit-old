@@ -11,16 +11,18 @@ class LoginScreen extends Screen {
 
   init () {
     this.dom.innerHTML = (
-      '<div id="login" style="position: fixed;">' +
-        '<input id="idText" type="text" class="textInput" style="position: absolute; width: 80vw; left: 10vw; top: 2vw; height: 4vw"></input>' +
-        '<button id="loginButton" type="button" style="position: absolute; width: 80vw; left: 10vw; top: 8vw; height: 4vw">Login</button>' +
+      '<div id="load" class="background">' +
+        '<div id="login" style="position: fixed;">' +
+          '<input id="idText" type="text" class="textInput" style="position: absolute; width: 80vw; left: 10vw; top: 2vw; height: 4vw"></input>' +
+          '<button id="loginButton" type="button" style="position: absolute; width: 80vw; left: 10vw; top: 8vw; height: 4vw">Login</button>' +
+        '</div>' +
       '</div>'
     )
   }
 
   initInput () {
-    this.dom.children[0].children[1].onclick = event => {
-      Vokkit.getClient().getLoginManager().requestLogin(this.dom.children[0].children[0].value)
+    this.dom.children[0].children[0].children[1].onclick = event => {
+      Vokkit.getClient().getLoginManager().requestLogin(this.dom.children[0].children[0].children[0].value)
     }
   }
 }
