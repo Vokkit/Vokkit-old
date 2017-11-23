@@ -1,4 +1,6 @@
 const Util = require('../Util.js')
+const ParameterType = require('./parameter/ParameterType.js')
+const Parameter = require('./parameter/Parameter.js')
 
 class CommandExecutor {
   constructor (provider) {
@@ -15,7 +17,22 @@ class CommandExecutor {
         })
 
         let types = v.getParameterTypes()
-        for (let i in types) {
+        for (const i in types) {
+          for (const j in types[i]) {
+            if(types[i][j] === ParameterType.UNLIMITED_STRING) {
+              let newParameter = parameter.splice(0, j)
+              newParameter.push(new Parameter(ParameterType.UNLIMITED_STRING, parameter.map(o => {
+                return o.getValue()
+              }).join(' ')))
+
+              v.execute(Number(i), sender, newParameter)
+
+              return
+            } else if (types[i][j] !== parameterType[j]) {
+              break
+            }
+          }
+
           if (Util.equals(types[i], parameterType)) {
             v.execute(Number(i), sender, parameter)
 
@@ -23,13 +40,13 @@ class CommandExecutor {
           }
         }
 
-        sender.sendMessage(v.getUsage())
+        sender.sendMessage(Vokkit.getServer(), v.getUsage())
 
         return
       }
     }
 
-    sender.sendMessage('커맨드를 찾을 수 없습니다.')
+    sender.sendMessage(Vokkit.getServer(), '커맨드를 찾을 수 없습니다.')
   }
 }
 

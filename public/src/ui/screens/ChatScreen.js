@@ -32,7 +32,7 @@ class ChatScreen extends Screen {
           Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
 
           const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
-          MainScreen.getRenderer().requestPointerLock()
+          MainScreen.dom.requestPointerLock()
           break
         case 13: // enter
           let name = Vokkit.getClient().getLocalPlayer().getName()

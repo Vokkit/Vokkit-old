@@ -53,7 +53,7 @@ class Player extends Entity {
       format: format
     })
 
-    //Vokkit.getServer().getLogger().info(sender + ' tell ' + message + ' to ' + this.name)
+    // Vokkit.getServer().getLogger().info(sender + ' tell ' + message + ' to ' + this.name)
   }
 
   getInventory () {

@@ -19,7 +19,7 @@ class HelpCommand extends Command {
           text += v.getName() + ' - ' + v.getDescription() + '\n'
         }
 
-        sender.sendMessage(text)
+        sender.sendMessage(Vokkit.getServer().getName(), text)
         break
       case 1:
         for (let v of allCommands) {
@@ -30,10 +30,10 @@ class HelpCommand extends Command {
           }
         }
 
-        sender.sendMessage(text)
+        sender.sendMessage(Vokkit.getServer().getName(), text)
         break
       default:
-        sender.sendMessage(this.getUsage())
+        sender.sendMessage(Vokkit.getServer().getName(), this.getUsage())
         break
     }
   }

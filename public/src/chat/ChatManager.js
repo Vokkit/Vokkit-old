@@ -21,7 +21,7 @@ class ChatManager {
       format: '<%s> %s\n'
     }
 
-    socket.emit('chat', object)
+    socket.emit('broadcast', object)
     this.chat.push(object)
   }
 

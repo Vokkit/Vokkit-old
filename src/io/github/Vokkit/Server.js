@@ -105,7 +105,7 @@ class Server {
   getPlayers () {
     return this.playerList.slice()
   }
-
+  
   getSocketServer () {
     return socketServer
   }

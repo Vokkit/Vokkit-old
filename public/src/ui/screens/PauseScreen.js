@@ -25,7 +25,7 @@ class PauseScreen extends Screen {
       Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
 
       const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
-      MainScreen.getRenderer().requestPointerLock()
+      MainScreen.dom.requestPointerLock()
     }
     this.dom.children[0].children[0].children[1].onclick = event => {
       // TODO

@@ -15,6 +15,10 @@ class ParameterType {
     return 'boolean'
   }
 
+  static get UNLIMITED_STRING () {
+    return 'unlimited_string'
+  }
+
   static toType (parameter) {
     let result = []
 
@@ -24,7 +28,7 @@ class ParameterType {
       } else if (Vokkit.getServer().getPlayer(v) != null) {
         result.push(ParameterType.PLAYER)
       } else {
-        if (v === 'true' || v === 'false') { result.push(ParameterType.BOOLEAN) } else { result.push(ParameterType.STRING) }
+        result.push((v === 'true' || v === 'false') ? ParameterType.BOOLEAN : ParameterType.STRING)
       }
     }
 

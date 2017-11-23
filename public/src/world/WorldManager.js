@@ -1,4 +1,5 @@
 const Block = require('../block/Block')
+const Material = require('../Materials')
 
 class WorldManager {
   constructor () {
