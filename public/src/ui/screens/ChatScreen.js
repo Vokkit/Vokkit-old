@@ -2,7 +2,7 @@ const Screen = require('../Screen.js')
 const InputBinder = require('../InputBinder.js')
 
 class ChatScreen extends Screen {
-  constructor () {
+  constructor() {
     super('ChatScreen', 'stack', new InputBinder())
 
     this.saved = []
@@ -11,30 +11,30 @@ class ChatScreen extends Screen {
     this.initInput()
   }
 
-  init () {
+  init() {
     this.dom.innerHTML = (
       '<div id="chatWindow" style="width: 100vw; height: 100vh;">' +
-        '<div class="header" style="overflow:auto; width: 100%; height: 42px; text-align: center; line-height: 38px; cursor: pointer;">' +
-          '<div class="flat-button">' +
-            '< Back' +
-          '</div>' +
-          'Chat and Commands' +
-        '</div>' +
-        '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 4px; height: calc(100% - 48px - 42px - 10px); cursor: pointer; color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);">' +
-        '</div>' +
-      '<div id="chatInput">' +
-        '<button id="chatButton" style="position: fixed; left: 0px; bottom: 0px; width: 48px; height: 48px;">' +
-          '/' +
-        '</button>' +
-        '<input id="chatText" style="position: fixed; bottom: 0px; margin-left: 48px; width: calc(100% - 48px - 48px); height: 48px;"></input>' +
-        '<button id="chatButton" style="position: fixed; right: 0px; bottom: 0px; width: 48px; height: 48px;">' +
-          '→' +
-        '</button>' +
+      '<div class="header" style="overflow:auto; width: 100%; height: 42px; text-align: center; line-height: 38px; cursor: pointer;">' +
+      '<div class="flat-button">' +
+      '< Back' +
       '</div>' +
-    '</div>')
+      'Chat and Commands' +
+      '</div>' +
+      '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 4px; height: calc(100% - 48px - 42px - 10px); cursor: pointer; color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);">' +
+      '</div>' +
+      '<div id="chatInput">' +
+      '<button id="chatButton" style="position: fixed; left: 0px; bottom: 0px; width: 48px; height: 48px;">' +
+      '/' +
+      '</button>' +
+      '<input id="chatText" style="position: fixed; bottom: 0px; margin-left: 48px; width: calc(100% - 48px - 48px); height: 48px;"></input>' +
+      '<button id="chatButton" style="position: fixed; right: 0px; bottom: 0px; width: 48px; height: 48px;">' +
+      '→' +
+      '</button>' +
+      '</div>' +
+      '</div>')
   }
 
-  initInput () {
+  initInput() {
     this.inputBinder.setKeyDownListener(event => {
       switch (event.keyCode) {
         case 27: // esc
@@ -59,28 +59,26 @@ class ChatScreen extends Screen {
     })
   }
 
-  syncChat () {
+  syncChat() {
     const chatLog = document.getElementById('chatLog')
-    for (const i in this.saved) {
-      chatLog.innerText += this.saved[i]
-      chatLog.innerHTML += '<br />'
-    }
+    for (const i in this.saved) chatLog.appendChild(this.saved[i])
     this.saved = []
   }
 
-  addChat (message) {
+  addChat(message) {
     const chatLog = document.getElementById('chatLog')
+    const p = document.createElement('p')
+    p.innerText = message
 
     if (chatLog != null) {
       const maxScroll = chatLog.scrollHeight - chatLog.offsetHeight
       const now = chatLog.scrollTop
-      const autoScroll = (Math.abs(maxScroll - now) < 1)
+      const autoScroll = (Math.abs(maxScroll - now) <= 1)
       this.syncChat()
-      chatLog.innerText += message
-      chatLog.innerHTML += '<br />'
+      chatLog.appendChild(p)
       if (autoScroll) chatLog.scrollTop += 100000
     } else {
-      this.saved.push(message)
+      this.saved.push(p)
     }
   }
 }
