@@ -14,11 +14,20 @@ class ChatScreen extends Screen {
   init () {
     this.dom.innerHTML = (
       '<div id="chatWindow" style="width: 100vw; height: 100vh;">' +
-        '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 8px; height: calc(100% - 46px); cursor: pointer; background-color: rgba(0, 0, 0, 0.25); color: rgb(255, 255, 255);">' +
+        '<div class="header" style="overflow:auto; width: 100%; height: 42px; text-align: center; line-height: 38px; cursor: pointer;">' +
+          '<div class="flat-button">' +
+            '< Back' +
+          '</div>' +
+          'Chat and Commands' +
+        '</div>' +
+        '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 4px; height: calc(100% - 48px - 42px - 4px); cursor: pointer; color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);">' +
         '</div>' +
       '<div id="chatInput">' +
-        '<input id="chatText" style="bottom: 0px; width: calc(100% - 30px); height:30px; padding: 8px; font-size: 15px;"></input>' +
-        '<button id="chatButton" style="position:fixed; right:0px; bottom:0px; width: 30px; height:30px; font-size: 15px;">' +
+        '<button id="chatButton" style="position: fixed; left: 0px; bottom: 0px; width: 48px; height: 48px;">' +
+          '/' +
+        '</button>' +
+        '<input id="chatText" style="bottom: 0px; margin-left: 48px; width: calc(100% - 48px - 48px); height: 48px;"></input>' +
+        '<button id="chatButton" style="position: fixed; right: 0px; bottom: 0px; width: 48px; height: 48px;">' +
           '→' +
         '</button>' +
       '</div>' +

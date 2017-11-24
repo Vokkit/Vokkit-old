@@ -16,12 +16,7 @@ class ConsoleCommandSender extends CommandSender {
 
   broadcast (sender, message, format = '[%s] %s\n') {
     Vokkit.getServer().getLogger().chat(format.replace('%s', sender).replace('%s', message))
-    Vokkit.getServer().getSocketServer().emit('chat', {
-      id: null,
-      sender: this.name,
-      message: message.toString(),
-      format: format
-    })
+    Vokkit.getServer().getChatManager().broadcast(sender, message, format)
   }
 }
 

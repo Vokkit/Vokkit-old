@@ -21,7 +21,6 @@
   -ms-interpolation-mode: nearest-neighbor;
 
   font-size: 1.4vw;
-  text-shadow: 2px 2px #000000;
 }
 
 body {
@@ -38,32 +37,62 @@ button {
   cursor: pointer;
   position: absolute;
 
-  color: rgb(255, 255, 255);
+  color: #4D4D4D;
   font-size: 1.4vw;
   font-style: normal;
   text-align: center;
-  text-shadow: 0.1vw 0.1vw 0 gray;
 
   outline: none;
-  z-index: 999;
 }
 
 button:hover {
   border-image: url('assets/gui/button_hover.png') 2 fill stretch;
 
-  color: #fbffc3
+  color: #F1F1F1;
 }
 
-/*button:active {
-  border-image: url('assets/gui/button_pressed.png') 2 fill stretch;
-}*/
+button:active {
+  border-image: url('assets/gui/button_hover_pressed.png') 2 fill stretch;
+
+  text-shadow: 0px 2px #F1F1F1;
+  color: transparent;
+}
 
 input {
-  border: solid lightgray;
-  border-width: 0.2vw;
-  background: black;
-  color: white;
-  padding: 1vw;
+  border: 4px solid transparent;
+  border-image: url('assets/gui/textedit.png') 2 fill stretch;
+
+  padding-left: 4px;
+
+  color: #F1F1F1;
+  outline: none;
+}
+
+input:hover {
+  border-image: url('assets/gui/textedit_hover.png') 2 fill stretch;
+}
+
+.header {
+  background-color: #C6C6C6;
+  border-bottom: solid 4px #585658;
+  box-shadow: 0px 2px #131313;
+}
+
+.flat-button {
+  background-color: #C6C6C6;
+  color: #131313;
+  float: left;
+  margin-left: 8px;
+}
+
+.flat-button:hover {
+  color: #F1F1F1;
+}
+
+.flat-button:active {
+  background-color: #585658;
+  box-shadow: -8px 0px #585658;
+  color: #131313;
 }
 
 .background {
