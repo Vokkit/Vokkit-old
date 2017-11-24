@@ -20,7 +20,7 @@ class ChatScreen extends Screen {
           '</div>' +
           'Chat and Commands' +
         '</div>' +
-        '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 4px; height: calc(100% - 48px - 42px - 4px); cursor: pointer; color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);">' +
+        '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 4px; height: calc(100% - 48px - 42px - 10px); cursor: pointer; color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);">' +
         '</div>' +
       '<div id="chatInput">' +
         '<button id="chatButton" style="position: fixed; left: 0px; bottom: 0px; width: 48px; height: 48px;">' +
@@ -63,7 +63,7 @@ class ChatScreen extends Screen {
     const chatLog = document.getElementById('chatLog')
     for (const i in this.saved) {
       chatLog.innerText += this.saved[i]
-      chatLog.innerHTML += '<br>'
+      chatLog.innerHTML += '<br />'
     }
     this.saved = []
   }
@@ -72,9 +72,13 @@ class ChatScreen extends Screen {
     const chatLog = document.getElementById('chatLog')
 
     if (chatLog != null) {
+      const maxScroll = chatLog.scrollHeight - chatLog.offsetHeight
+      const now = chatLog.scrollTop
+      const autoScroll = (Math.abs(maxScroll - now) < 1)
       this.syncChat()
       chatLog.innerText += message
-      chatLog.innerHTML += '<br>'
+      chatLog.innerHTML += '<br />'
+      if (autoScroll) chatLog.scrollTop += 100000
     } else {
       this.saved.push(message)
     }
