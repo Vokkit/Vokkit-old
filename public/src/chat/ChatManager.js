@@ -4,37 +4,25 @@ class ChatManager {
 
     const socket = Vokkit.getClient().getSocket()
     socket.on('chat', data => {
-      const sender = data.sender
       const message = data.message
-      const format = data.format
 
-      this.chat.push(data)
-      Vokkit.getClient().getScreenManager().getScreen('ChatScreen').addChat(sender, message, format)
+      this.chat.push(message)
+      Vokkit.getClient().getScreenManager().getScreen('ChatScreen').addChat(message)
     })
   }
 
-  sendChat (sender, message) {
+  sendChat (message) {
     const socket = Vokkit.getClient().getSocket()
-    const object = {
-      sender: sender,
-      message: message,
-      format: '<%s> %s\n'
-    }
 
-    socket.emit('broadcast', object)
-    this.chat.push(object)
+    socket.emit('broadcast', {message})
+    this.chat.push(message)
   }
 
-  sendCommand (sender, message) {
+  sendCommand (message) {
     const socket = Vokkit.getClient().getSocket()
-    const object = {
-      sender: sender,
-      message: message,
-      format: '<%s> %s\n'
-    }
 
-    socket.emit('command', object)
-    this.chat.push(object)
+    socket.emit('command', {message})
+    this.chat.push(message)
   }
 
   getAllChats () {

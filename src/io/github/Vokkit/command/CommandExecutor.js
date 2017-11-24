@@ -40,13 +40,13 @@ class CommandExecutor {
           }
         }
 
-        sender.sendMessage(Vokkit.getServer(), v.getUsage())
+        sender.sendMessage(v.getUsage())
 
         return
       }
     }
 
-    sender.sendMessage(Vokkit.getServer(), '커맨드를 찾을 수 없습니다.')
+    sender.sendMessage('커맨드를 찾을 수 없습니다.')
   }
 }
 

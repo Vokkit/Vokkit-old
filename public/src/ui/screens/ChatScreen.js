@@ -5,7 +5,7 @@ class ChatScreen extends Screen {
   constructor () {
     super('ChatScreen', 'stack', new InputBinder())
 
-    this.saved = ""
+    this.saved = []
 
     this.init()
     this.initInput()
@@ -26,7 +26,7 @@ class ChatScreen extends Screen {
         '<button id="chatButton" style="position: fixed; left: 0px; bottom: 0px; width: 48px; height: 48px;">' +
           '/' +
         '</button>' +
-        '<input id="chatText" style="bottom: 0px; margin-left: 48px; width: calc(100% - 48px - 48px); height: 48px;"></input>' +
+        '<input id="chatText" style="position: fixed; bottom: 0px; margin-left: 48px; width: calc(100% - 48px - 48px); height: 48px;"></input>' +
         '<button id="chatButton" style="position: fixed; right: 0px; bottom: 0px; width: 48px; height: 48px;">' +
           '→' +
         '</button>' +
@@ -48,9 +48,9 @@ class ChatScreen extends Screen {
           let text = document.getElementById('chatText').value
 
           if (text[0] == '/') {
-            Vokkit.getClient().getChatManager().sendCommand(name, text.replace('/', ''))
+            Vokkit.getClient().getChatManager().sendCommand(text.replace('/', ''))
           } else {
-            Vokkit.getClient().getChatManager().sendChat(name, text)
+            Vokkit.getClient().getChatManager().sendChat(text)
           }
 
           document.getElementById('chatText').value = ''
@@ -60,18 +60,23 @@ class ChatScreen extends Screen {
   }
 
   syncChat () {
-    document.getElementById('chatLog').innerText += this.saved
-    this.saved = ""
+    const chatLog = document.getElementById('chatLog')
+    for (const i in this.saved) {
+      chatLog.innerText += this.saved[i]
+      chatLog.innerHTML += '<br>'
+    }
+    this.saved = []
   }
 
-  addChat (sender, message, format) {
+  addChat (message) {
     const chatLog = document.getElementById('chatLog')
 
     if (chatLog != null) {
       this.syncChat()
-      chatLog.innerText += format.replace('%s', sender).replace('%s', message)
+      chatLog.innerText += message
+      chatLog.innerHTML += '<br>'
     } else {
-      this.saved += format.replace('%s', sender).replace('%s', message)
+      this.saved.push(message)
     }
   }
 }

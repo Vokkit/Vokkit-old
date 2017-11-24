@@ -10,13 +10,13 @@ class ConsoleCommandSender extends CommandSender {
     return this.name
   }
 
-  sendMessage (sender, message, format = '<%s> %s\n') {
-    Vokkit.getServer().getLogger().chat(format.replace('%s', sender).replace('%s', message))
+  sendMessage (message) {
+    Vokkit.getServer().getLogger().chat(message)
   }
 
-  broadcast (sender, message, format = '[%s] %s\n') {
-    Vokkit.getServer().getLogger().chat(format.replace('%s', sender).replace('%s', message))
-    Vokkit.getServer().getChatManager().broadcast(sender, message, format)
+  broadcast (message) {
+    Vokkit.getServer().getLogger().chat(message)
+    Vokkit.getServer().getChatManager().broadcast(message)
   }
 }
 

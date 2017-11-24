@@ -6,12 +6,12 @@ class PlayerCommandSender extends CommandSender {
     this.player = player
   }
 
-  sendMessage (sender, message, format = '<%s> %s\n') {
-    this.player.sendMessage(sender, message, format)
+  sendMessage (message) {
+    this.player.sendMessage(message)
   }
 
-  broadcast (sender, message, format = '<%s> %s\n') {
-    Vokkit.getServer().getChatManager().broadcast(sender, message, format)
+  broadcast (message) {
+    Vokkit.getServer().getChatManager().broadcast(message)
   }
 
   getName () {

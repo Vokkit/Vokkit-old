@@ -45,12 +45,10 @@ class Player extends Entity {
     this.type = type
   }
 
-  sendMessage (sender, message, format = '<%s> %s\n') {
+  sendMessage (message) {
     this.getSocket().emit('chat', {
       id: this.getId(),
-      sender: sender,
-      message: message.toString(),
-      format: format
+      message: message.toString()
     })
 
     // Vokkit.getServer().getLogger().info(sender + ' tell ' + message + ' to ' + this.name)

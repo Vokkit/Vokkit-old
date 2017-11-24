@@ -15,14 +15,14 @@ class SayCommand extends Command {
       case 0:
         const target = parameter[0].getValue()
 
-        target.sendMessage(sender.getName() + ' -> ' + target.getName(), parameter[1].getValue(), '%s: %s\n')
-        sender.sendMessage(sender.getName() + ' -> ' + target.getName(), parameter[1].getValue(), '%s: %s\n')
+        target.sendMessage(`${sender.getName()} -> ${target.getName}: ${parameter[1].getValue()}`)
+        sender.sendMessage(`${sender.getName()} -> ${target.getName}: ${parameter[1].getValue()}`)
         break
       case 1:
-        sender.broadcast(sender.getName(), parameter[0].getValue())
+        sender.broadcast(parameter[0].getValue())
         break
       default:
-        sender.sendMessage(Vokkit.getServer().getName(), this.getUsage())
+        sender.sendMessage(this.getUsage())
         break
     }
   }

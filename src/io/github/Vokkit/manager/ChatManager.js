@@ -7,48 +7,40 @@ class ChatManager extends SocketManager {
     socket.on('broadcast', function (data) {
       let player = Vokkit.getServer().getPlayerById(socket.id)
       let allPlayers = Vokkit.getServer().getPlayers()
-      let sender = data.sender
       let message = data.message
-      let format = data.format
-      let playerChatEvent = new PlayerChatEvent(player, sender, message, format)
+      let playerChatEvent = new PlayerChatEvent(player, message)
 
       Vokkit.getServer().getPluginManager().makeEvent(playerChatEvent)
       if (!playerChatEvent.isCancelled()) {
         for (const p of allPlayers) {
-          p.sendMessage(playerChatEvent.getSender(), playerChatEvent.getMessage(), playerChatEvent.getFormat())
+          p.sendMessage(`<${playerChatEvent.getPlayer().getName()}> ${playerChatEvent.getMessage()}`)
         }
       }
     })
 
     socket.on('chat', function (data) {
       let player = Vokkit.getServer().getPlayerById(socket.id)
-      let allPlayers = Vokkit.getServer().getPlayers()
-      let sender = data.sender
       let message = data.message
-      let format = data.format
-      let playerChatEvent = new PlayerChatEvent(player, sender, message, format)
+      let playerChatEvent = new PlayerChatEvent(player, message)
 
       Vokkit.getServer().getPluginManager().makeEvent(playerChatEvent)
       if (!playerChatEvent.isCancelled()) {
-        player.sendMessage(playerChatEvent.getSender(), playerChatEvent.getMessage(), playerChatEvent.getFormat())
+        player.sendMessage(`<${playerChatEvent.getPlayer().getName()}> ${playerChatEvent.getMessage()}`)
       }
     })
   }
 
   sendSystemMessage (message) {
     Vokkit.getServer().getSocketServer().emit('broadcast', {
-      id: null,
-      sender: sender,
-      message: message.toString(),
-      format: '<%s> %s\n'
+      message: `<Server> ${message.toString()}`
     })
   }
 
-  broadcast (sender, message, format) {
+  broadcast (message) {
     const players = Vokkit.getServer().getPlayers()
 
     for (const player of players) {
-      player.sendMessage(sender, message, format)
+      player.sendMessage(message)
     }
   }
 }
