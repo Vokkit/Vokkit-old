@@ -4,8 +4,7 @@ const Player = require('../../entity/Player.js')
 
 class SayCommand extends Command {
   constructor () {
-    super('say', '메세지를 전달합니다.', '/say [player] [message]', [
-      [ParameterType.PLAYER, ParameterType.UNLIMITED_STRING],
+    super('say', '메세지를 전달합니다.', '/say [message]', [
       [ParameterType.UNLIMITED_STRING]
     ])
   }
@@ -13,13 +12,7 @@ class SayCommand extends Command {
   execute (parameterNumber, sender, parameter) {
     switch (parameterNumber) {
       case 0:
-        const target = parameter[0].getValue()
-
-        target.sendMessage(`${sender.getName()} -> ${target.getName}: ${parameter[1].getValue()}`)
-        sender.sendMessage(`${sender.getName()} -> ${target.getName}: ${parameter[1].getValue()}`)
-        break
-      case 1:
-        sender.broadcast(parameter[0].getValue())
+        sender.broadcast(`[${sender.getName()}] ` + parameter[0].getValue())
         break
       default:
         sender.sendMessage(this.getUsage())

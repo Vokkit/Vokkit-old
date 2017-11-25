@@ -11,6 +11,7 @@ const HelpCommand = require('../command/commands/HelpCommand.js')
 const TeleportCommand = require('../command/commands/TeleportCommand.js')
 const ExitCommand = require('../command/commands/ExitCommand.js')
 const SayCommand = require('../command/commands/SayCommand.js')
+const TellCommand = require('../command/commands/TellCommand.js')
 
 function callCommand (commandManager, socket, data) {
   let player = Vokkit.getServer().getPlayerById(socket.id)
@@ -47,6 +48,7 @@ class CommandManager extends SocketManager {
     this.commandProvider.register(new TeleportCommand())
     this.commandProvider.register(new ExitCommand())
     this.commandProvider.register(new SayCommand())
+    this.commandProvider.register(new TellCommand())
   }
 
   addListener (socket) {

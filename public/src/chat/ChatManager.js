@@ -7,6 +7,7 @@ class ChatManager {
       const message = data.message
 
       this.chat.push(message)
+      Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').addChat(message)
       Vokkit.getClient().getScreenManager().getScreen('ChatScreen').addChat(message)
     })
   }
@@ -23,6 +24,10 @@ class ChatManager {
 
     socket.emit('command', {message})
     this.chat.push(message)
+  }
+
+  addChatListener (listener) {
+    this.listener = listener
   }
 
   getAllChats () {

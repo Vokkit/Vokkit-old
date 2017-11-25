@@ -12,6 +12,11 @@ class MainUIScreen extends Screen {
     this.crossbar = null
     this.crossbar_selected = null
 
+    this.chatlog = []
+    for (let i = 0; i < 8; i++) {
+      this.chatlog[i] = this.dom.children[3].children[i]
+    }
+
     this.heartFull = []
     this.heartHalf = []
 
@@ -35,6 +40,17 @@ class MainUIScreen extends Screen {
 
       '<div id="crossbar_selected" style="position: fixed; left: calc(31.8% - 0.2vw); bottom: -0.2vw; width: 4.8vw; display: block;">' +
         '<img src="./assets/gui/crossbar_selected.png" style="width: 4.8vw;"></img>' +
+      '</div>' +
+
+      '<div id="chatlog" style="position: fixed; left: 0; bottom: 15vh; width: 50vw; height: calc(26px * 8); display: block;">' +
+        '<div id="chat1" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
+        '<div id="chat2" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
+        '<div id="chat3" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
+        '<div id="chat4" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
+        '<div id="chat5" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
+        '<div id="chat6" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
+        '<div id="chat7" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
+        '<div id="chat8" style="color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);"></div>' +
       '</div>' +
 
       '<div id="heart_background_black" style="position: fixed; left: calc(31.8%); bottom: 6.4vw; width: 16.2vw; display: block;">' +
@@ -200,6 +216,21 @@ class MainUIScreen extends Screen {
         mainUiScreen.updateCrossbarSelected()
       }
     })
+  }
+
+  addChat (message) {
+    for (let i = 0; i < 8; i++) {
+      if (this.chatlog[i].innerText === '') {
+        this.chatlog[i].innerText = message
+
+        return
+      }
+    }
+
+    for (let i = 0; i < 7; i++) {
+      this.chatlog[i].innerText = this.chatlog[i + 1].innerText
+    }
+    this.chatlog[7].innerText = message
   }
 
   updateCrossbarSelected () {

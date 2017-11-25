@@ -20,6 +20,13 @@
   image-rendering: optimize-contrast;
   -ms-interpolation-mode: nearest-neighbor;
 
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   font-size: 1.4vw;
 }
 
@@ -83,6 +90,8 @@ input:hover {
   color: #131313;
   float: left;
   margin-left: 8px;
+  line-height: 28px;
+  margin-top: 6px;
 }
 
 .flat-button:hover {
@@ -90,8 +99,8 @@ input:hover {
 }
 
 .flat-button:active {
-  background-color: #585658;
-  box-shadow: -8px 0px #585658;
+  background-color: #7D7D7D;
+  box-shadow: -8px 0px #7D7D7D;
   color: #131313;
 }
 

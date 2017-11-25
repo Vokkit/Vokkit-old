@@ -51,7 +51,7 @@ class InputManager {
         document.onwheel = null
         document.onkeydown = null
         document.onkeyup = null
-        
+
         Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().pointerUnlockListener()
       }
     }
