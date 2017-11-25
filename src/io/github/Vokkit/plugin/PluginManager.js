@@ -15,6 +15,7 @@ class PluginManager {
   }
 
   loadPlugin (name) {
+    if (!fs.existsSync(this.pluginPath + '/' + name + '/manifest.json')) return
     let manifest = JSON.parse(fs.readFileSync(this.pluginPath + '/' + name + '/manifest.json', 'utf-8'))
     Vokkit.getServer().getLogger().info(manifest.name + ' ' + manifest.version + ' 로드 중')
     let serverPlugin = new (require(this.pluginPath + '/' + name + '/' + manifest['server-plugin'] + '/' + manifest['server-main']))()
