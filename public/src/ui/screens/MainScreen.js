@@ -98,8 +98,6 @@ class MainScreen extends Screen {
     let sky = new THREE.Mesh(new THREE.BoxGeometry(600, 600, 600, 1, 1, 1), new THREE.MeshBasicMaterial({ color: '#7EC0EE' }))
     sky.scale.set(-1, 1, 1)
     this.group.add(sky)
-
-    console.log('draw!')
   }
 
   start () {

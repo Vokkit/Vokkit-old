@@ -1,4 +1,5 @@
 const World = require('./World.js')
+const WorldGenerator = require('./WorldGenerator.js')
 const Logger = new (require('./Logger.js'))()
 const SocketConnectManager = require('./manager/SocketConnectManager.js')
 const PluginManager = require('./plugin/PluginManager.js')
@@ -14,6 +15,7 @@ const path = require('path')
 let socketConnectManager
 let consoleManager
 let pluginManager
+let worldGenerator
 
 class Server {
   constructor () {
@@ -26,28 +28,32 @@ class Server {
       Logger.warn(err.stack)
     })
 
-    Logger.info('월드를 불러오는 중...')
-    this.worldList = World.loadAllWorlds()
-    Logger.info(this.worldList.length + '개의 월드를 불러왔습니다.')
+    Logger.info('월드를 생성하는 중...')
+    worldGenerator = new WorldGenerator(200, 200)
+    worldGenerator.generate().then(() => {
+      Logger.info('월드를 불러오는 중...')
+      this.worldList = World.loadAllWorlds()
+      Logger.info(this.worldList.length + '개의 월드를 불러왔습니다.')
 
-    Logger.info('통신 기능을 불러오는 중...')
-    socketConnectManager = new SocketConnectManager()
-    socketConnectManager.init()
-    Logger.info('통신 기능을 불러왔습니다.')
+      Logger.info('통신 기능을 불러오는 중...')
+      socketConnectManager = new SocketConnectManager()
+      socketConnectManager.init()
+      Logger.info('통신 기능을 불러왔습니다.')
 
-    pluginManager = new PluginManager()
-    pluginManager.init()
-    pluginManager.loadPlugins()
-    pluginManager.enablePlugins()
+      pluginManager = new PluginManager()
+      pluginManager.init()
+      pluginManager.loadPlugins()
+      pluginManager.enablePlugins()
 
-    consoleManager = new ConsoleManager()
-    consoleManager.init()
+      consoleManager = new ConsoleManager()
+      consoleManager.init()
 
-    Logger.info('서버를 여는 중...')
-    app.use(express.static(path.join(path.resolve(''), 'public')))
-    http.listen(3000, function () {
-      let endTime = new Date().getTime()
-      Logger.info('완료 (' + ((endTime - startTime) / 1000) + '초)! 도움말을 보시려면 "help" 또는 "?" 를 입력해 주세요')
+      Logger.info('서버를 여는 중...')
+      app.use(express.static(path.join(path.resolve(''), 'public')))
+      http.listen(3000, () => {
+        let endTime = new Date().getTime()
+        Logger.info('완료 (' + ((endTime - startTime) / 1000) + '초)! 도움말을 보시려면 "help" 또는 "?" 를 입력해 주세요')
+      })
     })
   }
 
@@ -105,7 +111,7 @@ class Server {
   getPlayers () {
     return this.playerList.slice()
   }
-  
+
   getSocketServer () {
     return socketServer
   }
