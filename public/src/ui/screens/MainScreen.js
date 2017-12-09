@@ -6,12 +6,14 @@ const Block = require('../../block/Block')
 
 let THREE = require('three')
 
+const CHUNK_SIGHT = 4
+
 class MainScreen extends Screen {
   constructor () {
     super('MainScreen', 'base', null)
 
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 1000)
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 16 * CHUNK_SIGHT)
     this.renderer = new THREE.WebGLRenderer()
     this.group = new THREE.Group()
     this.rotationGroup = new THREE.Group()
@@ -95,20 +97,21 @@ class MainScreen extends Screen {
       this.group.add(mesher)
     }
 
-    let sky = new THREE.Mesh(new THREE.BoxGeometry(600, 600, 600, 1, 1, 1), new THREE.MeshBasicMaterial({ color: '#7EC0EE' }))
-    sky.scale.set(-1, 1, 1)
-    this.group.add(sky)
+
+    this.renderer.setClearColor(0x7EC0EE, 1)
   }
 
   start () {
     let position = new THREE.Vector3()
     let multiply = new THREE.Vector3(-1, -1, -1)
 
-    setInterval(() => {
+    const move = () => {
       Vokkit.getClient().getMoveManager().moveLocalPlayer(this.press)
 
       this.syncMouse()
-    }, 1000 / this.fps)
+      requestAnimationFrame(move)
+    }
+    requestAnimationFrame(move)
 
     this.renderer.animate(() => {
       let localPlayer = Vokkit.getClient().getLocalPlayer()

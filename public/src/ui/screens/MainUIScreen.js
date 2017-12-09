@@ -150,28 +150,41 @@ class MainUIScreen extends Screen {
     })
 
     this.inputBinder.setKeyDownListener(event => {
-      if (event.keyCode === 87) { // w
-        MainScreen.press[0] = true
-      } else if (event.keyCode === 83) { // s
-        MainScreen.press[1] = true
-      } else if (event.keyCode === 65) { // a
-        MainScreen.press[2] = true
-      } else if (event.keyCode === 68) { // d
-        MainScreen.press[3] = true
-      } else if (event.keyCode === 32) { // space
-        MainScreen.press[4] = true
-      } else if (event.keyCode === 16) { // shift
-        MainScreen.press[5] = true
-      } else if (event.keyCode >= 49 && event.keyCode <= 57) { // 1 ~ 9
+      switch (event.keyCode) {
+        case 87: // w
+          MainScreen.press[0] = true
+          break
+        case 83: // s
+          MainScreen.press[1] = true
+          break
+        case 65: // a
+          MainScreen.press[2] = true
+          break
+        case 68: // d
+          MainScreen.press[3] = true
+          break
+        case 32: // space
+          MainScreen.press[4] = true
+          break
+        case 16: // shift
+          MainScreen.press[5] = true
+          break
+
+        case 84: // t
+          Vokkit.getClient().getScreenManager().addScreen('ChatScreen')
+          Vokkit.getClient().getScreenManager().getScreen('ChatScreen').syncChat()
+          Vokkit.getClient().getInputManager().showCursor()
+          break
+        case 69: // e
+          Vokkit.getClient().getScreenManager().addScreen('InventoryScreen')
+          Vokkit.getClient().getInputManager().showCursor()
+          break
+      }
+
+      if (event.keyCode >= 49 && event.keyCode <= 57) { // 1 ~ 9
         Vokkit.getClient().getLocalPlayer().setSelectedSlotId(event.keyCode - 49)
         Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').updateCrossbarSelected()
       }
-      if (event.keyCode === 84) {
-        Vokkit.getClient().getScreenManager().addScreen('ChatScreen')
-        Vokkit.getClient().getScreenManager().getScreen('ChatScreen').syncChat()
-        Vokkit.getClient().getInputManager().showCursor()
-      }
-
     })
 
     this.inputBinder.setPointerUnlockListener(() => {

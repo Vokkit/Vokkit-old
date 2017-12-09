@@ -85,6 +85,26 @@ input:hover {
   box-shadow: 0px 2px #131313;
 }
 
+.background-panel {
+  padding: 4px;
+  border: 8px solid transparent;
+  border-image: url('assets/gui/background_panel.png') 4 fill stretch;
+  position: absolute;
+
+  outline: none;
+}
+
+.item-cell {
+  padding: 2px;
+  border: 4px solid transparent;
+  border-image: url('assets/gui/item_cell.png') 2 fill stretch;
+
+  width: 48px;
+  height: 48px;
+
+  outline: none;
+}
+
 .flat-button {
   background-color: #C6C6C6;
   color: #131313;

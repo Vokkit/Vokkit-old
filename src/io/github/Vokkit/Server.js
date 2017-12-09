@@ -23,37 +23,37 @@ class Server {
     this.worldList = []
   }
 
-  init (startTime) {
+  async init (startTime) {
     process.on('uncaughtException', function (err) {
       Logger.warn(err.stack)
     })
 
     Logger.info('월드를 생성하는 중...')
-    worldGenerator = new WorldGenerator(200, 200)
-    worldGenerator.generate().then(() => {
-      Logger.info('월드를 불러오는 중...')
-      this.worldList = World.loadAllWorlds()
-      Logger.info(this.worldList.length + '개의 월드를 불러왔습니다.')
+    worldGenerator = new WorldGenerator(100, 100)
+    await worldGenerator.generate()
 
-      Logger.info('통신 기능을 불러오는 중...')
-      socketConnectManager = new SocketConnectManager()
-      socketConnectManager.init()
-      Logger.info('통신 기능을 불러왔습니다.')
+    Logger.info('월드를 불러오는 중...')
+    this.worldList = World.loadAllWorlds()
+    Logger.info(this.worldList.length + '개의 월드를 불러왔습니다.')
 
-      pluginManager = new PluginManager()
-      pluginManager.init()
-      pluginManager.loadPlugins()
-      pluginManager.enablePlugins()
+    Logger.info('통신 기능을 불러오는 중...')
+    socketConnectManager = new SocketConnectManager()
+    socketConnectManager.init()
+    Logger.info('통신 기능을 불러왔습니다.')
 
-      consoleManager = new ConsoleManager()
-      consoleManager.init()
+    pluginManager = new PluginManager()
+    pluginManager.init()
+    pluginManager.loadPlugins()
+    await pluginManager.enablePlugins()
 
-      Logger.info('서버를 여는 중...')
-      app.use(express.static(path.join(path.resolve(''), 'public')))
-      http.listen(3000, () => {
-        let endTime = new Date().getTime()
-        Logger.info('완료 (' + ((endTime - startTime) / 1000) + '초)! 도움말을 보시려면 "help" 또는 "?" 를 입력해 주세요')
-      })
+    consoleManager = new ConsoleManager()
+    consoleManager.init()
+
+    Logger.info('서버를 여는 중...')
+    app.use(express.static(path.join(path.resolve(''), 'public')))
+    http.listen(3000, () => {
+      let endTime = new Date().getTime()
+      Logger.info('완료 (' + ((endTime - startTime) / 1000) + '초)! 도움말을 보시려면 "help" 또는 "?" 를 입력해 주세요')
     })
   }
 

@@ -7,6 +7,7 @@ let ChatScreen = require('../UI/screens/ChatScreen.js')
 let LoadScreen = require('../UI/screens/LoadScreen.js')
 let LoginScreen = require('../UI/screens/LoginScreen.js')
 let PauseScreen = require('../UI/screens/PauseScreen.js')
+let InventoryScreen = require('../UI/screens/InventoryScreen.js')
 
 class ScreenManager {
   constructor () {
@@ -21,6 +22,7 @@ class ScreenManager {
     this.screenProvider.register(new LoadScreen())
     this.screenProvider.register(new LoginScreen())
     this.screenProvider.register(new PauseScreen())
+    this.screenProvider.register(new InventoryScreen())
   }
 
   getScreen (screenName) {

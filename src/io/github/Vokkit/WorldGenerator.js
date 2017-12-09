@@ -15,12 +15,12 @@ class WorldGenerator {
 
       const time = new Date().getTime()
       const seed = time / (Math.floor(Math.log10(time)) * 10)
-      const r1 = Math.random()
-      const r2 = Math.random() * (1 - r1)
+      const r1 = Math.random() * 0.5 + 0.75
+      const r2 = Math.random() * 0.5 + 0.75
 
       for (let x = 0; x < this.width; x++) {
         for (let z = 0; z < this.height; z++) {
-          let y = this.noise2d(seed + x * r1, seed + z * r2) + 50
+          let y = Math.floor(this.noise2d(seed * r1 + x, seed * r2 + z) + 50)
 
           value += `${x},${y},${z},${2}\n`
           value += `${x},${y - 1},${z},${3}\n`

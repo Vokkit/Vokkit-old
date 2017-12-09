@@ -4,7 +4,7 @@ class Material {
   }
 
   equals (material) {
-    return material.id === this.id
+    return material.id === this.id || material === this.id
   }
 
   getName () {

@@ -39,58 +39,66 @@ class PluginManager {
   }
 
   enablePlugins () {
-    Vokkit.getServer().getLogger().info('클라이언트 빌드 중... 빌드는 비동기로 처리됩니다.')
+    const promise = new Promise((resolve, reject) => {
+      Vokkit.getServer().getLogger().info('클라이언트 빌드 중...')
 
-    let pluginManagerPath = this.clientPath + '/src/plugin/PluginManager.js'
+      let pluginManagerPath = this.clientPath + '/src/plugin/PluginManager.js'
 
-    if (!fs.existsSync(pluginManagerPath)) {
-      throw Error('public/src를 먼저 컴파일 해주세요.')
-    }
-
-    let source = ['class PluginManager {',
-      '    constructor () {',
-      '        this.plugins = [];',
-      '    }',
-      '',
-      '    load() {',
-      '        this.loadedPlugins = {',
-      '        };',
-      '        for (let i in this.loadedPlugins) {',
-      '            let plugin = new (this.loadedPlugins[i])();',
-      '            plugin.onLoad();',
-      '            this.plugins.push({',
-      '                name: i,',
-      '                plugin: plugin',
-      '            });',
-      '        }',
-      '    }',
-      '',
-      '    enable() {',
-      '        for (let i in this.plugins) {',
-      '            this.plugins[i].plugin.onEnable();',
-      '        }',
-      '    }',
-      '}',
-      '',
-      'module.exports = PluginManager;']
-    let inject = []
-    for (let i in this.clientPlugins) inject.push(this.clientPlugins[i].name + ': require(\'' + this.clientPlugins[i].path + '\')')
-    source.splice(7, 0, inject.join(',\n'))
-    fs.writeFileSync(pluginManagerPath, source.join('\n'))
-
-    webpack(webpackConfig, (err, stats) => {
-      if (err || stats.hasErrors()) {
-        Vokkit.getServer().getLogger().info('클라이언트 빌드 오류 발생')
-        throw new Error(stats.toString())
+      if (!fs.existsSync(pluginManagerPath)) {
+        throw Error('public/src를 먼저 컴파일 해주세요.')
       }
-      Vokkit.getServer().getLogger().info('클라이언트를 빌드했습니다.')
+
+      let source = ['class PluginManager {',
+        '    constructor () {',
+        '        this.plugins = [];',
+        '    }',
+        '',
+        '    load() {',
+        '        this.loadedPlugins = {',
+        '        };',
+        '        for (let i in this.loadedPlugins) {',
+        '            let plugin = new (this.loadedPlugins[i])();',
+        '            plugin.onLoad();',
+        '            this.plugins.push({',
+        '                name: i,',
+        '                plugin: plugin',
+        '            });',
+        '        }',
+        '    }',
+        '',
+        '    enable() {',
+        '        for (let i in this.plugins) {',
+        '            this.plugins[i].plugin.onEnable();',
+        '        }',
+        '    }',
+        '}',
+        '',
+        'module.exports = PluginManager;']
+      let inject = []
+      for (let i in this.clientPlugins)
+        inject.push(this.clientPlugins[i].name + ': require(\'' + this.clientPlugins[i].path + '\')')
+
+      source.splice(7, 0, inject.join(',\n'))
+      fs.writeFileSync(pluginManagerPath, source.join('\n'))
+
+      webpack(webpackConfig, (err, stats) => {
+        if (err || stats.hasErrors()) {
+          Vokkit.getServer().getLogger().info('클라이언트 빌드 오류 발생')
+
+          reject(new Error(stats.toString()))
+        }
+        Vokkit.getServer().getLogger().info('클라이언트를 빌드했습니다.')
+        resolve()
+      })
+
+      for (let i in this.plugins) {
+        Vokkit.getServer().getLogger().info(this.plugins[i].manifest.name + ' ' + this.plugins[i].manifest.version + ' 활성화 중')
+        this.plugins[i].plugin.onEnable()
+        Vokkit.getServer().getLogger().info(this.plugins[i].manifest.name + ' ' + this.plugins[i].manifest.version + ' 활성화 완료')
+      }
     })
 
-    for (let i in this.plugins) {
-      Vokkit.getServer().getLogger().info(this.plugins[i].manifest.name + ' ' + this.plugins[i].manifest.version + ' 활성화 중')
-      this.plugins[i].plugin.onEnable()
-      Vokkit.getServer().getLogger().info(this.plugins[i].manifest.name + ' ' + this.plugins[i].manifest.version + ' 활성화 완료')
-    }
+    return promise
   }
 
   registerEvent (plugin, name, event, eventPriority = EventPriority.NORMAL) {
