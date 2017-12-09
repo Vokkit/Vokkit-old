@@ -86,8 +86,8 @@ input:hover {
 }
 
 .background-panel {
-  padding: 4px;
-  border: 8px solid transparent;
+  padding: 0.6vw;
+  border: 0.6vw solid transparent;
   border-image: url('assets/gui/background_panel.png') 4 fill stretch;
   position: absolute;
 
@@ -95,14 +95,21 @@ input:hover {
 }
 
 .item-cell {
-  padding: 2px;
-  border: 4px solid transparent;
-  border-image: url('assets/gui/item_cell.png') 2 fill stretch;
+  background-image: url('assets/gui/item_cell.png');
+  background-repeat: no-repeat;
+  background-size: 3.2vw 3.2vw;
 
-  width: 48px;
-  height: 48px;
+  width: 3.2vw;
+  height: 3.2vw;
 
   outline: none;
+}
+
+.player-preview {
+  border: 0.2vw solid transparent;
+  border-image-source: url('assets/gui/item_cell.png');
+  border-image-slice: 1;
+  border-image-repeat: stretch;
 }
 
 .flat-button {

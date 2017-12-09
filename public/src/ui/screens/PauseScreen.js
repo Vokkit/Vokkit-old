@@ -28,7 +28,7 @@ class PauseScreen extends Screen {
       MainScreen.dom.requestPointerLock()
     }
     this.dom.children[0].children[0].children[1].onclick = event => {
-      // TODO
+      location.reload()
     }
   }
 }
