@@ -1,16 +1,38 @@
 const materials = require('../Materials')
 
+function checkImage (url, replace) {
+  const image = new Image()
+  image.src = url
+
+  if (image.height == 0) {
+    image.src = replace
+  }
+
+  return image
+}
+
 class BlockTextureManager {
   constructor () {
     this.materials = []
     this.textureLoader = new THREE.TextureLoader()
-    for (const i in materials) {
-      if (typeof materials[i].id === 'undefined' || materials[i].id === 0) continue
-      this.materials[materials[i].id] = new THREE.MeshBasicMaterial({
-        map: this.load(materials[i].getName()),
-        overdraw: true
-      })
+
+    const loop = async () => {
+      for (const i in materials) {
+        if (typeof materials[i].id === 'undefined' || materials[i].id === 0) continue
+
+        const texture = await this.load(materials[i].getName())
+        this.materials[materials[i].id] = new THREE.MeshBasicMaterial({
+          map: texture,
+          flatShading: true
+        })
+
+        console.log('load: ' + i)
+        console.image(texture)
+      }
     }
+
+    loop()
+
     this.Uvs0 = [new THREE.Vector2(0, 0.5), new THREE.Vector2(0, 0), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.25, 0.5)]
     this.Uvs1 = [new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.25, 0), new THREE.Vector2(0.5, 0), new THREE.Vector2(0.5, 0.5)]
     this.Uvs2 = [new THREE.Vector2(0.25, 0.5), new THREE.Vector2(0.5, 0.5), new THREE.Vector2(0.5, 1), new THREE.Vector2(0.25, 1)]
@@ -43,11 +65,54 @@ class BlockTextureManager {
     return geometry
   }
 
-  load (blockName) {
-    const texture = this.textureLoader.load('/assets/blocks/' + blockName + '.png')
+  async load (blockName, option = '') {
+    const texture = await this.getBlockImage(blockName, option)
+
+    texture.anisotropy = 4
+    texture.needsUpdate = true
+
     texture.magFilter = THREE.NearestFilter
     texture.minFilter = THREE.LinearMipMapLinearFilter
+
     return texture
+  }
+
+  async getBlockImage (blockName, option = '') {
+    const image_normal = './assets/blocks/' + blockName + option + '.png'
+
+    const image_front = checkImage('./assets/blocks/' + blockName + '_front' + option + '.png', image_normal)
+    const image_back = checkImage('./assets/blocks/' + blockName + '_back' + option + '.png', image_normal)
+    const image_top = checkImage('./assets/blocks/' + blockName + '_top' + option + '.png', image_normal)
+    const image_bottom = checkImage('./assets/blocks/' + blockName + '_bottom' + option + '.png', image_normal)
+    const image_side = checkImage('./assets/blocks/' + blockName + '_side' + option + '.png', image_normal)
+
+    const canvas = document.getElementById('edit')
+    const ctx = canvas.getContext('2d')
+
+    canvas.width = 8 * 4
+    canvas.height = 8 * 2
+
+    const x = [8, 16, 0, 8, 16, 24]
+    const y = [0, 0, 8, 8, 8, 8]
+    const images = [image_top, image_bottom, image_side, image_front, image_side, image_back]
+
+    for (let i = 0; i < 6; i++) {
+      console.log(blockName + ' start: ' + i)
+      
+      await new Promise((resolve, reject) => {
+        images[i].onload = () => {
+          ctx.drawImage(images[i], x[i], y[i], 8, 8)
+          resolve()
+        }
+      })
+
+      console.log(blockName + ' end: ' + i)
+    }
+
+    const result = new Image()
+    result.src = canvas.toDataURL()
+
+    return new THREE.Texture(result)
   }
 }
 

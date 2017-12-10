@@ -1,5 +1,6 @@
 const Block = require('./block/Block')
 const CulledMesher = require('./mesher/CulledMesher')
+const GreedyMesher = require('./mesher/GreedyMesher')
 const Material = require('./Materials')
 
 class Chunk {
@@ -169,6 +170,7 @@ class Chunk {
     const mesh = new THREE.Mesh(geometry, materials)
     mesh.position.set(this.x, 0, this.z)
     this.mesh = mesh
+
     return mesh
   }
 
