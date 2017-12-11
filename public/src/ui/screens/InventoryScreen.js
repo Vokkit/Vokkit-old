@@ -23,84 +23,84 @@ class InventoryScreen extends Screen {
   init () {
     this.dom.innerHTML = (
       '<div id="inventory-back" style="width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">' +
-      '<div id="inventory-panel" class="background-panel" style="position:absolute; width: calc(30.8vw - 2.0vw); height: calc(29vw - 2.4vw); top: calc(50vh - 14.5vw); left: 30.5vw">' +
-        '<div id="player-slot" style="width: 100%; height: calc(3.2vw * 4)">' +
+      '<div id="inventory-panel" class="background-panel" style="position:absolute; width: calc(34.8vw - 2.4vw); height: calc(32.2vw - 2.4vw); top: calc(50vh - 16.1vw); left: 32.6vw">' +
+        '<div id="player-slot" style="width: 100%; height: calc(3.6vw * 4)">' +
           '<div id="armor-slot" style="float: left;">' +
-            '<div id="armor-1" class="item-cell" style="width: 3.2vw; height: 3.2vw;">' +
+            '<div id="armor-1" class="item-cell">' +
               '<img src="./assets/gui/empty_armor_slot_helmet.png" style="width: 3.2vw; height: 3.2vw;">' +
             '</div>' +
-            '<div id="armor-2" class="item-cell" style="width: 3.2vw; height: 3.2vw;">' +
+            '<div id="armor-2" class="item-cell">' +
               '<img src="./assets/gui/empty_armor_slot_chestplate.png" style="width: 3.2vw; height: 3.2vw;">' +
             '</div>' +
-            '<div id="armor-3" class="item-cell" style="width: 3.2vw; height: 3.2vw;">' +
+            '<div id="armor-3" class="item-cell">' +
               '<img src="./assets/gui/empty_armor_slot_leggings.png" style="width: 3.2vw; height: 3.2vw;">' +
             '</div>' +
-            '<div id="armor-4" class="item-cell" style="width: 3.2vw; height: 3.2vw;">' +
+            '<div id="armor-4" class="item-cell">' +
               '<img src="./assets/gui/empty_armor_slot_boots.png" style="width: 3.2vw; height: 3.2vw;">' +
             '</div>' +
           '</div>' +
-          '<div id="player-preview" class="player-preview" style="float: left; background-color: #000000; width: calc(3.2vw * 3 - 1vw - 0.4vw); height: calc(3.2vw * 4 - 0.4vw)"></div>' +
-          '<div id="shield" class="item-cell" style="float: left; margin-top: calc(3.2vw * 3); width: 3.2vw; height: 3.2vw;">' +
+          '<div id="player-preview" class="player-preview" style="float: left; background-color: #000000; width: calc(3.6vw * 3 - 1vw - 0.4vw); height: calc(3.6vw * 4 - 0.4vw)"></div>' +
+          '<div id="shield" class="item-cell" style="float: left; margin-top: calc(3.6vw * 3);">' +
             '<img src="./assets/gui/empty_armor_slot_shield.png" style="width: 3.2vw; height: 3.2vw;">' +
           '</div>' +
           '<div id="craft-slot" style="float: left;">' +
-            '<div id="crafting" style="float: left; margin-top: 3.2vw;">' +
-              '<div id="craft-line-1" style="height: 3.2vw;">' +
-                '<div id="craft-1-1" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-                '<div id="craft-1-2" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
+            '<div id="crafting" style="float: left; margin-top: 2vw;">' +
+              '<div id="craft-line-1" style="height: 3.6vw;">' +
+                '<div id="craft-1-1" class="item-cell" style="float: left;"></div>' +
+                '<div id="craft-1-2" class="item-cell" style="float: left;"></div>' +
               '</div>' +
-              '<div id="craft-line-2" style="height: 3.2vw;">' +
-                '<div id="craft-2-1" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-                '<div id="craft-2-2" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
+              '<div id="craft-line-2" style="height: 3.6vw;">' +
+                '<div id="craft-2-1" class="item-cell" style="float: left;"></div>' +
+                '<div id="craft-2-2" class="item-cell" style="float: left;"></div>' +
               '</div>' +
             '</div>' +
-            '<img src="./assets/gui/arrow.png" style="float: left; margin-top: 4.4vw; width: 3.2vw; height: 3.2vw; padding: 0.4vw;"></img>' +
-            '<div class="item-cell" style="float: left; margin-top: 4.8vw; width: 3.2vw; height: 3.2vw;"></div>' +
+            '<img src="./assets/gui/arrow.png" style="float: left; width: 3.6vw; height: 3.6vw; margin-top: 3.4vw; padding: 0.4vw;"></img>' +
+            '<div class="item-cell" style="float: left; margin-top: 3.8vw;"></div>' +
           '</div>' +
         '</div>' +
-        '<div id="line-1" style="width: 100%; height: 3.2vw; margin-top: 0.8vw;">' +
-          '<div id="slot-1-1" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-2" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-3" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-4" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-5" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-6" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-7" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-8" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-1-9" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
+        '<div id="line-1" style="width: 100%; height: 3.6vw; margin-top: 0.8vw;">' +
+          '<div id="slot-1-1" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-2" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-3" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-4" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-5" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-6" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-7" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-8" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-1-9" class="item-cell" style="float: left;"></div>' +
         '</div>' +
-        '<div id="line-2" style="width: 100%; height: 3.2vw;">' +
-          '<div id="slot-2-1" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-2" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-3" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-4" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-5" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-6" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-7" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-8" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-2-9" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
+        '<div id="line-2" style="width: 100%; height: 3.6vw;">' +
+          '<div id="slot-2-1" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-2" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-3" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-4" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-5" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-6" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-7" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-8" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-2-9" class="item-cell" style="float: left;"></div>' +
         '</div>' +
-        '<div id="line-3" style="width: 100%; height: 3.2vw;">' +
-          '<div id="slot-3-1" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-2" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-3" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-4" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-5" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-6" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-7" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-8" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-3-9" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
+        '<div id="line-3" style="width: 100%; height: 3.6vw;">' +
+          '<div id="slot-3-1" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-2" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-3" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-4" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-5" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-6" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-7" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-8" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-3-9" class="item-cell" style="float: left;"></div>' +
         '</div>' +
-        '<div id="line-hotbar" style="width: 100%; height: 3.2vw; margin-top: 0.6vw;">' +
-          '<div id="slot-0-1" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-2" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-3" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-4" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-5" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-6" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-7" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-8" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
-          '<div id="slot-0-9" class="item-cell" style="width: 3.2vw; height: 3.2vw; float: left;"></div>' +
+        '<div id="line-hotbar" style="width: 100%; height: 3.6vw; margin-top: 0.6vw;">' +
+          '<div id="slot-0-1" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-2" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-3" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-4" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-5" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-6" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-7" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-8" class="item-cell" style="float: left;"></div>' +
+          '<div id="slot-0-9" class="item-cell" style="float: left;"></div>' +
         '</div>' +
       '</div>' +
     '</div>'

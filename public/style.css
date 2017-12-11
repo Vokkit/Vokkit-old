@@ -97,12 +97,17 @@ input:hover {
 .item-cell {
   background-image: url('assets/gui/item_cell.png');
   background-repeat: no-repeat;
-  background-size: 3.2vw 3.2vw;
+  background-size: 3.6vw 3.6vw;
 
   width: 3.2vw;
   height: 3.2vw;
+  padding: 0.2vw 0.2vw;
 
   outline: none;
+}
+
+.item-cell:hover {
+  background-image: url('assets/gui/item_cell_hover.png')
 }
 
 .player-preview {
