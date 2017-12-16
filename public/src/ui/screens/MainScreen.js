@@ -1,8 +1,8 @@
 let Screen = require('../Screen.js')
 let InputBinder = require('../InputBinder.js')
 
-const Material = require('../../Materials')
 const Block = require('../../block/Block')
+const BlockList = require('../../block/BlockList.js')
 
 let THREE = require('three')
 
@@ -17,7 +17,6 @@ class MainScreen extends Screen {
     this.renderer = new THREE.WebGLRenderer()
     this.group = new THREE.Group()
     this.rotationGroup = new THREE.Group()
-    this.materials = []
 
     this.press = [false, false, false, false, false, false, false, false]
 
@@ -41,8 +40,6 @@ class MainScreen extends Screen {
       this.camera.updateProjectionMatrix()
       this.renderer.setSize(window.innerWidth, window.innerHeight)
     }
-
-    this.materials = Vokkit.getClient().getBlockTextureManager().getTextures()
 
     this.rotationGroup.add(this.group)
     this.scene.add(this.rotationGroup)
@@ -92,9 +89,9 @@ class MainScreen extends Screen {
   drawWorld (world) {
     let chunks = world.getChunks()
     for (let chunk of chunks) {
-      let mesher = chunk.mesher()
-
-      this.group.add(mesher)
+      for (const c of chunk.mesher()) {
+        this.group.add(c)
+      }
     }
 
 
@@ -122,7 +119,10 @@ class MainScreen extends Screen {
 
       for (let chunk of this.dirtyChunks) {
         this.group.remove(chunk.getLastMesh())
-        this.group.add(chunk.mesher())
+
+        for (const c of chunk.mesher()) {
+          this.group.add(c)
+        }
       }
       this.dirtyChunks = []
 
@@ -174,7 +174,7 @@ class MainScreen extends Screen {
           }
 
           if (this.press[6]) {
-            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition, Material.AIR))
+            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition, BlockList.AIR))
             Vokkit.getClient().getSocket().emit('requestSetBlock', {
               x: blockPosition.x,
               y: blockPosition.y,
@@ -186,7 +186,7 @@ class MainScreen extends Screen {
             const id = Vokkit.getClient().getLocalPlayer().getSelectedSlotId() + 1
 
             var blockPlacePosition = blockPosition.clone().add(direction)
-            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, Material.get(id)))
+            Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, id))
             Vokkit.getClient().getSocket().emit('requestSetBlock', {
               x: blockPlacePosition.x,
               y: blockPlacePosition.y,

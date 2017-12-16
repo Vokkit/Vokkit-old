@@ -3,6 +3,7 @@ class MoveManager {
     this.socket = Vokkit.getClient().getSocket()
     this.socket.on('move', function (data) {
       if (Vokkit.getClient().getLocalPlayer() != null && data.id === Vokkit.getClient().getLocalPlayer().getId() && !data.update) return
+
       const players = Vokkit.getClient().getOnlinePlayers()
       for (const i in players) {
         if (players[i].getId() === data.id) {
@@ -51,6 +52,7 @@ class MoveManager {
     } else if (press[5]) {
       velocity.add(tmpVector.set(0, -1, 0).multiplyScalar(multiply))
     }
+
     // localPlayer.addVelocity(new THREE.Vector3(0, -9.8 / fps, 0));
     localPlayer.setVelocity(velocity)
     const players = Vokkit.getClient().getOnlinePlayers()
@@ -58,6 +60,8 @@ class MoveManager {
       players[i].renderer.checkMove(location, velocity)
     }
     this.requestMove(localPlayer.getLocation(), localPlayer.getVelocity())
+
+    console.log(localPlayer.getLocation())
   }
 }
 

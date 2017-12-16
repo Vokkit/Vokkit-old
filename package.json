@@ -41,6 +41,7 @@
     "caller-id": "^0.1.0",
     "clean-webpack-plugin": "^0.1.17",
     "express": "^4.16.2",
+    "microcache": "^1.0.0",
     "socketio": "^1.0.0",
     "three": "^0.88.0",
     "uglifyjs-webpack-plugin": "^1.1.0",

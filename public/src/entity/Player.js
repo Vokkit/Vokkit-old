@@ -4,7 +4,7 @@ const Inventory = require('../inventory/Inventory')
 const Location = require('../Location')
 
 class Player extends Entity {
-  constructor (id, location, velocity, health = 20, name, type, inventory = new Inventory(54), gamemode = 0, selectedSlotId = 0) {
+  constructor (id, location, velocity, health = 20, name, type, inventory = new Inventory(4 * 9 + 5), gamemode = 0, selectedSlotId = 0) {
     super(id, location, velocity, health)
     this.name = name
     this.type = type

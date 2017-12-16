@@ -21,7 +21,7 @@ class World {
       let blockData = lines[i].split(',')
       blockData.forEach((v, i) => { blockData[i] = parseInt(v) })
       if (blockData[3] !== 0) {
-        if (blockData[3] !== 1 && blockData[3] !== 2 && blockData[3] !== 3) continue
+        //if (blockData[3] !== 1 && blockData[3] !== 2 && blockData[3] !== 3) continue
 
         let chunkExists = false
         for (let i in this.chunks) {

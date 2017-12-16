@@ -41,7 +41,7 @@ class Entity {
   }
 
   setVelocity (velocity) {
-    this.velocity.clone(velocity)
+    this.velocity.copy(velocity)
   }
 
   setHealth (health) {
