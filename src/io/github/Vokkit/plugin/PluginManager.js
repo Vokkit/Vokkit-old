@@ -75,8 +75,9 @@ class PluginManager {
         '',
         'module.exports = PluginManager;']
       let inject = []
-      for (let i in this.clientPlugins)
+      for (let i in this.clientPlugins) {
         inject.push(this.clientPlugins[i].name + ': require(\'' + this.clientPlugins[i].path + '\')')
+      }
 
       source.splice(7, 0, inject.join(',\n'))
       fs.writeFileSync(pluginManagerPath, source.join('\n'))

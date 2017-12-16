@@ -31,7 +31,7 @@ class WorldGenerator {
       }
 
       fs.writeFile('./worlds/world.txt', value, err => {
-        if(err) {
+        if (err) {
           Vokkit.getServer().getLogger().warn(err)
           reject(err)
         } else {
@@ -50,7 +50,7 @@ class WorldGenerator {
 
   noise1d (seed) {
     let v = 0
-    for(let i = 0, j = 0.3; i < 4; i++, j *= 1.7) {
+    for (let i = 0, j = 0.3; i < 4; i++, j *= 1.7) {
       v += this.n(seed + j, 0.18 * j, 6 / j)
     }
 

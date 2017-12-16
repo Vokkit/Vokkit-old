@@ -8,11 +8,10 @@ class Player extends Entity {
     super(id, location, velocity, health)
     this.name = name
     this.type = type
-    this.renderer = new PlayerRenderer('steve', this)
+    this.renderer = new PlayerRenderer('skins/steve.png', this)
     this.inventory = inventory
     this.gamemode = gamemode
     this.selectedSlotId = selectedSlotId
-    if (!global.bodies) global.bodies = []
   }
 
   getEyeLocation () {

@@ -2,7 +2,7 @@ const Screen = require('../Screen.js')
 const InputBinder = require('../InputBinder.js')
 
 class ChatScreen extends Screen {
-  constructor() {
+  constructor () {
     super('ChatScreen', 'stack', new InputBinder())
 
     this.saved = []
@@ -11,7 +11,7 @@ class ChatScreen extends Screen {
     this.initInput()
   }
 
-  init() {
+  init () {
     this.dom.innerHTML = (
       '<div id="chatWindow" style="width: 100vw; height: 100vh;">' +
       '<div class="header" style="overflow:auto; width: 100%; height: 42px; text-align: center; line-height: 38px; cursor: pointer;">' +
@@ -34,7 +34,7 @@ class ChatScreen extends Screen {
       '</div>')
   }
 
-  initInput() {
+  initInput () {
     this.inputBinder.setKeyDownListener(event => {
       switch (event.keyCode) {
         case 27: // esc
@@ -59,13 +59,13 @@ class ChatScreen extends Screen {
     })
   }
 
-  syncChat() {
+  syncChat () {
     const chatLog = document.getElementById('chatLog')
     for (const i in this.saved) chatLog.appendChild(this.saved[i])
     this.saved = []
   }
 
-  addChat(message) {
+  addChat (message) {
     const chatLog = document.getElementById('chatLog')
     const p = document.createElement('p')
     p.innerText = message

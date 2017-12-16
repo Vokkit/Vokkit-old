@@ -55,7 +55,7 @@ class MoveManager {
     localPlayer.setVelocity(velocity)
     const players = Vokkit.getClient().getOnlinePlayers()
     for (const i in players) {
-      players[i].renderer.checkMove(location, velocity)
+      players[i].renderer.checkMove(players[i].getLocation(), players[i].getVelocity())
     }
     this.requestMove(localPlayer.getLocation(), localPlayer.getVelocity())
   }

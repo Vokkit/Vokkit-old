@@ -19,7 +19,7 @@ class CommandExecutor {
         let types = v.getParameterTypes()
         for (const i in types) {
           for (const j in types[i]) {
-            if(types[i][j] === ParameterType.UNLIMITED_STRING) {
+            if (types[i][j] === ParameterType.UNLIMITED_STRING) {
               let newParameter = parameter.splice(0, j)
               newParameter.push(new Parameter(ParameterType.UNLIMITED_STRING, parameter.map(o => {
                 return o.getValue()

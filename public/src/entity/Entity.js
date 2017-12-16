@@ -5,6 +5,7 @@ class Entity {
     this.velocity = typeof location === 'undefined' ? undefined : velocity.clone()
     this.health = health
     this.renderer = null
+    if (!global.bodies) global.bodies = []
   }
 
   equals (object) {
@@ -36,12 +37,8 @@ class Entity {
     this.id = id
   }
 
-  setLocation (location) {
-    this.location.clone(location)
-  }
-
   setVelocity (velocity) {
-    this.velocity.clone(velocity)
+    this.velocity.copy(velocity)
   }
 
   setHealth (health) {

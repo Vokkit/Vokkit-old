@@ -109,13 +109,13 @@ class InventoryScreen extends Screen {
 
   initInput () {
     this.inputBinder.setKeyDownListener(event => {
-    switch (event.keyCode) {
-      case 27: case 69: // esc e
-        Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
+      switch (event.keyCode) {
+        case 27: case 69: // esc e
+          Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
 
-        const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
-        MainScreen.dom.requestPointerLock()
-        break
+          const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
+          MainScreen.dom.requestPointerLock()
+          break
       }
     })
   }

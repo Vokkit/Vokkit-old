@@ -1,17 +1,14 @@
-let caller = require('caller-id')
+const caller = require('caller-id')
+const readline = require('readline')
 
-let getTime = function () {
-  let date = new Date()
-
+function getTime () {
+  const date = new Date()
   let hour = date.getHours()
   hour = (hour < 10 ? '0' : '') + hour
-
   let min = date.getMinutes()
   min = (min < 10 ? '0' : '') + min
-
   let sec = date.getSeconds()
   sec = (sec < 10 ? '0' : '') + sec
-
   return hour + ':' + min + ':' + sec
 }
 
@@ -20,8 +17,8 @@ class Logger {
 
 // 메서드가 아닌 함수로 작성한 이유는 caller-id를 사용하기 위해서입니다. (메서드에 caller이 없기 때문에)
 Logger.prototype.info = function (message) {
-  process.stdout.clearLine()  // clear current text
-  process.stdout.cursorTo(0)
+  readline.clearLine(process.stdout)
+  readline.cursorTo(process.stdout, 0)
   let path = caller.getData().filePath
   if (path.indexOf('Vokkit\\plugins\\') !== -1) {
     let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]
@@ -32,8 +29,8 @@ Logger.prototype.info = function (message) {
 }
 
 Logger.prototype.warn = function (message) {
-  process.stdout.clearLine()  // clear current text
-  process.stdout.cursorTo(0)
+  readline.clearLine(process.stdout)
+  readline.cursorTo(process.stdout, 0)
   let path = caller.getData().filePath
   if (path.indexOf('Vokkit\\plugins\\') !== -1) {
     let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]
@@ -44,8 +41,8 @@ Logger.prototype.warn = function (message) {
 }
 
 Logger.prototype.chat = function (message) {
-  process.stdout.clearLine()  // clear current text
-  process.stdout.cursorTo(0)
+  readline.clearLine(process.stdout)
+  readline.cursorTo(process.stdout, 0)
   let path = caller.getData().filePath
   if (path.indexOf('Vokkit\\plugins\\') !== -1) {
     let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]

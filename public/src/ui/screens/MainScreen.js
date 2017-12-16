@@ -97,7 +97,6 @@ class MainScreen extends Screen {
       this.group.add(mesher)
     }
 
-
     this.renderer.setClearColor(0x7EC0EE, 1)
   }
 

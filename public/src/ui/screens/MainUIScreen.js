@@ -260,7 +260,7 @@ class MainUIScreen extends Screen {
   updateHealthBar () {
     if (this.heartBackgroundBlack == null) {
       for (let i = 0; i < 10; i++) {
-        //this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
+        // this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
         this.heartFull[i] = document.getElementById(`heart_full_${i}`)
         this.heartHalf[i] = document.getElementById(`heart_half_${i}`)
       }

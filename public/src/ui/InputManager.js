@@ -44,7 +44,7 @@ class InputManager {
         document.onkeyup = onKeyUp
 
         Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().pointerLockListener()
-      } else if(Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().disableCursor) {
+      } else if (Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().disableCursor) {
         document.onmousemove = null
         document.onmousedown = null
         document.onmouseup = null
