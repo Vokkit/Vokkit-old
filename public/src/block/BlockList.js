@@ -29,6 +29,4 @@ BlockList.get = function (id, data = 0) {
   }
 }
 
-console.log(list)
-
 module.exports = BlockList

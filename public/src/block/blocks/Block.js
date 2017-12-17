@@ -3,7 +3,7 @@
  */
 
 const BlockShape = require('./BlockShape.js')
-const textureManager = new (require('../BlockTextureManager.js'))()
+const BlockTextureManager = require('../BlockTextureManager.js')
 
 class Block {
   constructor (id, data, texture, name, shape = new BlockShape()) {
@@ -22,7 +22,7 @@ class Block {
         const g = new THREE.BoxGeometry(...s.getBoxSize())
 
         const m = this.texture[i].map(e => {
-          const texture = textureManager.load(e)
+          const texture = BlockTextureManager.load(e)
           texture.magFilter = THREE.NearestFilter
           texture.minFilter = THREE.LinearMipMapLinearFilter
 
@@ -32,9 +32,10 @@ class Block {
         })
 
         const mesh = new THREE.Mesh(g, m)
-        mesh.position.x = s.getBoxOffset()[0]
-        mesh.position.y = s.getBoxOffset()[1]
-        mesh.position.z = s.getBoxOffset()[2]
+        const bias = s.getAverageOffset()
+        mesh.position.x = s.getBoxOffset()[0] + bias[0]
+        mesh.position.y = s.getBoxOffset()[1] + bias[1]
+        mesh.position.z = s.getBoxOffset()[2] + bias[2]
 
         if (i == 0) {
           this.mesh = mesh
@@ -47,7 +48,7 @@ class Block {
           this.mesh.updateMatrix()
           geometry.merge(this.mesh.geometry, this.mesh.matrix, 1)
 
-          this.mesh = new THREE.Mesh(geometry, [...texture[i]/*, ...this.mesh.material*/])
+          this.mesh = new THREE.Mesh(geometry, [...m, ...this.mesh.material])
           this.mesh.geometry.computeFaceNormals()
           this.mesh.geometry.computeVertexNormals()
         }

@@ -141,6 +141,9 @@ class PlayerRenderer extends Renderer {
     this.rightLegMesh = new THREE.Mesh(this.rightLegGeometry, this.material)
     this.leftLegMesh = new THREE.Mesh(this.leftLegGeometry, this.material)
 
+    this.collisionCheckGeometry = new THREE.CylinderGeometry(0.25, 0.25, 1.8)
+    this.collisionCheckMesh = new THREE.Mesh(this.collisionCheckGeometry)
+
     const location = player.getLocation()// 정확히 오른발과 왼발 사이
 
     this.headMesh.position.set(location.x, location.y + 1.35, location.z)
@@ -151,9 +154,7 @@ class PlayerRenderer extends Renderer {
     this.leftLegMesh.position.set(location.x, location.y + 0.45, location.z)
 
     const group = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getGroup()
-    if (!(player.constructor.name != 'LocalPlayer')) {
-      group.add(this.headMesh)
-    }
+    group.add(this.headMesh)
     group.add(this.bodyMesh)
     group.add(this.rightArmMesh)
     group.add(this.leftArmMesh)
@@ -172,17 +173,12 @@ class PlayerRenderer extends Renderer {
     if (this.noRendered === null && typeof Vokkit.getClient().getLocalPlayer() !== 'undefined') {
       if (Vokkit.getClient().getLocalPlayer().getName() === this.name) {
         this.noRendered = true
-        const group = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getGroup()
-        group.remove(this.headMesh)
-        group.remove(this.bodyMesh)
-        group.remove(this.rightArmMesh)
-        group.remove(this.leftArmMesh)
-        group.remove(this.rightLegMesh)
-        group.remove(this.leftLegMesh)
+        this.remove()
       } else {
         this.noRendered = false
       }
     }
+    this.collisionCheckMesh.position.set(location.x, location.y + 0.9, location.z)
     if (this.noRendered) return
     this.headMesh.position.set(location.x, location.y + 1.35, location.z)
     this.headMesh.lookAt(new THREE.Vector3(this.headMesh.position.x - Math.sin(location.getYaw()) * Math.cos(location.getPitch()), this.headMesh.position.y + Math.sin(location.getPitch()), this.headMesh.position.z + Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
@@ -232,105 +228,20 @@ class PlayerRenderer extends Renderer {
 
   checkMove (location, velocity) {
     if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) this.player.renderer.playAnimation('walk')
-    const add = new THREE.Vector3()
-    const plusX = velocity.x > 0 ? 0.1 : -0.1
-    const plusY = velocity.y > 0 ? 0.1 : -0.1
-    const plusZ = velocity.z > 0 ? 0.1 : -0.1
-    let x = 0
-    let y = 0
-    let z = 0
-    let xFinish = velocity.x === 0
-    let yFinish = velocity.y === 0
-    let zFinish = velocity.z === 0
-    let xCollision = false
-    let yCollision = false
-    let zCollision = false
-    while (!(xFinish && yFinish && zFinish)) {
-      if (!xFinish) {
-        const previousX = x
-        if (velocity.x > 0) {
-          if (x < velocity.x - 0.1) x += 0.1
-          else if (x < velocity.x) {
-            x = velocity.x
-            xFinish = true
-          }
-        }
-
-        if (velocity.x < 0) {
-          if (x > velocity.x + 0.1) x -= 0.1
-          else if (x > velocity.x) {
-            x = velocity.x
-            xFinish = true
-          }
-        }
-
-        const block = this.player.getLocation().getWorld().getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-        if (block.id !== 0) { // collision
-          xFinish = true
-          x = previousX
-          velocity.x = 0
-          xCollision = true
-        }
-        add.set(0, 0, 0)
-      }
-
-      if (!yFinish) {
-        const previousY = y
-        if (velocity.y > 0) {
-          if (y < velocity.y - 0.1) y += 0.1
-          else if (y < velocity.y) {
-            y = velocity.y
-            yFinish = true
-          }
-        }
-
-        if (velocity.y < 0) {
-          if (y > velocity.y + 0.1) y -= 0.1
-          else if (y > velocity.y) {
-            y = velocity.y
-            yFinish = true
-          }
-        }
-        const block = this.player.getLocation().getWorld().getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-        if (block.id !== 0) { // collision
-          yFinish = true
-          y = previousY
-          velocity.y = 0
-          yCollision = true
-        }
-        add.set(0, 0, 0)
-      }
-
-      if (!zFinish) {
-        const previousZ = z
-        if (velocity.z > 0) {
-          if (z < velocity.z - 0.1) z += 0.1
-          else if (z < velocity.z) {
-            z = velocity.z
-            zFinish = true
-          }
-        }
-
-        if (velocity.z < 0) {
-          if (z > velocity.z + 0.1) z -= 0.1
-          else if (z > velocity.z) {
-            z = velocity.z
-            zFinish = true
-          }
-        }
-        const block = this.player.getLocation().getWorld().getBlock(location.toVector().add(add.set(x + plusX, y + plusY, z + plusZ)))
-        if (block.id !== 0) { // collision
-          zFinish = true
-          z = previousZ
-          velocity.z = 0
-          zCollision = true
-        }
-        add.set(0, 0, 0)
-      }
-    }
-    this.player.teleport(this.player.getLocation().add(x, y, z))
-    if (yCollision) this.player.setVelocity(velocity.multiply(new THREE.Vector3(0.5, 0.7, 0.5)))
+    const result = super.checkMove(location, velocity, [this.collisionCheckMesh], this.player.getLocation().getWorld())
+    this.player.teleport(this.player.getLocation().add(result.x, result.y, result.z))
+    if (result.yCollision) this.player.setVelocity(velocity.multiply(new THREE.Vector3(0.5, 0.7, 0.5)))
     else this.player.setVelocity(velocity.multiplyScalar(0.7))
+  }
+
+  remove () {
+    const group = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getGroup()
+    group.remove(this.headMesh)
+    group.remove(this.bodyMesh)
+    group.remove(this.rightArmMesh)
+    group.remove(this.leftArmMesh)
+    group.remove(this.rightLegMesh)
+    group.remove(this.leftLegMesh)
   }
 }
 

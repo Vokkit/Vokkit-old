@@ -31,6 +31,14 @@ class Shape {
   getBoxOffset () {
     return [this.x1, this.y1, this.z1]
   }
+
+  getAverageOffset () {
+    return [
+      (this.x2 - this.x1) / 2,
+      (this.y2 - this.y1) / 2,
+      (this.z2 - this.z1) / 2
+    ]
+  }
 }
 
 module.exports = BlockShape
