@@ -57,7 +57,8 @@
     "globals": [
       "Vokkit",
       "Util",
-      "THREE"
+      "THREE",
+      "io"
     ]
   }
 }

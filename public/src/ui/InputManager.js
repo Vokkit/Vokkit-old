@@ -1,6 +1,4 @@
 class InputManager {
-  constructor () {}
-
   showCursor () {
     document.exitPointerLock()
   }
@@ -35,7 +33,7 @@ class InputManager {
     }
 
     function onPointerLockChange () {
-      if (document.pointerLockElement != null || document.mozPointerLockElement != null) {
+      if (document.pointerLockElement !== null || document.mozPointerLockElement !== null) {
         document.onmousemove = onMouseMove
         document.onmousedown = onMouseDown
         document.onmouseup = onMouseUp

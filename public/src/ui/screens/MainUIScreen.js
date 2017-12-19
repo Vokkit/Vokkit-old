@@ -218,13 +218,13 @@ class MainUIScreen extends Screen {
       if (event.deltaY > 0) {
         // 아래로 스크롤 - 오른쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
-        if (selectedSlotId == 8) localPlayer.setSelectedSlotId(0)
+        if (selectedSlotId === 8) localPlayer.setSelectedSlotId(0)
         else localPlayer.setSelectedSlotId(selectedSlotId + 1)
         mainUiScreen.updateCrossbarSelected()
       } else if (event.deltaY < 0) {
         // 위로 스크롤 - 왼쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
-        if (selectedSlotId == 0) localPlayer.setSelectedSlotId(8)
+        if (selectedSlotId === 0) localPlayer.setSelectedSlotId(8)
         else localPlayer.setSelectedSlotId(selectedSlotId - 1)
         mainUiScreen.updateCrossbarSelected()
       }
@@ -275,7 +275,7 @@ class MainUIScreen extends Screen {
       let count = 0
       const manager = this
       const animation = () => {
-        if (count % 2 == 0) {
+        if (count % 2 === 0) {
           manager.heartBackgroundBlack.style.display = 'block'
           manager.heartBackgroundWhite.style.display = 'none'
         } else {
@@ -303,7 +303,7 @@ class MainUIScreen extends Screen {
       i++
     }
 
-    if (health % 2 == 1 && i < 10) {
+    if (health % 2 === 1 && i < 10) {
       this.heartFull[i].style.display = 'none'
       this.heartHalf[i].style.display = 'block'
       i++

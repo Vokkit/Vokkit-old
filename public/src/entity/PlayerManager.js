@@ -12,7 +12,7 @@ class PlayerManager {
   addPlayer (data, ignoreLocal) {
     console.log(data)
     const socket = Vokkit.getClient().getSocket()
-    if (Vokkit.getClient().getLoginManager().isLogined() && (ignoreLocal || !(socket.id === data.id))) Vokkit.getClient().addPlayer(data.id == socket.id ? LocalPlayer.fromObject(data, socket) : Player.fromObject(data, socket))
+    if (Vokkit.getClient().getLoginManager().isLogined() && (ignoreLocal || !(socket.id === data.id))) Vokkit.getClient().addPlayer(data.id === socket.id ? LocalPlayer.fromObject(data, socket) : Player.fromObject(data, socket))
   }
 
   removePlayer (data) {
@@ -22,7 +22,7 @@ class PlayerManager {
   setHealth (data) {
     const players = Vokkit.getClient().getOnlinePlayers()
     for (const i in players) {
-      if (players[i].getId() == data.id) players[i].setHealth(data.health)
+      if (players[i].getId() === data.id) players[i].setHealth(data.health)
     }
   }
 }

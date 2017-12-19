@@ -84,7 +84,7 @@ class MainScreen extends Screen {
   }
 
   reloadChunk (chunk) {
-    if (this.dirtyChunks.indexOf(chunk) == -1) {
+    if (this.dirtyChunks.indexOf(chunk) === -1) {
       this.dirtyChunks.push(chunk)
     }
   }
@@ -115,7 +115,7 @@ class MainScreen extends Screen {
     this.renderer.animate(() => {
       let localPlayer = Vokkit.getClient().getLocalPlayer()
 
-      if (localPlayer != undefined) {
+      if (typeof ocalPlayer !== 'undefined') {
         this.group.position.copy(localPlayer.getEyeLocation().toVector().multiply(multiply))
       }
 

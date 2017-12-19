@@ -49,7 +49,7 @@ class Inventory {
         if (this.contents[i].getAmount() < items.getAmount()) {
           items.setAmount(items.getAmount() - this.contents[i].getAmount())
           this.contents[i] = undefined
-        } else if (this.contents[i].getAmount() == items.getAmount()) {
+        } else if (this.contents[i].getAmount() === items.getAmount()) {
           this.contents[i] = undefined
           return
         } else if (this.contents[i].getAmount() > items.getAmount()) {
@@ -75,7 +75,7 @@ class Inventory {
   static fromObject (object) {
     const contents = []
     for (let i = 0; i < object.size; i++) {
-      if (object.contents[i] == undefined) contents[i] = undefined
+      if (typeof object.contents[i] === 'undefined') contents[i] = undefined
       else contents[i] = ItemStack.fromObject(object.contents[i])
     }
     return new Inventory(object.size, contents)

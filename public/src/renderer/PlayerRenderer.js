@@ -206,12 +206,12 @@ class PlayerRenderer extends Renderer {
     this.leftArmMesh.lookAt(new THREE.Vector3(this.leftArmMesh.position.x - bodyYawSin, this.leftArmMesh.position.y, this.leftArmMesh.position.z + bodyYawCos))
 
     if (this.rightLegMove) {
-      if (this.legMove != 0 || this.walkOn) this.legMove += 0.05
+      if (this.legMove !== 0 || this.walkOn) this.legMove += 0.05
       if (this.legMove >= 1) {
         this.rightLegMove = false
       }
     } else {
-      if (this.legMove != 0 || this.walkOn) this.legMove -= 0.05
+      if (this.legMove !== 0 || this.walkOn) this.legMove -= 0.05
       if (this.legMove <= -1) {
         this.rightLegMove = true
       }

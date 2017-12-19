@@ -47,7 +47,7 @@ class ChatScreen extends Screen {
           let name = Vokkit.getClient().getLocalPlayer().getName()
           let text = document.getElementById('chatText').value
 
-          if (text[0] == '/') {
+          if (text[0] === '/') {
             Vokkit.getClient().getChatManager().sendCommand(text.replace('/', ''))
           } else {
             Vokkit.getClient().getChatManager().sendChat(text)

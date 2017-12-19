@@ -10,7 +10,7 @@ class ScreenChooser {
     screen = this.getScreen(screen)
     screen.show()
 
-    if (this.now != null && this.now.type != 'base') {
+    if (this.now !== null && this.now.type !== 'base') {
       this.now.dismiss()
     }
 
@@ -31,7 +31,7 @@ class ScreenChooser {
   }
 
   popScreen () {
-    if (this.now.type != 'base') { this.now.dismiss() }
+    if (this.now.type !== 'base') { this.now.dismiss() }
 
     this.now = this.lastScreens.pop()
     this.now.show()

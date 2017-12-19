@@ -24,19 +24,19 @@ class World {
       var blockData = data[i]
       var chunkExists = false
       const chunks = this.chunks
-      for (var i in chunks) {
-        if (chunks[i].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
-          if (chunks[i].chunkData[blockData[0]] === undefined) chunks[i].chunkData[blockData[0]] = []
-          if (chunks[i].chunkData[blockData[0]][blockData[1]] === undefined) chunks[i].chunkData[blockData[0]][blockData[1]] = []
-          chunks[i].chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), Material.get(blockData[3]))
+      for (var j in chunks) {
+        if (chunks[j].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
+          if (typeof chunks[j].chunkData[blockData[0]] === 'undefined') chunks[j].chunkData[blockData[0]] = []
+          if (typeof chunks[j].chunkData[blockData[0]][blockData[1]] === 'undefined') chunks[j].chunkData[blockData[0]][blockData[1]] = []
+          chunks[j].chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), Material.get(blockData[3]))
           chunkExists = true
           break
         }
       }
       if (!chunkExists) {
         var chunk = new Chunk(Math.floor(blockData[0] / 16) * 16, Math.floor(blockData[2] / 16) * 16, [])
-        if (chunk.chunkData[blockData[0]] === undefined) chunk.chunkData[blockData[0]] = []
-        if (chunk.chunkData[blockData[0]][blockData[1]] === undefined) chunk.chunkData[blockData[0]][blockData[1]] = []
+        if (typeof chunk.chunkData[blockData[0]] === 'undefined') chunk.chunkData[blockData[0]] = []
+        if (typeof chunk.chunkData[blockData[0]][blockData[1]] === 'undefined') chunk.chunkData[blockData[0]][blockData[1]] = []
         chunk.chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), Material.get(blockData[3]))
         chunks.push(chunk)
       }

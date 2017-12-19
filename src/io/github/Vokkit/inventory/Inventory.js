@@ -49,7 +49,7 @@ class Inventory {
         if (this.contents[i].getAmount() < items.getAmount()) {
           items.setAmount(items.getAmount() - this.contents[i].getAmount())
           this.contents[i] = undefined
-        } else if (this.contents[i].getAmount() == items.getAmount()) {
+        } else if (this.contents[i].getAmount() === items.getAmount()) {
           this.contents[i] = undefined
           return
         } else if (this.contents[i].getAmount() > items.getAmount()) {

@@ -33,7 +33,6 @@ class PluginManager {
     } catch (e) {
       Vokkit.getServer().getLogger().warn(manifest.name + ' ' + manifest.version + ' 로드 중 오류가 발생했습니다. (최신 버전인가요?)')
       Vokkit.getServer().getLogger().warn(e.stack)
-      return
     }
   }
 

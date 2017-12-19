@@ -43,8 +43,7 @@ class ItemStack {
   }
 
   equals (item) {
-    return item instanceof ItemStack && item.getType().equals(this.type) && item.getData() == this.data && item.getItemMeta().equals(this.getItem
-    ())
+    return item instanceof ItemStack && item.getType().equals(this.type) && item.getData() === this.data && item.getItemMeta().equals(this.getItem())
   }
 
   toObject () {

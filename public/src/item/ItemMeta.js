@@ -21,7 +21,7 @@ class ItemMeta {
   }
 
   equals (itemMeta) {
-    return itemMeta instanceof ItemMeta && itemMeta.getLore().slice().splice(this.getLore()).length == 0 && this.getLore().slice().splice(itemMeta.getLore()).length == 0 && this.getDisplayName() == itemMeta.getDisplayName()
+    return itemMeta instanceof ItemMeta && itemMeta.getLore().slice().splice(this.getLore()).length === 0 && this.getLore().slice().splice(itemMeta.getLore()).length === 0 && this.getDisplayName() === itemMeta.getDisplayName()
   }
 
   toObject () {

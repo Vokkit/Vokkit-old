@@ -23,7 +23,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['public/dist'])//,
+    new CleanWebpackPlugin(['public/dist'])
     // new UglifyJSPlugin()
   ]
 }
