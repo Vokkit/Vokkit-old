@@ -44,8 +44,7 @@ class ChatScreen extends Screen {
           MainScreen.dom.requestPointerLock()
           break
         case 13: // enter
-          let name = Vokkit.getClient().getLocalPlayer().getName()
-          let text = document.getElementById('chatText').value
+          const text = document.getElementById('chatText').value
 
           if (text[0] === '/') {
             Vokkit.getClient().getChatManager().sendCommand(text.replace('/', ''))

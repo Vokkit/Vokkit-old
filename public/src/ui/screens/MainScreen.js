@@ -1,10 +1,9 @@
-let Screen = require('../Screen.js')
-let InputBinder = require('../InputBinder.js')
+const Screen = require('../Screen.js')
 
 const Material = require('../../Materials')
 const Block = require('../../block/Block')
 
-let THREE = require('three')
+const THREE = require('three')
 
 const CHUNK_SIGHT = 4
 
@@ -101,8 +100,7 @@ class MainScreen extends Screen {
   }
 
   start () {
-    let position = new THREE.Vector3()
-    let multiply = new THREE.Vector3(-1, -1, -1)
+    const multiply = new THREE.Vector3(-1, -1, -1)
 
     const move = () => {
       Vokkit.getClient().getMoveManager().moveLocalPlayer(this.press)
@@ -113,13 +111,13 @@ class MainScreen extends Screen {
     requestAnimationFrame(move)
 
     this.renderer.animate(() => {
-      let localPlayer = Vokkit.getClient().getLocalPlayer()
+      const localPlayer = Vokkit.getClient().getLocalPlayer()
 
       if (typeof ocalPlayer !== 'undefined') {
         this.group.position.copy(localPlayer.getEyeLocation().toVector().multiply(multiply))
       }
 
-      for (let chunk of this.dirtyChunks) {
+      for (const chunk of this.dirtyChunks) {
         this.group.remove(chunk.getLastMesh())
         this.group.add(chunk.mesher())
       }

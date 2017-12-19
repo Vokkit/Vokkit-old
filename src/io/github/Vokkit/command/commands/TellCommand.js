@@ -1,6 +1,5 @@
 const Command = require('./Command.js')
 const ParameterType = require('../parameter/ParameterType.js')
-const Player = require('../../entity/Player.js')
 
 class TellCommand extends Command {
   constructor () {
