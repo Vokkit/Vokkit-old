@@ -24,7 +24,7 @@ class Server {
   }
 
   async init (startTime) {
-    process.on('uncaughtException', function (err) {
+    process.on('uncaughtException', (err) => {
       Logger.warn(err.stack)
     })
 

@@ -18,17 +18,23 @@ class PluginManager {
     if (!fs.existsSync(this.pluginPath + '/' + name + '/manifest.json')) return
     let manifest = JSON.parse(fs.readFileSync(this.pluginPath + '/' + name + '/manifest.json', 'utf-8'))
     Vokkit.getServer().getLogger().info(manifest.name + ' ' + manifest.version + ' 로드 중')
-    let serverPlugin = new (require(this.pluginPath + '/' + name + '/' + manifest['server-plugin'] + '/' + manifest['server-main']))()
-    this.plugins.push({
-      plugin: serverPlugin,
-      manifest: manifest
-    })
-    this.clientPlugins.push({
-      path: '../../../plugins/' + manifest.name + '/' + manifest['client-plugin'] + '/' + manifest['client-main'],
-      name: manifest.name
-    })
-    Vokkit.getServer().getLogger().info(manifest.name + ' ' + manifest.version + ' 로드 완료')
-    serverPlugin.onLoad()
+    try {
+      let serverPlugin = new (require(this.pluginPath + '/' + name + '/' + manifest['server-plugin'] + '/' + manifest['server-main']))()
+      this.plugins.push({
+        plugin: serverPlugin,
+        manifest: manifest
+      })
+      this.clientPlugins.push({
+        path: '../../../plugins/' + manifest.name + '/' + manifest['client-plugin'] + '/' + manifest['client-main'],
+        name: manifest.name
+      })
+      serverPlugin.onLoad()
+      Vokkit.getServer().getLogger().info(manifest.name + ' ' + manifest.version + ' 로드 완료')
+    } catch (e) {
+      Vokkit.getServer().getLogger().warn(manifest.name + ' ' + manifest.version + ' 로드 중 오류가 발생했습니다. (최신 버전인가요?)')
+      Vokkit.getServer().getLogger().warn(e.stack)
+      return
+    }
   }
 
   loadPlugins () {
