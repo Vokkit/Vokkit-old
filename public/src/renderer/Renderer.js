@@ -19,7 +19,7 @@ class Renderer {
       const vector = mesh.position.clone()
       for (let vertexIndex = 0; vertexIndex < mesh.geometry.vertices.length; vertexIndex++) {
         const id = world.getBlock(mesh.geometry.vertices[vertexIndex].clone().add(vector)).getId()
-        if (id !== 0 && id !== undefined) return true
+        if (id !== 0 && id != null) return true
       }
     }
     return false
