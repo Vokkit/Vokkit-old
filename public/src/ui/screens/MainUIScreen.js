@@ -149,25 +149,52 @@ class MainUIScreen extends Screen {
       }
     })
 
+    let spaceTime
+    let up = false
+
     this.inputBinder.setKeyDownListener(event => {
       switch (event.keyCode) {
         case 87: // w
           MainScreen.press[0] = true
+          spaceTime = null
           break
         case 83: // s
           MainScreen.press[1] = true
+          spaceTime = null
           break
         case 65: // a
           MainScreen.press[2] = true
+          spaceTime = null
           break
         case 68: // d
           MainScreen.press[3] = true
+          spaceTime = null
           break
         case 32: // space
           MainScreen.press[4] = true
+          if (!spaceTime) {
+            spaceTime = Date.now()
+            up = false
+            break
+          }
+          const now = Date.now()
+          if (now - spaceTime < 500 && up) {
+            const localPlayer = Vokkit.getClient().getLocalPlayer()
+            if (localPlayer.isFlying()) {
+              localPlayer.setFlying(false)
+            } else {
+              localPlayer.setFlying(true)
+              localPlayer.setVelocity(new THREE.Vector3())
+            }
+            spaceTime = null
+          } else {
+            spaceTime = now
+          }
+          up = false
           break
         case 16: // shift
           MainScreen.press[5] = true
+          spaceTime = null
           break
 
         case 84: // t
@@ -188,8 +215,10 @@ class MainUIScreen extends Screen {
     })
 
     this.inputBinder.setPointerUnlockListener(() => {
-      Vokkit.getClient().getScreenManager().addScreen('PauseScreen')
-      Vokkit.getClient().getInputManager().showCursor()
+      if (!Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').changeScreen) {
+        Vokkit.getClient().getScreenManager().addScreen('PauseScreen')
+        Vokkit.getClient().getInputManager().showCursor()
+      }
     })
 
     this.inputBinder.setkeyUpListener(event => {
@@ -203,6 +232,7 @@ class MainUIScreen extends Screen {
         MainScreen.press[3] = false
       } else if (event.keyCode === 32) {
         MainScreen.press[4] = false
+        up = true
       } else if (event.keyCode === 16) {
         MainScreen.press[5] = false
       }

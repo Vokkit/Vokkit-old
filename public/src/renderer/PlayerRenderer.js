@@ -236,8 +236,15 @@ class PlayerRenderer extends Renderer {
     if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) this.player.renderer.playAnimation('walk')
     const result = super.checkMove(location, velocity, [this.collisionCheckMesh], this.player.getLocation().getWorld())
     this.player.teleport(this.player.getLocation().add(result.x, result.y, result.z))
-    if (result.yCollision) this.player.setVelocity(velocity.multiply(new THREE.Vector3(0.5, 0.7, 0.5)))
-    else this.player.setVelocity(velocity.multiplyScalar(0.7))
+    if (this.player.isFlying()) {
+      const friction = Math.pow(0.6, 1 / 30)
+      this.player.setVelocity(velocity.multiply(new THREE.Vector3(friction, friction, friction).multiplyScalar(2 / 3)))
+    } else {
+      const friction = Math.pow(0.6, 1 / 30)
+      if (result.yCollision === 1) this.player.setVelocity(velocity.multiply(new THREE.Vector3(friction, friction, friction).multiplyScalar(2 / 3)))
+      else this.player.setVelocity(velocity.multiplyScalar(friction))
+    }
+    return result
   }
 
   remove () {

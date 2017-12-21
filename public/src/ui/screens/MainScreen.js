@@ -21,7 +21,6 @@ class MainScreen extends Screen {
     this.press = [false, false, false, false, false, false, false, false]
 
     this.dirtyChunks = []
-    this.fps = 60
 
     this.init()
   }
@@ -66,14 +65,6 @@ class MainScreen extends Screen {
 
   getRenderer () {
     return this.renderer
-  }
-
-  getFPS () {
-    return this.fps
-  }
-
-  setFPS (FPS) {
-    this.fps = FPS
   }
 
   clearWorld () {
@@ -193,7 +184,7 @@ class MainScreen extends Screen {
             })
           }
         }
-        this.coolDown = 250 / 1000 * this.fps
+        this.coolDown = 250 / 1000 * 30
       }
     } else this.coolDown = 0
   }

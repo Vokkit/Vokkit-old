@@ -2,7 +2,7 @@ const Entity = require('./Entity.js')
 const Inventory = require('../inventory/Inventory')
 
 class Player extends Entity {
-  constructor (id, location, velocity, health = 20, name, socket, type, inventory = new Inventory(54), gamemode = 0, selectedSlotId = 0) {
+  constructor (id, location, velocity, health = 20, name, socket, type, inventory = new Inventory(54), gamemode = 0, selectedSlotId = 0, flying = false) {
     super(id, location, velocity, health)
 
     this.name = name
@@ -11,6 +11,7 @@ class Player extends Entity {
     this.inventory = inventory
     this.gamemode = gamemode
     this.selectedSlotId = selectedSlotId
+    this.flying = false
   }
 
   getName () {
@@ -107,12 +108,13 @@ class Player extends Entity {
       type: this.type,
       inventory: this.inventory.toObject(),
       gamemode: this.gamemode,
-      selectedSlotId: this.selectedSlotId
+      selectedSlotId: this.selectedSlotId,
+      flying: this.flying
     }
   }
 
   static fromObject (object, socket) {
-    return new Player(object.id, new Location(Vokkit.getServer().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.health, object.name, socket, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId)
+    return new Player(object.id, new Location(Vokkit.getServer().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.health, object.name, socket, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId, object.flying)
   }
 }
 

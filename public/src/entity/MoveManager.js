@@ -32,30 +32,75 @@ class MoveManager {
     const localPlayer = Vokkit.getClient().getLocalPlayer()
     const location = localPlayer.getLocation()
     const yaw = location.getYaw()
-    const fps = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getFPS()
-    const multiply = 10 / fps
     const velocity = localPlayer.getVelocity()
     const tmpVector = new THREE.Vector3()
-    if (press[0]) {
-      velocity.add(tmpVector.set(-Math.sin(yaw), 0, Math.cos(yaw)).multiplyScalar(multiply))
-    } else if (press[1]) {
-      velocity.add(tmpVector.set(Math.sin(yaw), 0, -Math.cos(yaw)).multiplyScalar(multiply))
+    if (localPlayer.isFlying()) {
+      const multiply = 4 / 30
+      if (localPlayer.onGround) {
+        localPlayer.setFlying(false)
+      } else {
+        if (press[0]) {
+          velocity.add(tmpVector.set(-Math.sin(yaw), 0, Math.cos(yaw)).multiplyScalar(multiply))
+        } else if (press[1]) {
+          velocity.add(tmpVector.set(Math.sin(yaw), 0, -Math.cos(yaw)).multiplyScalar(multiply))
+        }
+        if (press[2]) {
+          velocity.add(tmpVector.set(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiplyScalar(multiply))
+        } else if (press[3]) {
+          velocity.add(tmpVector.set(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiplyScalar(multiply))
+        }
+        if (press[4]) {
+          velocity.add(tmpVector.set(0, 2, 0).multiplyScalar(multiply))
+        } else if (press[5]) {
+          velocity.add(tmpVector.set(0, -2, 0).multiplyScalar(multiply))
+        }
+      }
+    } else {
+      const multiply = 1 / 30
+      const add = new THREE.Vector3()
+      if (press[0]) {
+        if (localPlayer.onGround) {
+          add.add(tmpVector.set(-Math.sin(yaw), 0, Math.cos(yaw)).multiplyScalar(multiply))
+        } else {
+          add.add(tmpVector.set(-Math.sin(yaw), 0, Math.cos(yaw)).multiplyScalar(multiply * 0.05))
+        }
+      } else if (press[1]) {
+        if (localPlayer.onGround) {
+          add.add(tmpVector.set(Math.sin(yaw), 0, -Math.cos(yaw)).multiplyScalar(multiply))
+        } else {
+          add.add(tmpVector.set(Math.sin(yaw), 0, -Math.cos(yaw)).multiplyScalar(multiply * 0.05))
+        }
+      }
+      if (press[2]) {
+        if (localPlayer.onGround) {
+          add.add(tmpVector.set(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiplyScalar(multiply))
+        } else {
+          add.add(tmpVector.set(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiplyScalar(multiply * 0.05))
+        }
+      } else if (press[3]) {
+        if (localPlayer.onGround) {
+          add.add(tmpVector.set(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiplyScalar(multiply))
+        } else {
+          add.add(tmpVector.set(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiplyScalar(multiply * 0.05))
+        }
+      }
+      if (press[4]) {
+        if (localPlayer.onGround) {
+          add.add(tmpVector.set(0, 4.5, 0).multiplyScalar(multiply))
+        }
+      }
+      if (press[5]) {
+        add.multiplyScalar(0.3)
+      }
+      velocity.add(add)
+      velocity.add(new THREE.Vector3(0, -0.25 / 30))
     }
-    if (press[2]) {
-      velocity.add(tmpVector.set(-Math.sin(yaw - Math.PI / 2), 0, Math.cos(yaw - Math.PI / 2)).multiplyScalar(multiply))
-    } else if (press[3]) {
-      velocity.add(tmpVector.set(-Math.sin(yaw + Math.PI / 2), 0, Math.cos(yaw + Math.PI / 2)).multiplyScalar(multiply))
-    }
-    if (press[4]) {
-      velocity.add(tmpVector.set(0, 1.5, 0).multiplyScalar(multiply))
-    } else if (press[5]) {
-      velocity.add(tmpVector.set(0, -1, 0).multiplyScalar(multiply))
-    }
-    // localPlayer.addVelocity(new THREE.Vector3(0, -9.8 / fps, 0));
     localPlayer.setVelocity(velocity)
     const players = Vokkit.getClient().getOnlinePlayers()
     for (const i in players) {
-      players[i].renderer.checkMove(players[i].getLocation(), players[i].getVelocity())
+      const result = players[i].renderer.checkMove(players[i].getLocation(), players[i].getVelocity())
+      if (result.yCollision === 1) players[i].onGround = true
+      else players[i].onGround = false
     }
     this.requestMove(localPlayer.getLocation(), localPlayer.getVelocity())
   }

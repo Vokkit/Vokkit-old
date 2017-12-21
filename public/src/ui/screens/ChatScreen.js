@@ -16,7 +16,7 @@ class ChatScreen extends Screen {
     this.dom.innerHTML = (
       '<div id="chatWindow" style="width: 100vw; height: 100vh;">' +
       '<div class="header" style="overflow:auto; width: 100%; height: 42px; text-align: center; line-height: 38px; cursor: pointer;">' +
-      '<div class="flat-button">' +
+      '<div style="position: absolute" class="flat-button">' +
       '< Back' +
       '</div>' +
       Lang.format('chat_title') +
@@ -40,7 +40,7 @@ class ChatScreen extends Screen {
       switch (event.keyCode) {
         case 27: // esc
           Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
-
+        
           const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
           MainScreen.dom.requestPointerLock()
           break
@@ -56,6 +56,12 @@ class ChatScreen extends Screen {
           document.getElementById('chatText').value = ''
           break
       }
+    })
+    this.dom.children[0].children[0].children[0].addEventListener('click', (event) => {
+      Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
+
+      const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
+      MainScreen.dom.requestPointerLock()
     })
   }
 
