@@ -56,7 +56,7 @@ class ItemStack {
   }
 
   static fromObject (object) {
-    return new ItemStack(Material.get(object.type), object.amount, object.data, ItemMeta.fromObject(object.itemMeta))
+    return object == null ? new ItemStack(Material.AIR) : new ItemStack(Material.get(object.type), object.amount, object.data, ItemMeta.fromObject(object.itemMeta))
   }
 }
 

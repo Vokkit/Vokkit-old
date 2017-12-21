@@ -113,7 +113,7 @@ class MainScreen extends Screen {
     this.renderer.animate(() => {
       const localPlayer = Vokkit.getClient().getLocalPlayer()
 
-      if (typeof ocalPlayer !== 'undefined') {
+      if (typeof localPlayer !== 'undefined') {
         this.group.position.copy(localPlayer.getEyeLocation().toVector().multiply(multiply))
       }
 

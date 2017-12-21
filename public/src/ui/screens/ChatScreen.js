@@ -1,5 +1,6 @@
 const Screen = require('../Screen.js')
 const InputBinder = require('../InputBinder.js')
+const Lang = require('../../lang/Lang')
 
 class ChatScreen extends Screen {
   constructor () {
@@ -18,7 +19,7 @@ class ChatScreen extends Screen {
       '<div class="flat-button">' +
       '< Back' +
       '</div>' +
-      'Chat and Commands' +
+      Lang.format('chat_title') +
       '</div>' +
       '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 4px; height: calc(100% - 48px - 42px - 10px); cursor: pointer; color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);">' +
       '</div>' +

@@ -32,8 +32,8 @@ class InputManager {
       Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().keyUpListener(e)
     }
 
-    function onPointerLockChange () {
-      if (document.pointerLockElement !== null || document.mozPointerLockElement !== null) {
+    function onPointerLockChange (event) {
+      if (document.pointerLockElement !== null && document.mozPointerLockElement !== null) {
         document.onmousemove = onMouseMove
         document.onmousedown = onMouseDown
         document.onmouseup = onMouseUp
