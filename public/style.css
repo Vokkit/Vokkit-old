@@ -3,15 +3,10 @@
   src: url('assets/font/Minecraftia.ttf');
 }
 
-@font-face {
-  font-family: 갈잎9;
-  src: url('assets/font/갈잎9.ttf')
-}
-
 * {
   padding: 0;
   margin: 0;
-  font-family: Minecraftia, 갈잎9, Arial, Helvetica, sans-serif;
+  font-family: Minecraftia, Arial, Helvetica, sans-serif;
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -o-crisp-edges;
