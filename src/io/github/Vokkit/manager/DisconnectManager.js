@@ -18,6 +18,7 @@ class DisconnectManager extends SocketManager {
             Vokkit.getServer().getSocketServer().emit('playerQuit', {
               id: player.getId()
             })
+            Vokkit.getServer().getLogger().title('Vokkit v0.0.1 (' + Vokkit.getServer().getPlayers().length + ')')
             return
           }
         }

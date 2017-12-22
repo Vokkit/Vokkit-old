@@ -52,4 +52,14 @@ Logger.prototype.chat = function (message) {
   process.stdout.write('\x1b[1m\x1b[36m' + getTime() + '\x1b[37m ' + message + '\x1b[0m\n> ')
 }
 
+Logger.prototype.title = function (title) {
+  let path = caller.getData().filePath
+  if (path.indexOf('Vokkit\\plugins\\') !== -1) {
+    let pluginName = path.split('Vokkit\\plugins\\')[1].split('\\')[0]
+    process.stdout.write(String.fromCharCode(27) + ']0; [' + pluginName + '] ' + title + String.fromCharCode(7))
+    return
+  }
+  process.stdout.write(String.fromCharCode(27) + ']0;' + title + String.fromCharCode(7))
+}
+
 module.exports = Logger

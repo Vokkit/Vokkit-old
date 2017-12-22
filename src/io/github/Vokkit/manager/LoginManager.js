@@ -59,6 +59,7 @@ class LoginManager extends SocketManager {
       let playerJoinEvent = new PlayerJoinEvent(player)
       Vokkit.getServer().getPluginManager().makeEvent(playerJoinEvent)
       Vokkit.getServer().getSocketServer().emit('playerJoin', player.toObject())
+      Vokkit.getServer().getLogger().title('Vokkit v0.0.1 (' + Vokkit.getServer().getPlayers().length + ')')
     })
   }
 }
