@@ -1,5 +1,5 @@
 const ItemMeta = require('./ItemMeta')
-const BlockList require('../block/BlockList.js')
+const BlockList = require('../block/BlockList.js')
 
 class ItemStack {
   constructor (id, amount = 1, data = 0) {

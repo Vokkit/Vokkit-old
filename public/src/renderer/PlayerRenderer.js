@@ -250,6 +250,7 @@ class PlayerRenderer extends Renderer {
     group.remove(this.leftArmMesh)
     group.remove(this.rightLegMesh)
     group.remove(this.leftLegMesh)
+  }
 }
 
 module.exports = PlayerRenderer
