@@ -173,13 +173,7 @@ class PlayerRenderer extends Renderer {
     if (this.noRendered === null && typeof Vokkit.getClient().getLocalPlayer() !== 'undefined') {
       if (Vokkit.getClient().getLocalPlayer().getName() === this.name) {
         this.noRendered = true
-        const group = Vokkit.getClient().getScreenManager().getScreen('MainScreen').getGroup()
-        group.remove(this.headMesh)
-        group.remove(this.bodyMesh)
-        group.remove(this.rightArmMesh)
-        group.remove(this.leftArmMesh)
-        group.remove(this.rightLegMesh)
-        group.remove(this.leftLegMesh)
+        this.remove()
       } else {
         this.noRendered = false
       }
@@ -236,6 +230,7 @@ class PlayerRenderer extends Renderer {
     if (velocity.x > 0.0001 || velocity.y > 0.0001 || velocity.z > 0.0001) this.player.renderer.playAnimation('walk')
     const result = super.checkMove(location, velocity, [this.collisionCheckMesh], this.player.getLocation().getWorld())
     this.player.teleport(this.player.getLocation().add(result.x, result.y, result.z))
+
     if (this.player.isFlying()) {
       const friction = Math.pow(0.6, 1 / 30)
       this.player.setVelocity(velocity.multiply(new THREE.Vector3(friction, friction, friction).multiplyScalar(2 / 3)))
@@ -255,7 +250,6 @@ class PlayerRenderer extends Renderer {
     group.remove(this.leftArmMesh)
     group.remove(this.rightLegMesh)
     group.remove(this.leftLegMesh)
-  }
 }
 
 module.exports = PlayerRenderer

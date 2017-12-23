@@ -1,35 +1,27 @@
-const Material = require('../Materials')
+/*
+ * This block class is REAL WORLD BLOCK, there is block data class in blocks folder
+ */
+ class Block {
+   constructor (position, id) {
+     this.position = position
+     this.id = id
+   }
 
-class Block {
-  constructor (position, type) {
-    this.position = position
-    this.type = type
-    this.id = type.id
-  }
+   getPosition () {
+     return this.position.clone()
+   }
 
-  getPosition () {
-    return this.position.clone()
-  }
+   setPosition (position) {
+     this.position = position
+   }
 
-  setPosition (position) {
-    this.position = position
-  }
+   getId () {
+     return this.id
+   }
 
-  getId () {
-    return this.type.id
-  }
+   setId (id) {
+     this.type = Material.get(id)
+   }
+ }
 
-  setId (id) {
-    this.type = Material.get(id)
-  }
-
-  getType () {
-    return this.type
-  }
-
-  setType (type) {
-    this.type = type
-  }
-}
-
-module.exports = Block
+ module.exports = Block

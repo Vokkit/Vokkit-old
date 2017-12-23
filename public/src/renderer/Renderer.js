@@ -41,6 +41,7 @@ class Renderer {
     let xCollision = 0
     let yCollision = 0
     let zCollision = 0
+    
     while (!(xFinish && yFinish && zFinish)) {
       if (!xFinish) {
         const previousX = x
@@ -132,7 +133,7 @@ class Renderer {
         add.set(0, 0, 0)
       }
     }
-
+    
     return {xCollision, yCollision, zCollision, x, y, z}
   }
 }

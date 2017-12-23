@@ -11,6 +11,7 @@ const http = require('http').Server(app)
 const io = require('socket.io')
 const socketServer = io.listen(http)
 const path = require('path')
+const fs = require('fs')
 const Lang = require('./lang/Lang')
 
 let socketConnectManager
@@ -31,8 +32,12 @@ class Server {
     })
 
     Logger.info(Lang.format('server.creating.world'))
-    worldGenerator = new WorldGenerator(100, 100)
-    await worldGenerator.generate()
+    
+    if (!fs.existsSync('worlds/world.txt')) {
+      Logger.info('월드를 생성하는 중...')
+      worldGenerator = new WorldGenerator(100, 100)
+      await worldGenerator.generate()
+    }
 
     Logger.info(Lang.format('server.loading.world'))
     this.worldList = World.loadAllWorlds()

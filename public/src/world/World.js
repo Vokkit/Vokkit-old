@@ -1,6 +1,6 @@
 const Block = require('../block/Block')
+const BlockList = require('../block/BlockList.js')
 const Chunk = require('../Chunk')
-const Material = require('../Materials')
 
 class World {
   constructor (worldName) {
@@ -24,20 +24,20 @@ class World {
       var blockData = data[i]
       var chunkExists = false
       const chunks = this.chunks
-      for (var j in chunks) {
-        if (chunks[j].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
-          if (typeof chunks[j].chunkData[blockData[0]] === 'undefined') chunks[j].chunkData[blockData[0]] = []
-          if (typeof chunks[j].chunkData[blockData[0]][blockData[1]] === 'undefined') chunks[j].chunkData[blockData[0]][blockData[1]] = []
-          chunks[j].chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), Material.get(blockData[3]))
+      for (var i in chunks) {
+        if (chunks[i].containsPosition(position.set(blockData[0], blockData[1], blockData[2]))) {
+          if (chunks[i].chunkData[blockData[0]] === undefined) chunks[i].chunkData[blockData[0]] = []
+          if (chunks[i].chunkData[blockData[0]][blockData[1]] === undefined) chunks[i].chunkData[blockData[0]][blockData[1]] = []
+          chunks[i].chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3])
           chunkExists = true
           break
         }
       }
       if (!chunkExists) {
         var chunk = new Chunk(Math.floor(blockData[0] / 16) * 16, Math.floor(blockData[2] / 16) * 16, [])
-        if (typeof chunk.chunkData[blockData[0]] === 'undefined') chunk.chunkData[blockData[0]] = []
-        if (typeof chunk.chunkData[blockData[0]][blockData[1]] === 'undefined') chunk.chunkData[blockData[0]][blockData[1]] = []
-        chunk.chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), Material.get(blockData[3]))
+        if (chunk.chunkData[blockData[0]] === undefined) chunk.chunkData[blockData[0]] = []
+        if (chunk.chunkData[blockData[0]][blockData[1]] === undefined) chunk.chunkData[blockData[0]][blockData[1]] = []
+        chunk.chunkData[blockData[0]][blockData[1]][blockData[2]] = new Block(new THREE.Vector3(blockData[0], blockData[1], blockData[2]), blockData[3])
         chunks.push(chunk)
       }
     }
@@ -52,7 +52,7 @@ class World {
         return chunks[i].getBlock(position)
       }
     }
-    return new Block(position, Material.AIR)
+    return new Block(position, BlockList.AIR)
   }
 
   setBlock (block) {

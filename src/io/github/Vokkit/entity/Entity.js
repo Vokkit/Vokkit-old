@@ -16,7 +16,7 @@ class Entity {
 
   teleport (loc, update = true) {
     this.location.copy(loc)
-
+    
     Vokkit.getServer().getSocketServer().emit('move', {
       id: this.id,
       x: loc.getX(),
