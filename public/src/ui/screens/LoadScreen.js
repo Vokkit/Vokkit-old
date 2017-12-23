@@ -1,5 +1,6 @@
 const Screen = require('../Screen.js')
 const InputBinder = require('../InputBinder.js')
+const Lang = require('../../lang/Lang')
 
 class LoadScreen extends Screen {
   constructor () {
@@ -11,7 +12,7 @@ class LoadScreen extends Screen {
   init () {
     this.dom.innerHTML = (
       '<div id="load" class="background">' +
-        '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);color:white">월드를 불러오는 중</div>' +
+        '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);color:white">' + Lang.format('load.world') + '</div>' +
       '</div>'
     )
   }

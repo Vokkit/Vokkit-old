@@ -1,8 +1,9 @@
 const Screen = require('../Screen.js')
 const InputBinder = require('../InputBinder.js')
+const Lang = require('../../lang/Lang')
 
 class ChatScreen extends Screen {
-  constructor() {
+  constructor () {
     super('ChatScreen', 'stack', new InputBinder())
 
     this.saved = []
@@ -11,14 +12,14 @@ class ChatScreen extends Screen {
     this.initInput()
   }
 
-  init() {
+  init () {
     this.dom.innerHTML = (
       '<div id="chatWindow" style="width: 100vw; height: 100vh;">' +
       '<div class="header" style="overflow:auto; width: 100%; height: 42px; text-align: center; line-height: 38px; cursor: pointer;">' +
-      '<div class="flat-button">' +
+      '<div style="position: absolute" class="flat-button">' +
       '< Back' +
       '</div>' +
-      'Chat and Commands' +
+      Lang.format('chat_title') +
       '</div>' +
       '<div id="chatLog" style="overflow:auto; width: 100%; border: 0px; padding: 4px; height: calc(100% - 48px - 42px - 10px); cursor: pointer; color: #F1F1F1; background-color: rgba(0, 0, 0, 0.25);">' +
       '</div>' +
@@ -34,20 +35,19 @@ class ChatScreen extends Screen {
       '</div>')
   }
 
-  initInput() {
+  initInput () {
     this.inputBinder.setKeyDownListener(event => {
       switch (event.keyCode) {
         case 27: // esc
           Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
-
+        
           const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
           MainScreen.dom.requestPointerLock()
           break
         case 13: // enter
-          let name = Vokkit.getClient().getLocalPlayer().getName()
-          let text = document.getElementById('chatText').value
+          const text = document.getElementById('chatText').value
 
-          if (text[0] == '/') {
+          if (text[0] === '/') {
             Vokkit.getClient().getChatManager().sendCommand(text.replace('/', ''))
           } else {
             Vokkit.getClient().getChatManager().sendChat(text)
@@ -57,15 +57,21 @@ class ChatScreen extends Screen {
           break
       }
     })
+    this.dom.children[0].children[0].children[0].addEventListener('click', (event) => {
+      Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
+
+      const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
+      MainScreen.dom.requestPointerLock()
+    })
   }
 
-  syncChat() {
+  syncChat () {
     const chatLog = document.getElementById('chatLog')
     for (const i in this.saved) chatLog.appendChild(this.saved[i])
     this.saved = []
   }
 
-  addChat(message) {
+  addChat (message) {
     const chatLog = document.getElementById('chatLog')
     const p = document.createElement('p')
     p.innerText = message

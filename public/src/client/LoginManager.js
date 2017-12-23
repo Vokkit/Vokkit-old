@@ -1,4 +1,5 @@
 const World = require('../world/World')
+const Lang = require('../lang/Lang')
 
 class LoginManager {
   constructor (client) {
@@ -6,7 +7,7 @@ class LoginManager {
     this.socket = Vokkit.getClient().getSocket()
     this.socket.on('loginResult', (data) => {
       if (!data.succeed) {
-        alert('로그인 실패! 이유: ' + data.reason)
+        alert(Lang.format('login.fail'), [data.reason])
       } else {
         Vokkit.getClient().getScreenManager().addScreen('LoadScreen')
         // 딜레이를 안 주면 로딩화면이 안 생긴다.
@@ -30,11 +31,11 @@ class LoginManager {
 
   requestLogin (id) {
     if (id === '') {
-      alert('공백 ID를 사용할 수 없습니다.')
+      alert(Lang.format('login.empty_id'))
       return false
     }
     if (id.length >= 20) {
-      alert('ID는 20자를 넘을 수 없습니다.')
+      alert(Lang.format('login.long_id'))
       return false
     }
     let type = 'PC'

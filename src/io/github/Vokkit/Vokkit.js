@@ -1,12 +1,21 @@
 const Server = require('./Server.js')
 const Logger = new (require('./Logger.js'))()
+const Lang = require('./lang/Lang')
+const fs = require('fs')
 
 let server
 
 class Vokkit {
   static init () {
+    if (!fs.existsSync('./server.properties')) {
+      fs.writeFileSync('./server.properties', JSON.stringify({
+        language: 'en'
+      }))
+    }
+    const properties = JSON.parse(fs.readFileSync('./server.properties'))
+    Lang.setLanguage(properties.language)
     var now = new Date().getTime()
-    Logger.info('Vokkit v' + Server.version + '이(가) 프로토콜 버전 ' + Server.protocolVersion + ' 에서 열립니다.')
+    Logger.info(Lang.format('server_preparing', [Server.version]))
     server = new Server()
     server.init(now)
   }

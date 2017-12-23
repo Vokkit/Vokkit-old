@@ -1,5 +1,6 @@
 const Screen = require('../Screen.js')
 const InputBinder = require('../InputBinder.js')
+const Lang = require('../../lang/Lang')
 
 class PauseScreen extends Screen {
   constructor () {
@@ -13,8 +14,8 @@ class PauseScreen extends Screen {
     this.dom.innerHTML = (
       '<div id="pause" style="width: 100vw; height: 100vh; background-color: rgba(0, 0, 0, 0.5);">' +
         '<div id="pause_actions" style="position: fixed;">' +
-          '<button id="resume" type="button" style="position: absolute; width: 40vw; left: 10vw; top: 16vw; height: 8vw">Resume</button>' +
-          '<button id="quit" type="button" style="position: absolute; width: 40vw; left: 10vw; top: 28vw; height: 8vw">Quit</button>' +
+          '<button id="resume" type="button" style="position: absolute; width: 40vw; left: 10vw; top: 16vw; height: 8vw">' + Lang.format('pause.resume') + '</button>' +
+          '<button id="quit" type="button" style="position: absolute; width: 40vw; left: 10vw; top: 28vw; height: 8vw">' + Lang.format('pause.quit') + '</button>' +
         '</div>' +
       '</div>'
     )

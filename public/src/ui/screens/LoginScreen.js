@@ -1,5 +1,6 @@
 const Screen = require('../Screen.js')
 const InputBinder = require('../InputBinder.js')
+const Lang = require('../../lang/Lang')
 
 class LoginScreen extends Screen {
   constructor () {
@@ -14,7 +15,7 @@ class LoginScreen extends Screen {
       '<div id="load" class="background">' +
         '<div id="login" style="position: fixed;">' +
           '<input id="idText" type="text" style="position: absolute; width: 80vw; left: 10vw; top: 2vw; height: 4vw"></input>' +
-          '<button id="loginButton" type="button" style="position: absolute; width: 80vw; left: 10vw; top: 8vw; height: 4vw">Login</button>' +
+          '<button id="loginButton" type="button" style="position: absolute; width: 80vw; left: 10vw; top: 8vw; height: 4vw">' + Lang.format('login.title') + '</button>' +
         '</div>' +
       '</div>'
     )

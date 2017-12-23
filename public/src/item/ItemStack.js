@@ -1,4 +1,5 @@
 const ItemMeta = require('./ItemMeta')
+const BlockList require('../block/BlockList.js')
 
 class ItemStack {
   constructor (id, amount = 1, data = 0) {
@@ -41,8 +42,7 @@ class ItemStack {
   }
 
   equals (item) {
-    return item instanceof ItemStack && item.getType().equals(this.type) && item.getData() == this.data && item.getItemMeta().equals(this.getItem
-    ())
+    return item instanceof ItemStack && item.getType().equals(this.type) && item.getData() === this.data && item.getItemMeta().equals(this.getItem())
   }
 
   toObject () {
@@ -55,7 +55,7 @@ class ItemStack {
   }
 
   static fromObject (object) {
-    return new ItemStack(object.id, object.amount, object.data, ItemMeta.fromObject(object.itemMeta))
+    return object == null ? new ItemStack(BlockList.AIR) : new ItemStack(object.id, object.amount, object.data, ItemMeta.fromObject(object.itemMeta))
   }
 }
 

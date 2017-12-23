@@ -4,14 +4,14 @@
 }
 
 @font-face {
-  font-family: 갈잎9;
-  src: url('assets/font/갈잎9.ttf')
+  font-family: 소야논8;
+  src: url('assets/font/소야논8.ttf')
 }
 
 * {
   padding: 0;
   margin: 0;
-  font-family: Minecraftia, 갈잎9, Arial, Helvetica, sans-serif;
+  font-family: Minecraftia, 소야논8, Arial, Helvetica, sans-serif;
   image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -o-crisp-edges;
@@ -97,12 +97,17 @@ input:hover {
 .item-cell {
   background-image: url('assets/gui/item_cell.png');
   background-repeat: no-repeat;
-  background-size: 3.2vw 3.2vw;
+  background-size: 3.6vw 3.6vw;
 
   width: 3.2vw;
   height: 3.2vw;
+  padding: 0.2vw 0.2vw;
 
   outline: none;
+}
+
+.item-cell:hover {
+  background-image: url('assets/gui/item_cell_hover.png')
 }
 
 .player-preview {

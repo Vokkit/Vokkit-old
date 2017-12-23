@@ -1,13 +1,13 @@
-let ScreenProvider = require('../UI/ScreenProvider.js')
-let ScreenChooser = require('../UI/ScreenChooser.js')
+let ScreenProvider = require('../ui/ScreenProvider.js')
+let ScreenChooser = require('../ui/ScreenChooser.js')
 
-let MainScreen = require('../UI/screens/MainScreen.js')
-let MainUIScreen = require('../UI/screens/MainUIScreen.js')
-let ChatScreen = require('../UI/screens/ChatScreen.js')
-let LoadScreen = require('../UI/screens/LoadScreen.js')
-let LoginScreen = require('../UI/screens/LoginScreen.js')
-let PauseScreen = require('../UI/screens/PauseScreen.js')
-let InventoryScreen = require('../UI/screens/InventoryScreen.js')
+let MainScreen = require('../ui/screens/MainScreen.js')
+let MainUIScreen = require('../ui/screens/MainUIScreen.js')
+let ChatScreen = require('../ui/screens/ChatScreen.js')
+let LoadScreen = require('../ui/screens/LoadScreen.js')
+let LoginScreen = require('../ui/screens/LoginScreen.js')
+let PauseScreen = require('../ui/screens/PauseScreen.js')
+let InventoryScreen = require('../ui/screens/InventoryScreen.js')
 
 class ScreenManager {
   constructor () {

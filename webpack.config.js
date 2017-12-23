@@ -12,18 +12,18 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
-        /*use: {
+        exclude: /(node_modules|bower_components)/
+        /* use: {
           loader: 'babel-loader',
           options: {
             presets: ['env', 'minify']
           }
-        }*/
+        } */
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(['public/dist'])//,
-    //new UglifyJSPlugin()
+    new CleanWebpackPlugin(['public/dist'])
+    // new UglifyJSPlugin()
   ]
 }

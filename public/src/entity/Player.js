@@ -4,15 +4,16 @@ const Inventory = require('../inventory/Inventory')
 const Location = require('../Location')
 
 class Player extends Entity {
-  constructor (id, location, velocity, health = 20, name, type, inventory = new Inventory(4 * 9 + 5), gamemode = 0, selectedSlotId = 0) {
+  constructor (id, location, velocity, health = 20, name, type, inventory = new Inventory(4 * 9 + 5), gamemode = 0, selectedSlotId = 0, flying = false) {
     super(id, location, velocity, health)
     this.name = name
     this.type = type
-    this.renderer = new PlayerRenderer('steve', this)
+    this.renderer = new PlayerRenderer('skins/steve.png', this)
     this.inventory = inventory
     this.gamemode = gamemode
     this.selectedSlotId = selectedSlotId
-    if (!global.bodies) global.bodies = []
+    this.flying = flying
+    this.onGround = false
   }
 
   getEyeLocation () {
@@ -61,6 +62,19 @@ class Player extends Entity {
     this.selectedSlotId = selectedSlotId
   }
 
+  isFlying () {
+    return this.flying
+  }
+
+  setFlying (flying) {
+    this.flying = flying
+    console.log(flying)
+  }
+
+  isOnGround () {
+    return this.onGround
+  }
+
   toObject () {
     return {
       health: this.health,
@@ -80,12 +94,13 @@ class Player extends Entity {
       type: this.type,
       inventory: this.inventory.toObject(),
       gamemode: this.gamemode,
-      selectedSlotId: this.selectedSlotId
+      selectedSlotId: this.selectedSlotId,
+      flying: this.flying
     }
   }
 
   static fromObject (object, socket) {
-    return new Player(object.id, new Location(Vokkit.getClient().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.health, object.name, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId)
+    return new Player(object.id, new Location(Vokkit.getClient().getWorld(object.worldName), object.x, object.y, object.z, object.yaw, object.pitch), new THREE.Vector3(object.velocity[0], object.velocity[1], object.velocity[2]), object.health, object.name, object.type, Inventory.fromObject(object.inventory), object.selectedSlotId, object.flying)
   }
 }
 

@@ -1,10 +1,11 @@
 const Command = require('./Command.js')
 const ParameterType = require('../parameter/ParameterType.js')
 const Player = require('../../entity/Player.js')
+const Lang = require('../../lang/Lang')
 
 class TeleportCommand extends Command {
   constructor () {
-    super('tp', '플레이어를 특정한 위치로 이동시킵니다.', '/tp [player]\n/tp [player] [player]\n/tp [player] [x] [y] [z]', [
+    super('tp', Lang.format('command.teleport.description'), '/tp [player]\n/tp [player] [player]\n/tp [player] [x] [y] [z]', [
       [ParameterType.PLAYER],
       [ParameterType.PLAYER, ParameterType.PLAYER],
       [ParameterType.PLAYER, ParameterType.NUMBER, ParameterType.NUMBER, ParameterType.NUMBER]
@@ -22,7 +23,7 @@ class TeleportCommand extends Command {
           target = parameter[0].getValue()
           sender.teleport(target.getLocation())
 
-          text = sender.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
+          text = Lang.format('command.teleport.target', [sender.getName(), target.getName()])
 
           sender.sendMessage(text)
         }
@@ -32,7 +33,7 @@ class TeleportCommand extends Command {
         target = parameter[1].getValue()
         mover.teleport(target.getLocation())
 
-        text = mover.getName() + '이(가) ' + target.getName() + '에게로 이동하였습니다.'
+        text = Lang.format('command.teleport.target', [mover.getName(), target.getName()])
 
         sender.sendMessage(text)
         break
@@ -43,7 +44,7 @@ class TeleportCommand extends Command {
 
         mover.teleport(location)
 
-        text = mover.getName() + '이(가) x: ' + location.getX() + ' y: ' + location.getY() + ' z: ' + location.getZ() + ' 좌표로 이동하였습니다.'
+        text = Lang.format('command.teleport.to', [mover.getName(), location.getX(), location.getY(), location.getZ()])
 
         sender.sendMessage(text)
         break

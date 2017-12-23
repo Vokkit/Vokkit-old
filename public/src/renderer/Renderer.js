@@ -3,7 +3,7 @@ class Renderer {
     this.skinPath = skinPath
     if (typeof skinPath === 'string') {
       const textureLoader = new THREE.TextureLoader()
-      this.texture = textureLoader.load(`/assets/skins/${skinPath}.png`)
+      this.texture = textureLoader.load(`/assets/${skinPath}`)
       this.texture.magFilter = THREE.NearestFilter
       this.texture.minFilter = THREE.LinearMipMapLinearFilter
       this.material = new THREE.MeshBasicMaterial({
@@ -18,8 +18,9 @@ class Renderer {
       const mesh = meshes[i]
       const vector = mesh.position.clone()
       for (let vertexIndex = 0; vertexIndex < mesh.geometry.vertices.length; vertexIndex++) {
-        const id = world.getBlock(mesh.geometry.vertices[vertexIndex].clone().add(vector)).getId()
-        if (id !== 0 && id != null) return true
+        if (world.getBlock(mesh.geometry.vertices[vertexIndex].clone().add(vector)).getId() !== 0 && world.getBlock(mesh.geometry.vertices[vertexIndex].clone().add(vector)).getId() != null) {
+          return true
+        }
       }
     }
     return false
@@ -37,9 +38,10 @@ class Renderer {
     let xFinish = velocity.x === 0
     let yFinish = velocity.y === 0
     let zFinish = velocity.z === 0
-    let xCollision = false
-    let yCollision = false
-    let zCollision = false
+    let xCollision = 0
+    let yCollision = 0
+    let zCollision = 0
+    
     while (!(xFinish && yFinish && zFinish)) {
       if (!xFinish) {
         const previousX = x
@@ -59,13 +61,13 @@ class Renderer {
           }
         }
         add.set(x, y, z)
-
         for (const i in meshes) meshes[i].position.add(add)
         if (this.checkMeshCollision(meshes, world)) { // collision
+          if (x > 0) xCollision = -1
+          else xCollision = 1
           xFinish = true
           x = previousX
           velocity.x = 0
-          xCollision = true
         }
         for (const i in meshes) meshes[i].position.copy(originalPositions[i])
         add.set(0, 0, 0)
@@ -91,10 +93,11 @@ class Renderer {
         add.set(x, y, z)
         for (const i in meshes) meshes[i].position.add(add)
         if (this.checkMeshCollision(meshes, world)) { // collision
+          if (y > 0) yCollision = -1
+          else yCollision = 1
           yFinish = true
           y = previousY
           velocity.y = 0
-          yCollision = true
         }
         for (const i in meshes) meshes[i].position.copy(originalPositions[i])
         add.set(0, 0, 0)
@@ -120,10 +123,11 @@ class Renderer {
         add.set(x, y, z)
         for (const i in meshes) meshes[i].position.add(add)
         if (this.checkMeshCollision(meshes, world)) { // collision
+          if (z > 0) zCollision = -1
+          else zCollision = 1
           zFinish = true
           z = previousZ
           velocity.z = 0
-          zCollision = true
         }
         for (const i in meshes) meshes[i].position.copy(originalPositions[i])
         add.set(0, 0, 0)

@@ -1,6 +1,4 @@
 class InputManager {
-  constructor () {}
-
   showCursor () {
     document.exitPointerLock()
   }
@@ -34,8 +32,8 @@ class InputManager {
       Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().keyUpListener(e)
     }
 
-    function onPointerLockChange () {
-      if (document.pointerLockElement != null || document.mozPointerLockElement != null) {
+    function onPointerLockChange (event) {
+      if (document.pointerLockElement !== null && document.mozPointerLockElement !== null) {
         document.onmousemove = onMouseMove
         document.onmousedown = onMouseDown
         document.onmouseup = onMouseUp
@@ -44,7 +42,7 @@ class InputManager {
         document.onkeyup = onKeyUp
 
         Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().pointerLockListener()
-      } else if(Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().disableCursor) {
+      } else if (Vokkit.getClient().getScreenManager().getNowScreen().getInputBinder().disableCursor) {
         document.onmousemove = null
         document.onmousedown = null
         document.onmouseup = null

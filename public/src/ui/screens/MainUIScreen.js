@@ -149,25 +149,52 @@ class MainUIScreen extends Screen {
       }
     })
 
+    let spaceTime
+    let up = false
+
     this.inputBinder.setKeyDownListener(event => {
       switch (event.keyCode) {
         case 87: // w
           MainScreen.press[0] = true
+          spaceTime = null
           break
         case 83: // s
           MainScreen.press[1] = true
+          spaceTime = null
           break
         case 65: // a
           MainScreen.press[2] = true
+          spaceTime = null
           break
         case 68: // d
           MainScreen.press[3] = true
+          spaceTime = null
           break
         case 32: // space
           MainScreen.press[4] = true
+          if (!spaceTime) {
+            spaceTime = Date.now()
+            up = false
+            break
+          }
+          const now = Date.now()
+          if (now - spaceTime < 250 && up) {
+            const localPlayer = Vokkit.getClient().getLocalPlayer()
+            if (localPlayer.isFlying()) {
+              localPlayer.setFlying(false)
+            } else {
+              localPlayer.setFlying(true)
+              localPlayer.setVelocity(new THREE.Vector3())
+            }
+            spaceTime = null
+          } else {
+            spaceTime = now
+          }
+          up = false
           break
         case 16: // shift
           MainScreen.press[5] = true
+          spaceTime = null
           break
 
         case 84: // t
@@ -188,8 +215,10 @@ class MainUIScreen extends Screen {
     })
 
     this.inputBinder.setPointerUnlockListener(() => {
-      Vokkit.getClient().getScreenManager().addScreen('PauseScreen')
-      Vokkit.getClient().getInputManager().showCursor()
+      if (!Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').changeScreen) {
+        Vokkit.getClient().getScreenManager().addScreen('PauseScreen')
+        Vokkit.getClient().getInputManager().showCursor()
+      }
     })
 
     this.inputBinder.setkeyUpListener(event => {
@@ -203,6 +232,7 @@ class MainUIScreen extends Screen {
         MainScreen.press[3] = false
       } else if (event.keyCode === 32) {
         MainScreen.press[4] = false
+        up = true
       } else if (event.keyCode === 16) {
         MainScreen.press[5] = false
       }
@@ -218,13 +248,13 @@ class MainUIScreen extends Screen {
       if (event.deltaY > 0) {
         // 아래로 스크롤 - 오른쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
-        if (selectedSlotId == 8) localPlayer.setSelectedSlotId(0)
+        if (selectedSlotId === 8) localPlayer.setSelectedSlotId(0)
         else localPlayer.setSelectedSlotId(selectedSlotId + 1)
         mainUiScreen.updateCrossbarSelected()
       } else if (event.deltaY < 0) {
         // 위로 스크롤 - 왼쪽으로 이동
         const selectedSlotId = localPlayer.getSelectedSlotId()
-        if (selectedSlotId == 0) localPlayer.setSelectedSlotId(8)
+        if (selectedSlotId === 0) localPlayer.setSelectedSlotId(8)
         else localPlayer.setSelectedSlotId(selectedSlotId - 1)
         mainUiScreen.updateCrossbarSelected()
       }
@@ -260,7 +290,7 @@ class MainUIScreen extends Screen {
   updateHealthBar () {
     if (this.heartBackgroundBlack == null) {
       for (let i = 0; i < 10; i++) {
-        //this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
+        // this.heartBackgroundBlack[i] = document.getElementById(`heart_background_black_${i}`)
         this.heartFull[i] = document.getElementById(`heart_full_${i}`)
         this.heartHalf[i] = document.getElementById(`heart_half_${i}`)
       }
@@ -275,7 +305,7 @@ class MainUIScreen extends Screen {
       let count = 0
       const manager = this
       const animation = () => {
-        if (count % 2 == 0) {
+        if (count % 2 === 0) {
           manager.heartBackgroundBlack.style.display = 'block'
           manager.heartBackgroundWhite.style.display = 'none'
         } else {
@@ -303,7 +333,7 @@ class MainUIScreen extends Screen {
       i++
     }
 
-    if (health % 2 == 1 && i < 10) {
+    if (health % 2 === 1 && i < 10) {
       this.heartFull[i].style.display = 'none'
       this.heartHalf[i].style.display = 'block'
       i++

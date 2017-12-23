@@ -6,6 +6,7 @@ const ScreenManager = require('./ui/ScreenManager')
 const InputManager = require('./ui/InputManager')
 const ChatManager = require('./chat/ChatManager')
 const PluginManager = require('./plugin/PluginManager')
+const Lang = require('./lang/Lang')
 
 const isDebug = false
 
@@ -16,6 +17,7 @@ class Client {
     this.socket = io()
   }
   loginInit () {
+    Lang.setLanguage(navigator.language.substring(0, 2))
     this.pluginManager = new PluginManager()
     this.pluginManager.load()
     this.loginManager = new LoginManager(this)

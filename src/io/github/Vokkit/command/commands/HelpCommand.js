@@ -1,9 +1,10 @@
 const Command = require('./Command.js')
 const ParameterType = require('../parameter/ParameterType.js')
+const Lang = require('../../lang/Lang')
 
 class HelpCommand extends Command {
   constructor () {
-    super('help', '도움말을 출력합니다.', '/help (command name)', [
+    super('help', Lang.format('command.help.description'), '/help (command name)', [
       [],
       [ParameterType.STRING]
     ])
