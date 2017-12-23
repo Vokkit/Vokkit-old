@@ -66,3 +66,4 @@ worlds
 plugins
 public/dist
 jsconfig.json
+server.properties
