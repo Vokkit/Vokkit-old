@@ -12,6 +12,10 @@ class BlockTest extends Block {
       ['planks_oak', 'planks_oak', 'planks_oak', 'planks_oak', 'planks_oak', 'planks_oak']
     ], 'Test', shape)
   }
+
+  isCubeShape () {
+    return false
+  }
 }
 
 module.exports = BlockTest

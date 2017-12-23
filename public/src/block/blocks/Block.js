@@ -98,6 +98,10 @@ class Block {
     return 0
   }
 
+  isCubeShape () {
+    return true
+  }
+
   isSolid () {
     return true
   }
