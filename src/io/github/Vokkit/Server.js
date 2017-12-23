@@ -11,6 +11,7 @@ const http = require('http').Server(app)
 const io = require('socket.io')
 const socketServer = io.listen(http)
 const path = require('path')
+const Lang = require('./lang/Lang')
 
 let socketConnectManager
 let consoleManager
@@ -29,18 +30,18 @@ class Server {
       Logger.warn(err.stack)
     })
 
-    Logger.info('월드를 생성하는 중...')
+    Logger.info(Lang.format('server.creating.world'))
     worldGenerator = new WorldGenerator(100, 100)
     await worldGenerator.generate()
 
-    Logger.info('월드를 불러오는 중...')
+    Logger.info(Lang.format('server.loading.world'))
     this.worldList = World.loadAllWorlds()
-    Logger.info(this.worldList.length + '개의 월드를 불러왔습니다.')
+    Logger.info(Lang.format('server.loaded.world', [this.worldList.length]))
 
-    Logger.info('통신 기능을 불러오는 중...')
+    Logger.info(Lang.format('server.loading.socket'))
     socketConnectManager = new SocketConnectManager()
     socketConnectManager.init()
-    Logger.info('통신 기능을 불러왔습니다.')
+    Logger.info(Lang.format('server.loaded.socket'))
 
     pluginManager = new PluginManager()
     pluginManager.init()
@@ -50,11 +51,11 @@ class Server {
     consoleManager = new ConsoleManager()
     consoleManager.init()
 
-    Logger.info('서버를 여는 중...')
+    Logger.info(Lang.format('server.opening'))
     app.use(express.static(path.join(path.resolve(''), 'public')))
     http.listen(3000, () => {
       let endTime = new Date().getTime()
-      Logger.info('완료 (' + ((endTime - startTime) / 1000) + '초)! 도움말을 보시려면 "help" 또는 "?" 를 입력해 주세요')
+      Logger.info(Lang.format('server.open', [((endTime - startTime) / 1000)]))
     })
   }
 
@@ -159,10 +160,6 @@ class Server {
 
   getName () {
     return 'server'
-  }
-
-  static get protocolVersion () {
-    return 1
   }
 
   static get version () {

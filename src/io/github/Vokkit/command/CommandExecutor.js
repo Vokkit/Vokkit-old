@@ -1,6 +1,7 @@
 const Util = require('../Util.js')
 const ParameterType = require('./parameter/ParameterType.js')
 const Parameter = require('./parameter/Parameter.js')
+const Lang = require('../lang/Lang')
 
 class CommandExecutor {
   constructor (provider) {
@@ -46,7 +47,7 @@ class CommandExecutor {
       }
     }
 
-    sender.sendMessage('커맨드를 찾을 수 없습니다.')
+    sender.sendMessage(Lang.format('cannot.find.command'))
   }
 }
 

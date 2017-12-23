@@ -1,4 +1,5 @@
 const fs = require('fs')
+const Lang = require('./lang/Lang')
 
 class WorldGenerator {
   constructor (width = 50, height = 50) {
@@ -35,7 +36,7 @@ class WorldGenerator {
           Vokkit.getServer().getLogger().warn(err)
           reject(err)
         } else {
-          Vokkit.getServer().getLogger().info('월드 생성됨')
+          Vokkit.getServer().getLogger().info(Lang.format('server.created.world'))
           resolve()
         }
       })

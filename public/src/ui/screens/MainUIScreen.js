@@ -178,7 +178,7 @@ class MainUIScreen extends Screen {
             break
           }
           const now = Date.now()
-          if (now - spaceTime < 500 && up) {
+          if (now - spaceTime < 250 && up) {
             const localPlayer = Vokkit.getClient().getLocalPlayer()
             if (localPlayer.isFlying()) {
               localPlayer.setFlying(false)

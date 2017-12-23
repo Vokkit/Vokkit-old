@@ -1,6 +1,7 @@
 const PlayerChatEvent = require('../event/player/PlayerChatEvent')
 
 const SocketManager = require('./SocketManager.js')
+const Lang = require('../lang/Lang')
 
 class ChatManager extends SocketManager {
   addListener (socket) {
@@ -32,7 +33,7 @@ class ChatManager extends SocketManager {
 
   sendSystemMessage (message) {
     Vokkit.getServer().getSocketServer().emit('broadcast', {
-      message: `<Server> ${message.toString()}`
+      message: Lang.format('system.message.format', [message.toString()])
     })
   }
 

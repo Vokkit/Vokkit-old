@@ -3,8 +3,10 @@ const Location = require('../Location.js')
 
 const PlayerLoginEvent = require('../event/player/PlayerLoginEvent.js')
 const PlayerJoinEvent = require('../event/player/PlayerJoinEvent.js')
+const Server = require('../Server')
 
 const SocketManager = require('./SocketManager.js')
+const Lang = require('../lang/Lang')
 
 class LoginManager extends SocketManager {
   addListener (socket) {
@@ -23,14 +25,14 @@ class LoginManager extends SocketManager {
       if (data.name.length === 0) {
         socket.emit('loginResult', {
           succeed: false,
-          reason: '공백 ID를 사용할 수 없습니다.'
+          reason: Lang.format('login.empty_id')
         })
         return
       }
       if (data.name.length >= 20) {
         socket.emit('loginResult', {
           succeed: false,
-          reason: 'ID는 20자를 넘을 수 없습니다.'
+          reason: Lang.format('login.long_id')
         })
         return
       }
@@ -39,7 +41,7 @@ class LoginManager extends SocketManager {
         if (playerList[i].getName() === player.getName()) {
           socket.emit('loginResult', {
             succeed: false,
-            reason: '이름이 중복됩니다.'
+            reason: Lang.format('login.same_id')
           })
           return
         }
@@ -55,11 +57,12 @@ class LoginManager extends SocketManager {
         worlds: Vokkit.getServer().getWorldManager().getWorldArray()
       })
       Vokkit.getServer().addPlayer(player)
-      Vokkit.getServer().getLogger().info(player.getName() + '[' + address.address + ':' + address.port + ', type: ' + player.getType() + '] 이가 로그인 했습니다.')
-      let playerJoinEvent = new PlayerJoinEvent(player)
+      Vokkit.getServer().getLogger().info(Lang.format('player.login.message', [player.getName(), address.address, address.port]))
+      let playerJoinEvent = new PlayerJoinEvent(player, Lang.format('player.login.format'))
       Vokkit.getServer().getPluginManager().makeEvent(playerJoinEvent)
       Vokkit.getServer().getSocketServer().emit('playerJoin', player.toObject())
-      Vokkit.getServer().getLogger().title('Vokkit v0.0.1 (' + Vokkit.getServer().getPlayers().length + ')')
+      Vokkit.getServer().getLogger().title(Lang.format('player.list.log'), [Server.version, Vokkit.getServer().getPlayers().length])
+      Vokkit.getServer().getChatManager().broadcast(Lang.formatString(playerJoinEvent.getJoinMessage(), player.getName()))
     })
   }
 }

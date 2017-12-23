@@ -12,7 +12,7 @@ class MainScreen extends Screen {
     super('MainScreen', 'base', null)
 
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 16 * CHUNK_SIGHT)
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, /*16 * CHUNK_SIGHT*/10000)
     this.renderer = new THREE.WebGLRenderer()
     this.group = new THREE.Group()
     this.rotationGroup = new THREE.Group()
@@ -93,8 +93,11 @@ class MainScreen extends Screen {
   start () {
     const multiply = new THREE.Vector3(-1, -1, -1)
 
+    let last = Date.now()
     const move = () => {
+      const now = Date.now()
       Vokkit.getClient().getMoveManager().moveLocalPlayer(this.press)
+      last = now
 
       this.syncMouse()
       requestAnimationFrame(move)
@@ -109,8 +112,22 @@ class MainScreen extends Screen {
       }
 
       for (const chunk of this.dirtyChunks) {
-        this.group.remove(chunk.getLastMesh())
-        this.group.add(chunk.mesher())
+        /*this.group.remove(chunk.getLastMesh())
+        this.group.add(chunk.mesher())*/
+        chunk.mesher()
+      }
+      const chunks = localPlayer.getLocation().getWorld().getChunks()
+      const position = localPlayer.getLocation().toVector()
+      position.x = Math.floor(position.x / 16) * 16
+      position.z = Math.floor(position.z / 16) * 16
+      for (const i in chunks) {
+        if (Math.abs(chunks[i].x - position.x) + Math.abs(chunks[i].z - position.z) > CHUNK_SIGHT * 16) {
+          this.group.remove(chunks[i].getLastMesh())
+        } else {
+          if (this.group.children.indexOf(chunks[i].getLastMesh()) === -1) {
+            this.group.add(chunks[i].getLastMesh())
+          }
+        }
       }
       this.dirtyChunks = []
 
@@ -184,7 +201,7 @@ class MainScreen extends Screen {
             })
           }
         }
-        this.coolDown = 250 / 1000 * 30
+        this.coolDown = 250
       }
     } else this.coolDown = 0
   }

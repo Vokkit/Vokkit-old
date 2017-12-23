@@ -1,8 +1,9 @@
 const Command = require('./Command.js')
+const Lang = require('../../lang/Lang')
 
 class ExitCommand extends Command {
   constructor () {
-    super('exit', '서버를 종료합니다.', '/exit', [
+    super('exit', Lang.format('command.quit.description'), '/exit', [
       []
     ])
   }
@@ -10,7 +11,7 @@ class ExitCommand extends Command {
   execute (parameterNumber, sender, parameter) {
     switch (parameterNumber) {
       case 0:
-        sender.sendMessage('서버를 종료합니다.')
+        sender.sendMessage(Lang.format('command.quit.message'))
         process.exit()
         // You don't have to use 'break', because is is unreachable code.
       default:
