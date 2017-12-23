@@ -40,7 +40,7 @@ class ChatScreen extends Screen {
       switch (event.keyCode) {
         case 27: // esc
           Vokkit.getClient().getScreenManager().getScreenChooser().popScreen()
-        
+
           const MainScreen = Vokkit.getClient().getScreenManager().getScreen('MainScreen')
           MainScreen.dom.requestPointerLock()
           break

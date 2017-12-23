@@ -11,10 +11,15 @@ class BlockTextureManager {
   }
 
   static load (texture) {
-    if (instance == null)
-      instance = new BlockTextureManager()
+    if (instance == null) instance = new BlockTextureManager()
 
     return instance.load(texture)
+  }
+
+  static getMicroCache () {
+    if (instance == null) instance = new BlockTextureManager()
+
+    return instance.microCache
   }
 }
 

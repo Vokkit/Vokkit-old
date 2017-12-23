@@ -5,14 +5,14 @@ const BlockList = require('../../block/BlockList.js')
 
 const THREE = require('three')
 
-const CHUNK_SIGHT = 4
+const CHUNK_SIGHT = 3
 
 class MainScreen extends Screen {
   constructor () {
     super('MainScreen', 'base', null)
 
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, /*16 * CHUNK_SIGHT*/10000)
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 16 * CHUNK_SIGHT)
     this.renderer = new THREE.WebGLRenderer()
     this.group = new THREE.Group()
     this.rotationGroup = new THREE.Group()
@@ -79,9 +79,7 @@ class MainScreen extends Screen {
   drawWorld (world) {
     let chunks = world.getChunks()
     for (let chunk of chunks) {
-      for (const c of chunk.mesher()) {
-        this.group.add(c)
-      }
+      this.group.add(chunk.mesher())
     }
 
     this.renderer.setClearColor(0x7EC0EE, 1)
@@ -110,27 +108,7 @@ class MainScreen extends Screen {
 
       for (let chunk of this.dirtyChunks) {
         this.group.remove(chunk.getLastMesh())
-
-        for (const c of chunk.mesher()) {
-          this.group.add(c)
-          /* master
-      for (const chunk of this.dirtyChunks) {
-        /*this.group.remove(chunk.getLastMesh())
-        this.group.add(chunk.mesher())* /
-        chunk.mesher()
-      }
-      const chunks = localPlayer.getLocation().getWorld().getChunks()
-      const position = localPlayer.getLocation().toVector()
-      position.x = Math.floor(position.x / 16) * 16
-      position.z = Math.floor(position.z / 16) * 16
-      for (const i in chunks) {
-        if (Math.abs(chunks[i].x - position.x) + Math.abs(chunks[i].z - position.z) > CHUNK_SIGHT * 16) {
-          this.group.remove(chunks[i].getLastMesh())
-        } else {
-          if (this.group.children.indexOf(chunks[i].getLastMesh()) === -1) {
-            this.group.add(chunks[i].getLastMesh())
-          }*/
-        }
+        this.group.add(chunk.mesher())
       }
       this.dirtyChunks = []
 
@@ -150,12 +128,45 @@ class MainScreen extends Screen {
         var intersects = raycaster.intersectObjects(this.group.children)
         if (intersects.length > 0) {
           var intersect = intersects[0]
-          var uv = intersect.uv
           intersect.point.add(this.group.position.multiplyScalar(-1))
           var x = Math.floor(intersect.point.x)
           var y = Math.floor(intersect.point.y)
           var z = Math.floor(intersect.point.z)
-          if (uv.x >= 0.0 && uv.x < 0.25 && uv.y >= 0 && uv.y < 0.5) {
+          if (intersect.point.x % 1 === 0) {
+            const block = Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getBlock(new THREE.Vector3(x, y, z))
+            if (block.getId() === 0 || block.getId() == null) {
+              blockPosition.set(x - 1, y, z)
+              direction.set(1, 0, 0)
+            } else {
+              blockPosition.set(x, y, z)
+              direction.set(-1, 0, 0)
+            }
+          }
+
+          if (intersect.point.y % 1 === 0) {
+            const block = Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getBlock(new THREE.Vector3(x, y, z))
+            if (block.getId() === 0 || block.getId() == null) {
+              blockPosition.set(x, y - 1, z)
+              direction.set(0, 1, 0)
+            } else {
+              blockPosition.set(x, y, z)
+              direction.set(0, -1, 0)
+            }
+          }
+
+          if (intersect.point.z % 1 === 0) {
+            const block = Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getBlock(new THREE.Vector3(x, y, z))
+            if (block.getId() === 0 || block.getId() == null) {
+              blockPosition.set(x, y, z - 1)
+              direction.set(0, 0, 1)
+            } else {
+              blockPosition.set(x, y, z)
+              direction.set(0, 0, -1)
+            }
+          }
+
+          console.log(intersect.point, blockPosition, direction)
+          /* if (uv.x >= 0.0 && uv.x < 0.25 && uv.y >= 0 && uv.y < 0.5) {
                           // x-
             blockPosition.set(x - 1, y, z)
             direction.set(1, 0, 0)
@@ -179,7 +190,7 @@ class MainScreen extends Screen {
                           // z+
             blockPosition.set(x, y, z)
             direction.set(0, 0, -1)
-          }
+          } */
 
           if (this.press[6]) {
             Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition, BlockList.AIR))

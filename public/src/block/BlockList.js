@@ -8,7 +8,7 @@ let list = [
   new (require('./blocks/BlockCobblestone.js'))(),
   new (require('./blocks/BlockPlanks.js'))(),
   new (require('./blocks/BlockTest.js'))(),
-  new (require('./blocks/BlockBedrock.js'))(),
+  new (require('./blocks/BlockBedrock.js'))()
 ]
 
 list = list.map(e => {
@@ -27,6 +27,14 @@ BlockList.get = function (id, data = 0) {
       return e.value
     }
   }
+}
+
+BlockList.getAllBlocks = function () {
+  const result = []
+  for (const e of list) {
+    result.push(e.value)
+  }
+  return result
 }
 
 module.exports = BlockList
