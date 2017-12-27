@@ -25,6 +25,8 @@ class Block {
           const texture = BlockTextureManager.load(e)
           texture.magFilter = THREE.NearestFilter
           texture.minFilter = THREE.LinearMipMapLinearFilter
+          texture.wrapS = THREE.RepeatWrapping
+          texture.wrapT = THREE.RepeatWrapping
 
           return new THREE.MeshBasicMaterial({
             map: texture
