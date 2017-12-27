@@ -123,7 +123,7 @@ class MainUIScreen extends Screen {
     }
 
     this.inputBinder.setMouseMoveListener(event => {
-      var location = Vokkit.getClient().getLocalPlayer().getLocation()
+      const location = Vokkit.getClient().getLocalPlayer().getLocation()
 
       location.setYaw(location.getYaw() + event.movementX / 1000)
       location.setPitch(location.getPitch() - event.movementY / 1000)

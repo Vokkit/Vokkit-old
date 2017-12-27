@@ -1,6 +1,5 @@
 const Block = require('./block/Block')
 const BlockList = require('./block/BlockList.js')
-const BlockTextureManager = require('./block/BlockTextureManager')
 const GreedyMesher = require('./mesher/GreedyMesher')
 
 const high = [16, 256, 16]
@@ -15,9 +14,9 @@ class Chunk {
   }
 
   getBlock (position) {
-    var x = Math.floor(position.x)
-    var y = Math.floor(position.y)
-    var z = Math.floor(position.z)
+    const x = Math.floor(position.x)
+    const y = Math.floor(position.y)
+    const z = Math.floor(position.z)
     if (typeof this.chunkData[x] === 'undefined') return new Block(position.clone(), BlockList.AIR)
     if (typeof this.chunkData[x][y] === 'undefined') return new Block(position.clone(), BlockList.AIR)
 
@@ -25,9 +24,9 @@ class Chunk {
   }
 
   setBlock (block) {
-    var x = Math.floor(block.position.x)
-    var y = Math.floor(block.position.y)
-    var z = Math.floor(block.position.z)
+    const x = Math.floor(block.position.x)
+    const y = Math.floor(block.position.y)
+    const z = Math.floor(block.position.z)
     if (typeof this.chunkData[x] === 'undefined') this.chunkData[x] = []
     if (typeof this.chunkData[x][y] === 'undefined') this.chunkData[x][y] = []
     this.chunkData[x][y][z] = block
@@ -92,7 +91,7 @@ class Chunk {
       testGeometry.faces.push(face)
       testGeometry.computeFaceNormals()
       const normal = testGeometry.faces[0].normal
-      if (normal.x === 1) { // 여기 문제
+      if (normal.x === 1) {
         face.materialIndex = add
         face2.materialIndex = add
         const miny = Math.min(a.y, b.y, c.y)
@@ -142,7 +141,7 @@ class Chunk {
         const multiply = new THREE.Vector2(maxx - minx, maxy - miny)
         geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0).multiply(multiply), new THREE.Vector2(1, 0).multiply(multiply), new THREE.Vector2(1, 1).multiply(multiply)])
         geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0).multiply(multiply), new THREE.Vector2(1, 1).multiply(multiply), new THREE.Vector2(0, 1).multiply(multiply)])
-      } else if (normal.z === -1) { // 여기 문제
+      } else if (normal.z === -1) {
         face.materialIndex = add + 5
         face2.materialIndex = add + 5
         const minx = Math.min(a.x, b.x, c.x)
@@ -160,9 +159,6 @@ class Chunk {
 
     for (const i in mesherData.not) {
       const data = mesherData.not[i]
-      /**
-       * @type {THREE.Mesh}
-       */
       const mesh = BlockList.get(data.id).getMesh()
       const add = typestart[data.id]
       mesh.position.copy(data.position)

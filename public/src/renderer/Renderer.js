@@ -62,7 +62,7 @@ class Renderer {
         }
         add.set(x, y, z)
         for (const i in meshes) meshes[i].position.add(add)
-        if (this.checkMeshCollision(meshes, world)) { // collision
+        if (this.checkMeshCollision(meshes, world)) {
           if (x > 0) xCollision = -1
           else xCollision = 1
           xFinish = true
@@ -92,7 +92,7 @@ class Renderer {
         }
         add.set(x, y, z)
         for (const i in meshes) meshes[i].position.add(add)
-        if (this.checkMeshCollision(meshes, world)) { // collision
+        if (this.checkMeshCollision(meshes, world)) {
           if (y > 0) yCollision = -1
           else yCollision = 1
           yFinish = true
@@ -122,7 +122,7 @@ class Renderer {
         }
         add.set(x, y, z)
         for (const i in meshes) meshes[i].position.add(add)
-        if (this.checkMeshCollision(meshes, world)) { // collision
+        if (this.checkMeshCollision(meshes, world)) {
           if (z > 0) zCollision = -1
           else zCollision = 1
           zFinish = true

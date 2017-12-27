@@ -56,7 +56,6 @@ class MainScreen extends Screen {
   }
 
   updateGroup (location) {
-    // rotationGroup.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), - Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
     this.camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
   }
 
@@ -120,18 +119,18 @@ class MainScreen extends Screen {
     if ((this.press[6] || this.press[7]) && !(this.press[6] && this.press[7])) {
       if (this.coolDown > 0) this.coolDown--
       if (this.coolDown === 0) {
-        var direction = new THREE.Vector3()
-        var blockPosition = new THREE.Vector3()
-        var camera = this.camera
-        var raycaster = new THREE.Raycaster()
+        const direction = new THREE.Vector3()
+        const blockPosition = new THREE.Vector3()
+        const camera = this.camera
+        const raycaster = new THREE.Raycaster()
         raycaster.setFromCamera(new THREE.Vector2(0, 0), camera)
-        var intersects = raycaster.intersectObjects(this.group.children)
+        const intersects = raycaster.intersectObjects(this.group.children)
         if (intersects.length > 0) {
-          var intersect = intersects[0]
+          const intersect = intersects[0]
           intersect.point.add(this.group.position.multiplyScalar(-1))
-          var x = Math.floor(intersect.point.x)
-          var y = Math.floor(intersect.point.y)
-          var z = Math.floor(intersect.point.z)
+          const x = Math.floor(intersect.point.x)
+          const y = Math.floor(intersect.point.y)
+          const z = Math.floor(intersect.point.z)
           if (intersect.point.x % 1 === 0) {
             const block = Vokkit.getClient().getLocalPlayer().getLocation().getWorld().getBlock(new THREE.Vector3(x, y, z))
             if (block.getId() === 0 || block.getId() == null) {
@@ -164,34 +163,6 @@ class MainScreen extends Screen {
               direction.set(0, 0, -1)
             }
           }
-
-          console.log(intersect.point, blockPosition, direction)
-          /* if (uv.x >= 0.0 && uv.x < 0.25 && uv.y >= 0 && uv.y < 0.5) {
-                          // x-
-            blockPosition.set(x - 1, y, z)
-            direction.set(1, 0, 0)
-          } else if (uv.x >= 0.25 && uv.x < 0.5 && uv.y >= 0 && uv.y < 0.5) {
-                          // x+
-            blockPosition.set(x, y, z)
-            direction.set(-1, 0, 0)
-          } else if (uv.x >= 0.25 && uv.x < 0.5 && uv.y >= 0.5 && uv.y < 1) {
-                          // y-
-            blockPosition.set(x, y - 1, z)
-            direction.set(0, 1, 0)
-          } else if (uv.x >= 0.5 && uv.x < 0.75 && uv.y >= 0.5 && uv.y < 1) {
-                          // y+
-            blockPosition.set(x, y, z)
-            direction.set(0, -1, 0)
-          } else if (uv.x >= 0.5 && uv.x < 0.75 && uv.y >= 0 && uv.y < 0.5) {
-                          // z-
-            blockPosition.set(x, y, z - 1)
-            direction.set(0, 0, 1)
-          } else if (uv.x >= 0.75 && uv.x < 1 && uv.y >= 0 && uv.y < 0.5) {
-                          // z+
-            blockPosition.set(x, y, z)
-            direction.set(0, 0, -1)
-          } */
-
           if (this.press[6]) {
             Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPosition, BlockList.AIR))
             Vokkit.getClient().getSocket().emit('requestSetBlock', {
@@ -204,7 +175,7 @@ class MainScreen extends Screen {
           } else if (this.press[7]) {
             const id = Vokkit.getClient().getLocalPlayer().getSelectedSlotId() + 1
 
-            var blockPlacePosition = blockPosition.clone().add(direction)
+            const blockPlacePosition = blockPosition.clone().add(direction)
             Vokkit.getClient().getWorlds()[0].setBlock(new Block(blockPlacePosition, id))
             Vokkit.getClient().getSocket().emit('requestSetBlock', {
               x: blockPlacePosition.x,

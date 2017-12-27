@@ -14,7 +14,7 @@ class Vokkit {
     }
     const properties = JSON.parse(fs.readFileSync('./server.properties'))
     Lang.setLanguage(properties.language)
-    var now = new Date().getTime()
+    const now = new Date().getTime()
     Logger.info(Lang.format('server_preparing', [Server.version]))
     server = new Server()
     server.init(now)

@@ -31,17 +31,12 @@ class Client {
     this.screenManager.addScreen('LoginScreen')
   }
   init () {
-    // moveManager.init()
-    // blockTextureManager.init()
     this.screenManager.init()
     this.screenManager.addScreen('MainScreen')
     this.screenManager.addScreen('MainUIScreen')
-    // worldManager.init()
     this.screenManager.getScreen('MainScreen').drawWorld(this.worldList[0])
-    // inputManager.init()
     this.screenManager.getScreen('MainScreen').start()
     this.inputManager.setInput()
-    // chatManager.init()
     this.pluginManager.enable()
   }
   getLoginManager () {

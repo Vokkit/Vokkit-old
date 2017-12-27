@@ -68,7 +68,6 @@ class Player extends Entity {
 
   setFlying (flying) {
     this.flying = flying
-    console.log(flying)
   }
 
   isOnGround () {

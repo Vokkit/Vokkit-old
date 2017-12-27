@@ -14,7 +14,6 @@ class InputBinder {
     this.disableCursor = false
   }
 
-  // set
   setKeyDownListener (listener) {
     this.keyDownListener = listener
   }

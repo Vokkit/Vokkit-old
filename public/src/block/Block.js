@@ -20,7 +20,7 @@
    }
 
    setId (id) {
-     this.type = Material.get(id)
+     this.id = id
    }
  }
 

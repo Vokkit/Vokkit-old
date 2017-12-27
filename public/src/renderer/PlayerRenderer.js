@@ -187,8 +187,6 @@ class PlayerRenderer extends Renderer {
     this.bodyPitch = Math.asin(-velocity.y)
     const bodyYawSin = -Math.sin(this.bodyYaw)
     const bodyYawCos = Math.cos(this.bodyYaw)
-    // const ArmYawSin = -Math.sin(this.bodyYaw + Math.PI / 2)
-    // const ArmYawCos = Math.cos(this.bodyYaw + Math.PI / 2)
 
     this.bodyMesh.position.set(location.x, location.y + 1.0125, location.z)
     this.bodyMesh.lookAt(new THREE.Vector3(this.bodyMesh.position.x - bodyYawSin, this.bodyMesh.position.y, this.bodyMesh.position.z + bodyYawCos))

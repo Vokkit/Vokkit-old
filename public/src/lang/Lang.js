@@ -42,8 +42,8 @@ class Lang {
   }
 
   static format (key, args = []) {
-    var ans = this.data[key.replace(/\./g, '_')]
-    for (var i in args) {
+    let ans = this.data[key.replace(/\./g, '_')]
+    for (const i in args) {
       ans = ans.replace('%s', args[i])
     }
     return ans
