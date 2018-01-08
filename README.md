@@ -12,21 +12,16 @@ See [CHANGELOG](./CHANGELOG.md)
 
 ## Features
 
-- 청크 단위 사용: 상대적으로 성능이 안 좋아지는 웹에서도 시야를 타협해서 쾌적한 환경을 만들 수 있습니다.
-- 청크 생성 최적화: 안 보이는 부분은 아예 생성조차 하지 않습니다.
+- 청크 단위 사용: 시야 조절이 가능합니다.
+- 청크 생성 최적화: Greedy Meshing 알고리즘을 통해 보이지 않는 부분은 생성하지 않고, 합칠 수 있는 부분은 합쳐 렉을 줄입니다.
 - 웹에서 마인크래프트를 할 수 있습니다!
 
 
-- Use Chunk: You can adjust your vision to create a pleasant environment
-- Optimized Mesh Generation: It doesn't create an invisible part.
-- We can play Minecraft on website!
+- Use chunk unit: vision adjusting is available.
+- Optimized Mesh Generation: Through Greedy Meshing algorithm, it doesn't generate invisible parts and join the joinable parts to reduce lag.
+- We can play Minecraft on web page!
 
 ## Known Bug
-
-- 블럭 이미지 처리 문제: 블럭 모서리에 흰 선이 생깁니다.
-
-
-- Block Texture Processing Problem: A white line appears on the block edge.
 
 ## Note
 
