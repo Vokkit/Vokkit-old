@@ -12,7 +12,7 @@ class MainScreen extends Screen {
     super('MainScreen', 'base', null)
 
     this.scene = new THREE.Scene()
-    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1/*, 16 * CHUNK_SIGHT*/)
+    this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1)
     this.renderer = new THREE.WebGLRenderer()
     this.group = new THREE.Group()
     this.rotationGroup = new THREE.Group()

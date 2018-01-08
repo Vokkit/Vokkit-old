@@ -37,7 +37,7 @@ class Server {
 
     if (!fs.existsSync('worlds/world.txt')) {
       Logger.info('월드를 생성하는 중...')
-      worldGenerator = new WorldGenerator(100, 100)
+      worldGenerator = new WorldGenerator(16, 16)
       await worldGenerator.generate()
     }
 
