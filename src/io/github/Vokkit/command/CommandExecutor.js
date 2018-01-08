@@ -23,6 +23,7 @@ class CommandExecutor {
             if (types[i][j] === ParameterType.UNLIMITED_STRING) {
               let newParameter = parameter.splice(0, j)
               newParameter.push(new Parameter(ParameterType.UNLIMITED_STRING, parameter.map(o => {
+                if (o.getType() === ParameterType.PLAYER) return o.getValue().getName()
                 return o.getValue()
               }).join(' ')))
 
