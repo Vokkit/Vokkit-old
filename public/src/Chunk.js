@@ -91,6 +91,9 @@ class Chunk {
       testGeometry.faces.push(face)
       testGeometry.computeFaceNormals()
       const normal = testGeometry.faces[0].normal
+      normal.x = Math.round(normal.x)
+      normal.y = Math.round(normal.y)
+      normal.z = Math.round(normal.z)
       if (normal.x === 1) {
         face.materialIndex = add
         face2.materialIndex = add
