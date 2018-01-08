@@ -62,8 +62,8 @@ typings/
 *.bak
 
 # Private files
-worlds
-plugins
+worlds/*
+plugins/*
 public/dist
 jsconfig.json
 server.properties
