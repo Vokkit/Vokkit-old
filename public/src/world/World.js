@@ -58,7 +58,7 @@ class World {
   setBlock (block) {
     const chunks = this.chunks
     if (!this.prepared) return
-    const chunkExists = false
+    let chunkExists = false
     for (const i in chunks) {
       if (chunks[i].containsPosition(block.position)) {
         chunks[i].setBlock(block)

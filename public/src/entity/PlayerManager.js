@@ -6,7 +6,7 @@ class PlayerManager {
     const socket = Vokkit.getClient().getSocket()
     socket.on('playerJoin', this.addPlayer)
     socket.on('playerQuit', this.removePlayer)
-    socket.on('playerSetHealth', this.setHealth)
+    socket.on('playerData', this.setPlayerData)
   }
 
   addPlayer (data, ignoreLocal) {
@@ -18,10 +18,18 @@ class PlayerManager {
     if (Vokkit.getClient().getLoginManager().isLogined()) Vokkit.getClient().removePlayer(data.id)
   }
 
-  setHealth (data) {
+  setPlayerData (data) {
     const players = Vokkit.getClient().getOnlinePlayers()
     for (const i in players) {
-      if (players[i].getId() === data.id) players[i].setHealth(data.health)
+      if (players[i].getId() === data.id) {
+        for (const j in data) {
+          if (j === 'health') players[i].setHealth(data.health)
+          if (j === 'gameMode') players[i].setGameMode(data.gameMode)
+          if (players[i] instanceof LocalPlayer) {
+            if (j === 'selectedSlotId') players[i].setSelectedSlotId(data.selectedSlotId)
+          }
+        }
+      }
     }
   }
 }

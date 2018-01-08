@@ -3,6 +3,11 @@ const Location = require('../Location')
 const Inventory = require('../inventory/Inventory')
 
 class LocalPlayer extends Player {
+  constructor (id, location, velocity, health = 20, name, type, inventory = new Inventory(4 * 9 + 5), gamemode = 0, selectedSlotId = 0, flying = false) {
+    super(id, location, velocity, health, name, type, inventory, gamemode, selectedSlotId, flying)
+    Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').updateHealthBar(health)
+  }
+
   teleport (location) {
     super.teleport(location)
     Vokkit.getClient().getScreenManager().getScreen('MainScreen').updateGroup(location)
@@ -14,7 +19,12 @@ class LocalPlayer extends Player {
 
   setHealth (health) {
     super.setHealth(health)
-    Vokkit.getClient().getUIManager().updateHealthBar()
+    Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').updateHealthBar(health)
+  }
+
+  setGameMode (gamemode) {
+    super.setGameMode(gamemode)
+    Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').updateHealthBar(this.getHealth())
   }
 }
 

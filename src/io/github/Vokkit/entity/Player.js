@@ -2,14 +2,14 @@ const Entity = require('./Entity.js')
 const Inventory = require('../inventory/Inventory')
 
 class Player extends Entity {
-  constructor (id, location, velocity, health = 20, name, socket, type, inventory = new Inventory(54), gamemode = 0, selectedSlotId = 0, flying = false) {
+  constructor (id, location, velocity, health = 20, name, socket, type, inventory = new Inventory(54), gameMode = 0, selectedSlotId = 0, flying = false) {
     super(id, location, velocity, health)
 
     this.name = name
     this.socket = socket
     this.type = type
     this.inventory = inventory
-    this.gamemode = gamemode
+    this.gameMode = gameMode
     this.selectedSlotId = selectedSlotId
     this.flying = false
   }
@@ -36,6 +36,10 @@ class Player extends Entity {
 
   setName (name) {
     this.name = name
+    Vokkit.getServer().getSocketServer().emit('playerData', {
+      id: this.getId(),
+      name: name
+    })
   }
 
   setSocket (socket) {
@@ -61,7 +65,7 @@ class Player extends Entity {
 
   setHealth (health) {
     super.setHealth(health)
-    Vokkit.getServer().getSocketServer().emit('playerSetHealth', {
+    Vokkit.getServer().getSocketServer().emit('playerData', {
       id: this.getId(),
       health: health
     })
@@ -74,11 +78,15 @@ class Player extends Entity {
   }
 
   getGameMode () {
-    return this.gamemode
+    return this.gameMode
   }
 
-  setGameMode (gamemode) {
-    this.gamemode = gamemode
+  setGameMode (gameMode) {
+    this.gameMode = gameMode
+    Vokkit.getServer().getSocketServer().emit('playerData', {
+      id: this.getId(),
+      gameMode: gameMode
+    })
   }
 
   getSelectedSlotId () {
@@ -87,6 +95,10 @@ class Player extends Entity {
 
   setSelectedSlotId (selectedSlotId) {
     this.selectedSlotId = selectedSlotId
+    Vokkit.getServer().getSocketServer().emit('playerData', {
+      id: this.getId(),
+      selectedSlotId: selectedSlotId
+    })
   }
 
   toObject () {
@@ -107,7 +119,7 @@ class Player extends Entity {
       worldName: this.location.world.getWorldName(),
       type: this.type,
       inventory: this.inventory.toObject(),
-      gamemode: this.gamemode,
+      gameMode: this.gameMode,
       selectedSlotId: this.selectedSlotId,
       flying: this.flying
     }
