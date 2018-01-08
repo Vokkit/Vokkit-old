@@ -32,7 +32,9 @@ class Server {
     })
 
     Logger.info(Lang.format('server.creating.world'))
-    
+
+    if (!fs.existsSync('worlds')) fs.mkdirSync('worlds')
+
     if (!fs.existsSync('worlds/world.txt')) {
       Logger.info('월드를 생성하는 중...')
       worldGenerator = new WorldGenerator(100, 100)
@@ -47,6 +49,10 @@ class Server {
     socketConnectManager = new SocketConnectManager()
     socketConnectManager.init()
     Logger.info(Lang.format('server.loaded.socket'))
+
+    this.app = app
+
+    if (!fs.existsSync('plugins')) fs.mkdirSync('plugins')
 
     pluginManager = new PluginManager()
     pluginManager.init()
