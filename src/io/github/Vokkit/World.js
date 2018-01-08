@@ -42,25 +42,6 @@ class World {
         }
       }
     }
-
-    for (let i in this.chunks) {
-      let chunk = this.chunks[i]
-      let chunkData = this.chunks[i].chunkData
-      for (let j in chunkData) {
-        for (let k in chunkData[j]) {
-          for (let l in chunkData[j][k]) {
-            let blockCount = 0
-            for (let y = parseInt(k); y < 128; y++) {
-              if (chunk.getBlock(new THREE.Vector3(j, y, l)).id !== 0) blockCount++
-              if (blockCount >= 5) break
-            }
-            if (blockCount >= 5) {
-              chunk.setBlock(new Block(new THREE.Vector3(j, k, l), 0))
-            }
-          }
-        }
-      }
-    }
     this.prepared = true
   }
 
