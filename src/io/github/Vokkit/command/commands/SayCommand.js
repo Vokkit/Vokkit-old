@@ -12,7 +12,7 @@ class SayCommand extends Command {
   execute (parameterNumber, sender, parameter) {
     switch (parameterNumber) {
       case 0:
-        sender.broadcast(Lang.format('command.say.format', [sender.getName(), parameter[9].getValue()]))
+        sender.broadcast(Lang.format('command.say.format', [sender.getName(), parameter[0].getValue()]))
         break
       default:
         sender.sendMessage(this.getUsage())
