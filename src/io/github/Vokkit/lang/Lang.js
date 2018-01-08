@@ -2,6 +2,8 @@ let languageData = {
   ko: {
     command_quit_description: '서버를 종료합니다.',
     command_quit_message: '서버를 종료합니다.',
+    command_quit_saving_world: '월드를 저장하는 중...',
+    command_quit_save_world: '월드를 저장했습니다.',
     command_help_description: '도움말을 출력합니다.',
     command_say_description: '메세지를 전달합니다.',
     command_say_format: '[%s] %s',
@@ -43,6 +45,8 @@ let languageData = {
   en: {
     command_quit_description: 'Stopping Server.',
     command_quit_message: 'Stopping Server.',
+    command_quit_saving_world: 'Saving World...',
+    command_quit_save_world: 'Saved World.',
     command_help_description: 'Shows help messages',
     command_say_description: 'say to server',
     command_say_format: '[%s] %s',
