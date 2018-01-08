@@ -62,7 +62,7 @@ class LoginManager extends SocketManager {
       Vokkit.getServer().getPluginManager().makeEvent(playerJoinEvent)
       Vokkit.getServer().getSocketServer().emit('playerJoin', player.toObject())
       Vokkit.getServer().getLogger().title(Lang.format('player.list.log'), [Server.version, Vokkit.getServer().getPlayers().length])
-      Vokkit.getServer().getChatManager().broadcast(Lang.formatString(playerJoinEvent.getJoinMessage(), player.getName()))
+      Vokkit.getServer().getChatManager().broadcast(Lang.formatString(playerJoinEvent.getJoinMessage(), [player.getName()]))
     })
   }
 }
