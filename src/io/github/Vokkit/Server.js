@@ -26,7 +26,7 @@ class Server {
   }
 
   async init (startTime) {
-    Vokkit.getServer().getLogger().title('Vokkit v0.0.1 (0)')
+    Vokkit.getServer().getLogger().title('Vokkit v' + Server.version)
     process.on('uncaughtException', (err) => {
       Logger.warn(err.stack)
     })

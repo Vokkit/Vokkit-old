@@ -5,7 +5,7 @@ const Lang = require('../../lang/Lang')
 
 class TeleportCommand extends Command {
   constructor () {
-    super('tp', Lang.format('command.teleport.description'), '/tp [player]\n/tp [player] [player]\n/tp [player] [x] [y] [z]', [
+    super('tp', Lang.format('command.tp.description'), Lang.format('command.tp.usage'), [
       [ParameterType.PLAYER],
       [ParameterType.PLAYER, ParameterType.PLAYER],
       [ParameterType.PLAYER, ParameterType.NUMBER, ParameterType.NUMBER, ParameterType.NUMBER]
@@ -23,7 +23,7 @@ class TeleportCommand extends Command {
           target = parameter[0].getValue()
           sender.teleport(target.getLocation())
 
-          text = Lang.format('command.teleport.target', [sender.getName(), target.getName()])
+          text = Lang.format('command.tp.success', [sender.getName(), target.getName()])
 
           sender.sendMessage(text)
         }
@@ -33,7 +33,7 @@ class TeleportCommand extends Command {
         target = parameter[1].getValue()
         mover.teleport(target.getLocation())
 
-        text = Lang.format('command.teleport.target', [mover.getName(), target.getName()])
+        text = Lang.format('command.tp.success', [mover.getName(), target.getName()])
 
         sender.sendMessage(text)
         break
@@ -44,7 +44,7 @@ class TeleportCommand extends Command {
 
         mover.teleport(location)
 
-        text = Lang.format('command.teleport.to', [mover.getName(), location.getX(), location.getY(), location.getZ()])
+        text = Lang.format('command.tp.success.coordinates', [mover.getName(), location.getX(), location.getY(), location.getZ()])
 
         sender.sendMessage(text)
         break

@@ -4,7 +4,7 @@ const Lang = require('../../lang/Lang')
 
 class TellCommand extends Command {
   constructor () {
-    super('tell', Lang.format('command.tell.description'), '/tell [player] [message]', [
+    super('tell', Lang.format('command.tell.description'), Lang.format('command.tell.usage'), [
       [ParameterType.PLAYER, ParameterType.UNLIMITED_STRING]
     ])
   }

@@ -4,7 +4,7 @@ const Lang = require('../../lang/Lang')
 
 class HelpCommand extends Command {
   constructor () {
-    super('help', Lang.format('command.help.description'), '/help (command name)', [
+    super('help', Lang.format('command.help.description'), Lang.format('command.help.usage'), [
       [],
       [ParameterType.STRING]
     ])
@@ -16,11 +16,14 @@ class HelpCommand extends Command {
 
     switch (parameterNumber) {
       case 0:
+        sender.sendMessage(Lang.format('command.help.header', [1, 1]))
+
         for (let v of allCommands) {
           text += v.getName() + ' - ' + v.getDescription() + '\n'
         }
 
         sender.sendMessage(text)
+        sender.sendMessage(Lang.format('command.help.footer'))
         break
       case 1:
         for (let v of allCommands) {

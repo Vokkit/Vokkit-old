@@ -4,7 +4,7 @@ const Lang = require('../../lang/Lang')
 
 class SayCommand extends Command {
   constructor () {
-    super('say', Lang.format('command.say.description'), '/say [message]', [
+    super('say', Lang.format('command.say.description'), Lang.format('command.say.usage'), [
       [ParameterType.UNLIMITED_STRING]
     ])
   }
