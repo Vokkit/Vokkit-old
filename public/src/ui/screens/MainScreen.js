@@ -82,6 +82,11 @@ class MainScreen extends Screen {
       this.group.add(chunk.mesher())
     }
 
+    const light = new THREE.PointLight(0xffffff, 1, 100)
+    light.position.set(0, 10, 0)
+    light.castShadow = true
+    
+    this.scene.add(light)
     this.renderer.setClearColor(0x7EC0EE, 1)
   }
 

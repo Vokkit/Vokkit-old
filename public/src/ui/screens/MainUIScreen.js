@@ -211,6 +211,7 @@ class MainUIScreen extends Screen {
           break
         case 69: // e
           Vokkit.getClient().getScreenManager().addScreen('InventoryScreen')
+          Vokkit.getClient().getScreenManager().getNowScreen().syncInventory()
           Vokkit.getClient().getInputManager().showCursor()
           break
       }

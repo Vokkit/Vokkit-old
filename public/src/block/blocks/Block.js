@@ -16,12 +16,11 @@ function renderPreview(mesh) {
   mesh.position.x = 0
   mesh.position.y = 0
   mesh.position.z = 0
-  
 
   const scene = new THREE.Scene()
   scene.add(mesh)
 
-  const renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true })
+  const renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true, alpha: true })
   renderer.setSize(256, 256)
   renderer.setClearColor(0x000000, 0)
   renderer.render(scene, camera)
@@ -64,6 +63,9 @@ class Block {
         mesh.position.y = s.getBoxOffset()[1] + bias[1]
         mesh.position.z = s.getBoxOffset()[2] + bias[2]
 
+        mesh.castShadow = true
+        mesh.receiveShadow = false
+
         if (i == 0) {
           this.mesh = mesh
         } else {
@@ -82,7 +84,7 @@ class Block {
 
         i++
       }
-      
+
       setTimeout(() => {
         this.preview = renderPreview(this.mesh.clone())
       }, 500)
