@@ -1,13 +1,14 @@
-let ScreenProvider = require('../ui/ScreenProvider.js')
-let ScreenChooser = require('../ui/ScreenChooser.js')
+const ScreenProvider = require('../ui/ScreenProvider.js')
+const ScreenChooser = require('../ui/ScreenChooser.js')
 
-let MainScreen = require('../ui/screens/MainScreen.js')
-let MainUIScreen = require('../ui/screens/MainUIScreen.js')
-let ChatScreen = require('../ui/screens/ChatScreen.js')
-let LoadScreen = require('../ui/screens/LoadScreen.js')
-let LoginScreen = require('../ui/screens/LoginScreen.js')
-let PauseScreen = require('../ui/screens/PauseScreen.js')
-let InventoryScreen = require('../ui/screens/InventoryScreen.js')
+const MainScreen = require('../ui/screens/MainScreen.js')
+const MainUIScreen = require('../ui/screens/MainUIScreen.js')
+const ChatScreen = require('../ui/screens/ChatScreen.js')
+const LoadScreen = require('../ui/screens/LoadScreen.js')
+const LoginScreen = require('../ui/screens/LoginScreen.js')
+const PauseScreen = require('../ui/screens/PauseScreen.js')
+const InventoryScreen = require('../ui/screens/InventoryScreen.js')
+const DisconnectScreen = require('../ui/screens/DisconnectScreen.js')
 
 class ScreenManager {
   constructor () {
@@ -23,6 +24,7 @@ class ScreenManager {
     this.screenProvider.register(new LoginScreen())
     this.screenProvider.register(new PauseScreen())
     this.screenProvider.register(new InventoryScreen())
+    this.screenProvider.register(new DisconnectScreen())
   }
 
   getScreen (screenName) {

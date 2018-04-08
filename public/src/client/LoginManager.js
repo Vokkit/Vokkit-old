@@ -23,6 +23,9 @@ class LoginManager {
         }, 50)
       }
     })
+    this.socket.on('playerQuit', data => {
+      Vokkit.getClient().getLocalPlayer().disconnect()
+    })
   }
 
   isLogined () {

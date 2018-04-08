@@ -7,6 +7,7 @@ let languageData = {
     chat_title: '채팅과 명령어',
     load_world: '월드를 불러오는 중',
     pause_resume: '계속하기',
+    system_ok: '확인',
     pause_quit: '종료'
   },
   en: {
@@ -17,6 +18,7 @@ let languageData = {
     chat_title: 'Chats and Commands',
     load_world: 'Preparing World',
     pause_resume: 'Resume',
+    system_ok: 'Ok',
     pause_quit: 'Quit'
   }
 }

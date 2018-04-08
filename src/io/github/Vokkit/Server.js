@@ -176,6 +176,17 @@ class Server {
   static get version () {
     return '0.0.1'
   }
+
+  // Grade
+  static get GUEST () {
+    return 'guest'
+  }
+  static get OPERATOR () {
+    return 'operator'
+  }
+  static get ADMINISTRATOR () {
+    return 'guest'
+  }
 }
 
 module.exports = Server

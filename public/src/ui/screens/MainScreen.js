@@ -56,7 +56,8 @@ class MainScreen extends Screen {
   }
 
   updateGroup (location) {
-    this.camera.lookAt(new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch())))
+    const vector = new THREE.Vector3(-Math.sin(location.getYaw()) * Math.cos(location.getPitch()), Math.sin(location.getPitch()), Math.cos(location.getYaw()) * Math.cos(location.getPitch()))
+    this.camera.lookAt(vector)
   }
 
   getRenderer () {

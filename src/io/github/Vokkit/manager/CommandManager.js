@@ -13,6 +13,7 @@ const StopCommand = require('../command/commands/StopCommand.js')
 const SayCommand = require('../command/commands/SayCommand.js')
 const TellCommand = require('../command/commands/TellCommand.js')
 const SetBlockCommand = require('../command/commands/SetBlockCommand.js')
+const KickCommand = require('../command/commands/KickCommand.js')
 
 function callCommand (commandManager, socket, data) {
   let player = Vokkit.getServer().getPlayerById(socket.id)
@@ -51,6 +52,7 @@ class CommandManager extends SocketManager {
     this.commandProvider.register(new SayCommand())
     this.commandProvider.register(new TellCommand())
     this.commandProvider.register(new SetBlockCommand())
+    this.commandProvider.register(new KickCommand())
   }
 
   addListener (socket) {

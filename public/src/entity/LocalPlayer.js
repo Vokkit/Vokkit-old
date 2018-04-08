@@ -26,6 +26,10 @@ class LocalPlayer extends Player {
     super.setGameMode(gamemode)
     Vokkit.getClient().getScreenManager().getScreen('MainUIScreen').updateHealthBar(this.getHealth())
   }
+
+  disconnect () {
+    Vokkit.getClient().getScreenManager().addScreen('DisconnectScreen')
+  }
 }
 
 module.exports = LocalPlayer

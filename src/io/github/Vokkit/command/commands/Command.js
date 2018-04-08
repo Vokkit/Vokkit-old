@@ -1,9 +1,10 @@
 class Command {
-  constructor (name, description, usage, parameterTypes, provider = 'vokkit') {
+  constructor (name, description, usage, parameterTypes, permission = Vokkit.GUEST, provider = 'vokkit') {
     this.name = name
     this.description = description
     this.usage = usage
     this.parameterTypes = parameterTypes
+    this.permission = permission
     this.provider = provider
   }
 

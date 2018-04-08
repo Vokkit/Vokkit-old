@@ -26,8 +26,16 @@ let languageData = {
     command_setblock_notFound: 'ID/name %s에 해당하는 블록이 없습니다',
     command_setblock_noChange: '블록을 놓을 수 없습니다',
 
+    command_kick_description: '플레이어를 서버에서 추방합니다.',
+    command_kick_not_found: '%s님을 찾을 수 없습니다',
+    command_kick_success: '%s님을 게임에서 추방했습니다',
+    command_kick_success_reason:'%s님을 \'%s\' 게임에서 추방했습니다',
+
+    disconnect_kicked: '게임에서 추방당했습니다',
+
     cannot_find_command: '명령어를 찾을 수 없습니다.',
     system_message_format: '<Server> %s',
+    system_ok: '확인',
     player_quit_format: '%s님이 게임을 떠났습니다.',
     player_quit_message: '%s [%s:%s] 이(가) 로그아웃 했습니다.',
     player_list_log: 'Vokkit %s (%s)',
@@ -91,8 +99,17 @@ let languageData = {
     command_setblock_notFound: 'There is no such block with ID/name %s',
     command_setblock_noChange: 'The block couldn\'t be placed',
 
+    command_kick_description: 'Kicks a player from the server.',
+    command_kick_usage: '/kick <player> [reason]',
+    command_kick_not_found: 'Could not find player %s',
+    command_kick_success: 'Kicked %s from the game',
+    command_kick_success_reason:'Kicked %s from the game: \'%s\'',
+
+    disconnect_kicked: 'Was kicked from the game',
+
     cannot_find_command: 'Cannot find command.',
     system_message_format: '<Server> %s',
+    system_ok: 'Ok',
     player_quit_format: '%s left the game.',
     player_quit_message: '%s [%s:%s] Logout',
     player_list_log: 'Vokkit %s (%s)',

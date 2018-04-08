@@ -1,12 +1,36 @@
 /*
  * This block class is just data value, NOT REAL WORLD BLOCK!
  */
+const SoftwareRenderer = require("three-software-renderer")
 
 const BlockShape = require('./BlockShape.js')
 const BlockTextureManager = require('../BlockTextureManager.js')
 
+function renderPreview(mesh) {
+  const camera = new THREE.OrthographicCamera(1, -1, 1, -1, 1, 1000)
+  camera.position.x = 2
+  camera.position.y = -2
+  camera.position.z = 2
+  camera.lookAt(new THREE.Vector3(0, 0, 0))
+
+  mesh.position.x = 0
+  mesh.position.y = 0
+  mesh.position.z = 0
+  
+
+  const scene = new THREE.Scene()
+  scene.add(mesh)
+
+  const renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true })
+  renderer.setSize(256, 256)
+  renderer.setClearColor(0x000000, 0)
+  renderer.render(scene, camera)
+
+  return renderer.domElement.toDataURL()
+}
+
 class Block {
-  constructor (id, data, texture, name, shape = new BlockShape()) {
+  constructor(id, data, texture, name, shape = new BlockShape()) {
     this.texture = texture
     this.id = id
     this.data = data
@@ -14,6 +38,7 @@ class Block {
     this.name = name
 
     this.mesh = null
+    this.preview = null
 
     if (shape != null) {
       let i = 0
@@ -57,66 +82,70 @@ class Block {
 
         i++
       }
+      
+      setTimeout(() => {
+        this.preview = renderPreview(this.mesh.clone())
+      }, 500)
     }
   }
 
-  getId () {
+  getId() {
     return this.id
   }
 
-  getData () {
+  getData() {
     return this.data
   }
 
-  getName () {
+  getName() {
     return this.name
   }
 
-  getTexture () {
+  getTexture() {
     return this.texture
   }
 
-  getOffset () {
+  getOffset() {
     return this.offset
   }
 
-  getDropItem () {
+  getDropItem() {
     return this.id
   }
 
-  getHardness () {
+  getHardness() {
     return 1.0
   }
 
-  getResistance () {
+  getResistance() {
     return 1.0
   }
 
-  getToolType () {
+  getToolType() {
     return null
   }
 
-  getLight () {
+  getLight() {
     return 0
   }
 
-  isCubeShape () {
+  isCubeShape() {
     return true
   }
 
-  isSolid () {
+  isSolid() {
     return true
   }
 
-  isBreakable () {
+  isBreakable() {
     return true
   }
 
-  isBurn () {
+  isBurn() {
     return false
   }
 
-  getMesh () {
+  getMesh() {
     return this.mesh.clone()
   }
 }
