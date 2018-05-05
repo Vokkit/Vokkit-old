@@ -146,13 +146,33 @@ class InventoryScreen extends Screen {
       let amount = item.getAmount()
       if (amount === 1) {
         amount = ''
+      } else if (amount < 10) {
+        amount = '　' + amount
       }
-      const html = `<img style="position: relative; width: 3.2vw; height: 3.2vw;" src="${block.preview}"></img>` +
-        `<div style="position: absolute; margin-top: -1.3vw; font-size: 1vw; margin-left: 1.5vw; color: #4d4d4d;">${amount}</div>` +
-        `<div style="position: absolute; margin-top: -1.4vw; font-size: 1vw; margin-left: 1.4vw; color: #ffffff;">${amount}</div>`
 
-      document.getElementById(`slot-${Math.ceil(i / 9)}-${i % 9 + 1}`).innerHTML = html
+      const itemHtml = new ItemHtml(block.getPreview(), amount)
+      itemHtml.setSlot(Math.floor(i / 9), i % 9 + 1).show()
     }
+  }
+}
+
+class ItemHtml {
+  constructor (image, amount) {
+    this.html = `<img style="position: relative; width: 3.2vw; height: 3.2vw;" src="${image}"></img>` +
+      `<div style="position: absolute; margin-top: -1.3vw; font-size: 1vw; margin-left: 1.5vw; color: #4d4d4d;">${amount}</div>` +
+      `<div style="position: absolute; margin-top: -1.4vw; font-size: 1vw; margin-left: 1.4vw; color: #ffffff;">${amount}</div>`
+    
+    this.line = 0
+    this.slot = 1
+  }
+
+  setSlot(line, slot) {
+    this.line = line
+    this.slot = slot
+  }
+
+  show () {
+    document.getElementById(`slot-${this.line}-${this.slot}`).innerHTML = html
   }
 }
 

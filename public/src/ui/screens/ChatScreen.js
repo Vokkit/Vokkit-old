@@ -52,10 +52,6 @@ class ChatScreen extends Screen {
             Vokkit.getClient().getChatManager().sendCommand(text.replace('/', ''))
           } else {
             Vokkit.getClient().getChatManager().sendChat(text)
-            Vokkit.getClient().getLocalPlayer().getInventory().setItem(0, new ItemStack(2, 64))
-            Vokkit.getClient().getLocalPlayer().getInventory().setItem(3, new ItemStack(7, 12))
-            Vokkit.getClient().getLocalPlayer().getInventory().setItem(4, new ItemStack(3, 3))
-            Vokkit.getClient().getLocalPlayer().getInventory().setItem(5, new ItemStack(4, 99))
           }
 
           document.getElementById('chatText').value = ''

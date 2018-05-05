@@ -52,8 +52,9 @@ class Block {
           texture.wrapS = THREE.RepeatWrapping
           texture.wrapT = THREE.RepeatWrapping
 
-          return new THREE.MeshBasicMaterial({
-            map: texture
+          return new THREE.MeshLambertMaterial({
+            map: texture,
+            wireframe: true
           })
         })
 
@@ -62,9 +63,6 @@ class Block {
         mesh.position.x = s.getBoxOffset()[0] + bias[0]
         mesh.position.y = s.getBoxOffset()[1] + bias[1]
         mesh.position.z = s.getBoxOffset()[2] + bias[2]
-
-        mesh.castShadow = true
-        mesh.receiveShadow = false
 
         if (i == 0) {
           this.mesh = mesh
@@ -149,6 +147,10 @@ class Block {
 
   getMesh() {
     return this.mesh.clone()
+  }
+
+  getPreview() {
+    return this.preview
   }
 }
 

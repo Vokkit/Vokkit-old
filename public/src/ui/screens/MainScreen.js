@@ -82,10 +82,13 @@ class MainScreen extends Screen {
       this.group.add(chunk.mesher())
     }
 
-    const light = new THREE.PointLight(0xffffff, 1, 100)
-    light.position.set(0, 10, 0)
+    const light = new THREE.AmbientLight(0xffffff, 1, 100)
     light.castShadow = true
+
+    const sunLight = new THREE.DirectionalLight(0xffffff, 2)
+		sunLight.position.set(1, 1, 1)
     
+    this.scene.add(sunLight)
     this.scene.add(light)
     this.renderer.setClearColor(0x7EC0EE, 1)
   }
@@ -101,11 +104,10 @@ class MainScreen extends Screen {
       last = now
 
       this.syncMouse()
-      requestAnimationFrame(move)
     }
-    requestAnimationFrame(move)
 
-    this.renderer.animate(() => {
+    let updateCheck = false
+    const drawWorld = () => {
       const localPlayer = Vokkit.getClient().getLocalPlayer()
 
       if (typeof localPlayer !== 'undefined') {
@@ -130,12 +132,18 @@ class MainScreen extends Screen {
       for (const i in this.dirtyChunks) {
         const chunk = this.dirtyChunks[i]
         if (ignore.indexOf(chunk) !== -1) continue
+        
         this.group.remove(chunk.getLastMesh())
         this.group.add(chunk.mesher())
       }
       this.dirtyChunks = []
 
       this.renderer.render(this.scene, this.camera)
+    }
+
+    this.renderer.animate(() => {
+      move()
+      drawWorld()
     })
   }
 
